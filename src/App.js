@@ -1,7 +1,7 @@
 function App() {
   return (
     <div>
-      React App
+      Home
     </div>
   );
 }
