@@ -1,4 +1,5 @@
 import classes from './Login.module.css';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     return (
@@ -16,7 +17,9 @@ const Login = () => {
                         <input className={classes.loginInput} type="password" placeholder='Enter password' />
                         <button className={classes.loginButton}>Log In</button>
                         <span className={classes.loginForgot}>Forgot Password?</span>
-                        <button className={classes.signupButton}>Create a New Account</button>
+                        <Link to='/register'>
+                            <button className={classes.signupButton}>Create a New Account</button>
+                        </Link>
                     </div>
                 </div>
             </div>

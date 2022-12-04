@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import classes from './Register.module.css';
 
 const Register = () => {
@@ -17,7 +18,9 @@ const Register = () => {
                         <input className={classes.registerInput} type="password" name='password' placeholder='Enter password' />
                         <input className={classes.registerInput} type="password" name='password' placeholder='Enter password again' />
                         <button className={classes.registerButton}>Register</button>
-                        <button className={classes.loginButton}>Log into Account</button>
+                        <Link className={classes.loginButtonLink} to='/login'>
+                            <button className={classes.loginButton} >Log into Account</button>
+                        </Link>
                     </div>
                 </div>
             </div>
