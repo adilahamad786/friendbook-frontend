@@ -1,0 +1,41 @@
+.leftbar {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.container hr {
+  border: none;
+  height: 1px;
+  background-color: lightgray;
+  margin: 0.5rem 0rem;
+}
+
+.title {
+  color: grey;
+  font-size: 14px;
+  padding: 0.5rem 0rem;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 0.5rem 0rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item img {
+  width: 30px;
+}
