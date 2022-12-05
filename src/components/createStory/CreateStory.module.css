@@ -1,0 +1,39 @@
+.createStory {
+    display: flex;
+    flex-direction: column;
+    min-width: 7rem;
+    max-width: 7rem;
+    padding: 1rem 0.7rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.createStory img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.createStory span {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--textColor);
+}
+
+.add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 3rem;
+    left: 1.5rem;
+    color: var(--textColor);
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #1775ee;
+    border-radius: 50%;
+    cursor: pointer;
+}

@@ -1,8 +1,8 @@
 .rightbar {
   display: flex;
   flex-direction: column;
-  flex: 3;
   height: calc(100vh - 53px);
+  width: 30%;
   position: sticky;
   top: 53px;
   overflow: scroll;

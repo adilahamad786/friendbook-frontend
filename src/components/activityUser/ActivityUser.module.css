@@ -9,6 +9,7 @@
 .user > span {
   font-size: 12px;
   color: var(--textColorSoft);
+  flex: 2;
 }
 
 .userInfo {
@@ -16,7 +17,7 @@
   align-items: center;
   position: relative;
   gap: 0.5rem;
-  flex: 5;
+  flex: 6;
 }
 
 .userInfo img {

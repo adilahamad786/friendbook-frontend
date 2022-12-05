@@ -1,0 +1,6 @@
+.storyContainer {
+    display: flex;
+    height: 12rem;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+}

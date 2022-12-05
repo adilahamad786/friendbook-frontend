@@ -1,6 +1,7 @@
 .home {
     display: flex;
     flex-direction: column;
-    flex: 6;
+    width: 50%;
     background-color: var(--bgSoft);
+    padding-left: 1rem;
 }

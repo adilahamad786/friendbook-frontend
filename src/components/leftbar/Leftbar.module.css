@@ -1,7 +1,7 @@
 .leftbar {
   display: flex;
   flex-direction: column;
-  flex: 2;
+  width: 20%;
   height: calc(100vh - 53px);
   position: sticky;
   top: 53px;
