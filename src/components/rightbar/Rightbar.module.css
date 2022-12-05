@@ -6,7 +6,7 @@
   position: sticky;
   top: 53px;
   overflow: scroll;
-  background-color: rgb(234, 234, 234);
+  background-color: var(--bgSoft);
 }
 
 ::-webkit-scrollbar {

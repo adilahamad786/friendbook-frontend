@@ -1,3 +1,4 @@
+import './style.css';
 import { createBrowserRouter, RouterProvider, Outlet, Navigate } from 'react-router-dom'
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
@@ -6,14 +7,18 @@ import Rightbar from './components/rightbar/Rightbar';
 import Navbar from './components/navbar/Navbar';
 import Profile from './pages/profile/Profile';
 import Home from './pages/home/Home';
+import { useContext } from 'react';
+import { ThemeContext } from './context/ThemeContext';
 
 function App() {
 
   const current_user = true;
 
   const Layout = () => {
+    const { theme } = useContext(ThemeContext);
+
     return (
-      <div>
+      <div className={`theme-${theme ? 'dark' : 'light'}`}>
         <Navbar />
         <div style={{display : "flex"}}>
           <Leftbar />

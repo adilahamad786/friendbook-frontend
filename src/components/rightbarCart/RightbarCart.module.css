@@ -2,12 +2,13 @@
   display: flex;
   flex-direction: column;
   border-radius: 0.2rem;
-  background-color: white;
+  background-color: var(--bg);
   margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
 }
 
 .cartTitle {
-  color: rgb(137, 138, 141);
+  color: var(--textColorSoft);
   font-size: 0.8rem;
   padding: 0.5rem 1rem;
 }

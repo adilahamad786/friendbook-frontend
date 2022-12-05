@@ -6,6 +6,8 @@
   position: sticky;
   top: 53px;
   overflow: scroll;
+  background-color: var(--bg);
+  color: var(--textColor);
 }
 
 ::-webkit-scrollbar{
@@ -21,7 +23,7 @@
 .container hr {
   border: none;
   height: 1px;
-  background-color: rgb(208, 208, 208);
+  background-color: var(--border);
   margin: 0.5rem 0rem;
 }
 

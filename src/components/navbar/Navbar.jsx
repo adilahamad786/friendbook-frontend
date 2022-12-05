@@ -1,5 +1,7 @@
 import classes from "./Navbar.module.css";
-
+import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { ThemeContext } from "../../context/ThemeContext";
 import {
   HomeOutlined,
   DarkModeOutlined,
@@ -8,11 +10,12 @@ import {
   EmailOutlined,
   GridViewOutlined,
   PersonOutlined,
-  SearchOutlined
+  SearchOutlined,
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const { theme, changeTheme } = useContext(ThemeContext);
+
   return (
     <div className={classes.navbar}>
       <div className={classes.left}>
@@ -20,11 +23,13 @@ const Navbar = () => {
           <span>Friendbook</span>
         </Link>
         <HomeOutlined />
-        <DarkModeOutlined />
+        <div onClick={changeTheme}>
+          {theme ? <DarkModeOutlined /> : <WbSunnyOutlined />}
+        </div>
         <GridViewOutlined />
         <div className={classes.search}>
           <SearchOutlined />
-          <input type='search' placeholder="Search..."/>
+          <input type="search" placeholder="Search..." />
         </div>
       </div>
       <div className={classes.right}>
@@ -32,7 +37,10 @@ const Navbar = () => {
         <EmailOutlined />
         <NotificationsOutlined />
         <div className={classes.profile}>
-          <img src="https://zultimate.com/wp-content/uploads/2019/12/default-profile-300x300.png" alt="Profile" />
+          <img
+            src="https://zultimate.com/wp-content/uploads/2019/12/default-profile-300x300.png"
+            alt="Profile"
+          />
           <span>Adil Ahamad</span>
         </div>
       </div>
