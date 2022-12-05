@@ -1,0 +1,6 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    flex: 6;
+    background-color: rgb(234, 234, 234);
+}

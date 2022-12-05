@@ -1,10 +1,14 @@
 .navbar {
     display: flex;
+    position: sticky;
+    top: 0px;
     height: 2rem;
     padding: 10px 20px;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid lightgray;
+    background-color: white;
+    z-index: 100;
 }
 
 .left {
