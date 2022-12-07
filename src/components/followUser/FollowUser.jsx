@@ -1,11 +1,12 @@
 import classes from "./FollowUser.module.css";
 import RightbarButton from "../rightbarButton/RightbarButton";
+import ProfilePicture from '../profilePicture/ProfilePicture';
 
 const FollowUser = (props) => {
   return (
     <div className={classes.user}>
       <div className={classes.userInfo}>
-        <img src={props.user.img} alt="" />
+        <ProfilePicture image={props.user.img}/>
         <span>{props.user.name}</span>
       </div>
       <RightbarButton title="Follow" />

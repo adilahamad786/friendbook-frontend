@@ -2,8 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 0.8rem;
-  margin: 0.3rem 0;
+  margin: 0.3rem 0rem;
 }
 
 .userInfo {
@@ -12,13 +11,6 @@
   position: relative;
   gap: 0.5rem;
   flex: 5;
-}
-
-.userInfo img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
 }
 
 .userInfo span {

@@ -1,0 +1,66 @@
+.post {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0rem;
+    padding: 1rem;
+    width: 100%;
+    background-color: var(--bg);
+    border-radius: 0.5rem;
+    box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+}
+
+.user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    gap: 0.5rem;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    font-size: 15px;
+    color: var(--textColor);
+}
+
+.time {
+    font-size: 12px;
+    color: var(--textColorSoft);
+}
+
+.message {
+    padding-top: 0.7rem;
+    font-size: 14px;
+    color: var(--textColor);
+}
+
+.image img {
+    width: 100%;
+    object-fit: cover;
+    padding: 0.5rem 0rem;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    padding-top: 0.5rem;
+    gap: 1rem;
+    color: var(--textColor);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
