@@ -13,6 +13,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: var(--textColor);
 }
 
 .userInfo {
@@ -29,19 +30,25 @@
 }
 
 .username {
-    font-size: 15px;
-    color: var(--textColor);
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 .time {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--textColorSoft);
+}
+
+.menu {
+    cursor: pointer;
 }
 
 .message {
     padding-top: 0.7rem;
-    font-size: 14px;
+    font-size: 0.85rem;
     color: var(--textColor);
+    font-weight: 400;
+    line-height: 1rem;
 }
 
 .image img {
@@ -55,7 +62,7 @@
     align-items: center;
     padding-top: 0.5rem;
     gap: 1rem;
-    color: var(--textColor);
+    color: var(--textColorSoft);
 }
 
 .option {

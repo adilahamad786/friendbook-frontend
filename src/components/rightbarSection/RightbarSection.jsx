@@ -1,4 +1,4 @@
-import classes from "./Rightbar.module.css";
+import classes from "./RightbarSection.module.css";
 // import profile from "../../assets/profile.jpg";
 import Cart from "../rightbarCart/RightbarCart";
 import FollowUser from "../followUser/FollowUser";
@@ -8,7 +8,7 @@ import OnlineUser from "../onlineUser/OnlineUser";
 const profile =
   "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0";
 
-const Rightbar = () => {
+const RightbarSection = () => {
   const suggestion = [
     { id: 1, img: profile, name: "Fiza" },
     { id: 2, img: profile, name: "Dainsh" },
@@ -61,26 +61,24 @@ const Rightbar = () => {
   ];
 
   return (
-    <div className={classes.rightbar}>
-      <div className={classes.container}>
-        <Cart title="Suggestion For You">
-          {suggestion.map((user) => {
-            return <FollowUser key={user.id} user={user} />;
-          })}
-        </Cart>
-        <Cart title="Latest Activities">
-          {activities.map((user) => {
-            return <Comment key={user.id} data={user} />;
-          })}
-        </Cart>
-        <Cart title="Online Friends">
-          {online.map((user) => {
-            return <OnlineUser key={user.id} user={user} />;
-          })}
-        </Cart>
-      </div>
+    <div className={classes.rightbarSection}>
+      <Cart title="Suggestion For You">
+        {suggestion.map((user) => {
+          return <FollowUser key={user.id} user={user} />;
+        })}
+      </Cart>
+      <Cart title="Latest Activities">
+        {activities.map((user) => {
+          return <Comment key={user.id} data={user} />;
+        })}
+      </Cart>
+      <Cart title="Online Friends">
+        {online.map((user) => {
+          return <OnlineUser key={user.id} user={user} />;
+        })}
+      </Cart>
     </div>
   );
 };
 
-export default Rightbar;
+export default RightbarSection;

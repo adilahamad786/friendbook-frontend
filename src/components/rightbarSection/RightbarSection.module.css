@@ -1,20 +1,15 @@
-.rightbar {
+.rightbarSection {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 53px);
+  height: calc(100vh - 3rem);
   width: 30%;
   position: sticky;
-  top: 53px;
+  top: 3rem;
   overflow: scroll;
   background-color: var(--bgSoft);
+  padding: 1rem;
 }
 
 ::-webkit-scrollbar {
   display: none;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
 }

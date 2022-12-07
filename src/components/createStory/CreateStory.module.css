@@ -3,7 +3,6 @@
     flex-direction: column;
     min-width: 7rem;
     max-width: 7rem;
-    padding: 1rem 0.7rem;
     overflow: hidden;
     position: relative;
 }
@@ -18,8 +17,8 @@
 
 .createStory span {
     position: absolute;
-    bottom: 1.5rem;
-    left: 1.5rem;
+    bottom: 0.5rem;
+    left: 0.5rem;
     font-size: 0.8rem;
     color: white;
 }
@@ -29,9 +28,9 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    bottom: 3rem;
-    left: 1.5rem;
-    color: var(--textColor);
+    bottom: 2rem;
+    left: 0.5rem;
+    color: white;
     width: 1.5rem;
     height: 1.5rem;
     background-color: #1775ee;

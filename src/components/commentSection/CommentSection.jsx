@@ -4,9 +4,9 @@ import Comment from "../comment/Comment";
 
 const CommentSection = (props) => {
   return (
-    <div className={classes.commentSection}>
+    <div className={classes.container}>
       <AddComment key={props.user.id} user={props.user}/>
-      <div className={classes.comments}>
+      <div className={classes.commentsContainer}>
         {props.comments.map((comment) => {
             return <Comment key={comment.id} data={comment} />;
         })}

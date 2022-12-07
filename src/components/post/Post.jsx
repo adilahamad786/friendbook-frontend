@@ -9,8 +9,20 @@ import {
 import classes from "./Post.module.css";
 import ProfilePicture from "../../components/profilePicture/ProfilePicture";
 import CommentSection from "../commentSection/CommentSection";
+import { useState } from "react";
 
 const Post = (props) => {
+  const [showComments, setShowComments] = useState(false);
+  const [liked, setLiked] = useState(false);
+
+  const likeHandler = () => {
+    setLiked(!liked)
+  }
+
+  const commentHandler = () => {
+    setShowComments(!showComments)
+  }
+
   return (
     <div className={classes.post}>
       <div className={classes.user}>
@@ -21,7 +33,9 @@ const Post = (props) => {
             <span className={classes.time}>{props.post.time}</span>
           </div>
         </Link>
-        <MoreHoriz />
+        <div className={classes.menu}>
+          <MoreHoriz/>
+        </div>
       </div>
       <div className={classes.content}>
         <div className={classes.message}>
@@ -35,11 +49,11 @@ const Post = (props) => {
         </div>
       </div>
       <div className={classes.options}>
-        <div className={classes.option}>
-          {props.post.liked ? <FavoriteOutlined /> : <FavoriteBorderOutlined />}
+        <div onClick={likeHandler} className={classes.option}>
+          {liked ? <FavoriteOutlined /> : <FavoriteBorderOutlined />}
           <span>{`${props.post.countLikes} Likes`}</span>
         </div>
-        <div className={classes.option}>
+        <div onClick={commentHandler} className={classes.option}>
           <TextsmsOutlined />
           <span>{`${props.post.countComments} Comments`}</span>
         </div>
@@ -48,7 +62,7 @@ const Post = (props) => {
           <span>{`${props.post.countShares} Share`}</span>
         </div>
       </div>
-      {props.post.toggleCommentButton && <CommentSection key="key" user={props.user} comments={props.comments} />}
+      {showComments && <CommentSection key="key" user={props.user} comments={props.comments} />}
     </div>
   );
 };

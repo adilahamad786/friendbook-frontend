@@ -1,5 +1,5 @@
 import classes from "./FollowUser.module.css";
-import RightbarButton from "../rightbarButton/RightbarButton";
+import Button from "../button/Button";
 import ProfilePicture from '../profilePicture/ProfilePicture';
 
 const FollowUser = (props) => {
@@ -9,7 +9,7 @@ const FollowUser = (props) => {
         <ProfilePicture image={props.user.img}/>
         <span>{props.user.name}</span>
       </div>
-      <RightbarButton title="Follow" />
+      <Button title="Follow" />
     </div>
   );
 };

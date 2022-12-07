@@ -3,7 +3,7 @@
     position: sticky;
     top: 0px;
     height: 2rem;
-    padding: 10px 20px;
+    padding: 1.5rem 1rem;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--border);

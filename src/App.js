@@ -2,8 +2,8 @@ import './style.css';
 import { createBrowserRouter, RouterProvider, Outlet, Navigate } from 'react-router-dom'
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
-import Leftbar from './components/leftbar/Leftbar';
-import Rightbar from './components/rightbar/Rightbar';
+import LeftbarSection from './components/leftbarSection/LeftbarSection';
+import RightbarSection from './components/rightbarSection/RightbarSection';
 import Navbar from './components/navbar/Navbar';
 import Profile from './pages/profile/Profile';
 import Home from './pages/home/Home';
@@ -21,9 +21,9 @@ function App() {
       <div className={`theme-${theme ? 'dark' : 'light'}`}>
         <Navbar />
         <div style={{display : "flex"}}>
-          <Leftbar />
+          <LeftbarSection />
           <Outlet />
-          <Rightbar />
+          <RightbarSection />
         </div>
       </div>
     );

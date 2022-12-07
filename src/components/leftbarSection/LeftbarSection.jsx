@@ -12,11 +12,11 @@ import Tutorials from '../../assets/11.png';
 import Courses from '../../assets/12.png';
 import Fund from '../../assets/13.png';
 
-import classes from './Leftbar.module.css'
+import classes from './LeftbarSection.module.css'
 
-const Leftbar = () => {
+const LeftbarSection = () => {
   return (
-    <div className={classes.leftbar} >
+    <div className={classes.leftbarSection} >
       <div className={classes.container}>
         <div className={classes.menu}>
           <div className={classes.item}>
@@ -85,4 +85,4 @@ const Leftbar = () => {
   )
 }
 
-export default Leftbar;
+export default LeftbarSection;

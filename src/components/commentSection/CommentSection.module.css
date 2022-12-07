@@ -1,4 +1,4 @@
-.commentSection {
+.container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,7 +7,7 @@
     width: 100%;
 }
 
-.comments {
+.commentsContainer {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;

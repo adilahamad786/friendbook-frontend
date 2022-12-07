@@ -1,12 +1,7 @@
-.home {
+.container {
     display: flex;
     flex-direction: column;
     width: 50%;
     background-color: var(--bgSoft);
     padding-left: 1rem;
-}
-
-.postContainer {
-    display: flex;
-    padding: 1rem;
 }

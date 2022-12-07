@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  height: 12rem;
+  width: 100%;
+  padding: 1rem;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  align-self: left;
+  gap: 1.2rem;
+  background-color: var(--bgSoft);
+}

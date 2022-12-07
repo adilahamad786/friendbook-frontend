@@ -1,18 +1,6 @@
-import CreateStory from "../../components/createStory/CreateStory";
-import Story from "../../components/story/Story";
-import StoryContainer from "../../components/storyContainer/StoryContainer";
 import classes from "./Home.module.css";
-import { Link } from "react-router-dom";
-import ProfilePicture from "../../components/profilePicture/ProfilePicture";
-import {
-  MoreHoriz,
-  FavoriteOutlined,
-  FavoriteBorderOutlined,
-  TextsmsOutlined,
-  ShareOutlined,
-} from "@mui/icons-material";
-import CommentSection from "../../components/commentSection/CommentSection";
-import Post from "../../components/post/Post";
+import StorySection from "../../components/storySection/StorySection";
+import PostSection from "../../components/postSection/PostSection";
 
 const Home = () => {
   const stories = [
@@ -72,6 +60,36 @@ const Home = () => {
   const posts = [
     {
       id: 1,
+      profilePicture:
+        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
+      username: "Adil",
+      time: "1 mint ago",
+      message: "This is my first post i like this post because this is my first post and also create a amazing post for this post.This is my first post i like this post because this is my first post and also create a amazing post for this post.Liked a post.",
+      image:
+        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
+      liked: true,
+      toggleCommentButton: false,
+      countLikes: 5,
+      countComments: 3,
+      countShares: 6,
+    },
+    {
+      id: 2,
+      profilePicture:
+        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
+      username: "Adil",
+      time: "1 mint ago",
+      message: "Liked a post.",
+      image:
+        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
+      liked: false,
+      toggleCommentButton: true,
+      countLikes: 5,
+      countComments: 3,
+      countShares: 6,
+    },
+    {
+      id: 3,
       profilePicture:
         "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
       username: "Adil",
@@ -147,30 +165,9 @@ const Home = () => {
   ];
 
   return (
-    <div className={classes.home}>
-      <StoryContainer>
-        <CreateStory
-          key={user.username}
-          user={{
-            story: user.story,
-            name: user.username,
-          }}
-        />
-        {stories.map((story) => {
-          return (
-            <Story
-              key={story.id}
-              user={{
-                story: story.story,
-                name: story.name,
-              }}
-            />
-          );
-        })}
-      </StoryContainer>
-      <div className={classes.postContainer}>
-        <Post key="3423" user={user} post={posts[0]} comments={comments} />
-      </div>
+    <div className={classes.container}>
+      <StorySection stories={stories} user={user} />
+      <PostSection user={user} posts={posts} comments={comments} />
     </div>
   );
 };
