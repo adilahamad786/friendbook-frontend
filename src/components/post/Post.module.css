@@ -46,13 +46,14 @@
 .message {
     padding-top: 0.7rem;
     font-size: 0.85rem;
-    color: var(--textColor);
+    color: var(--textColorSoft);
     font-weight: 400;
     line-height: 1rem;
 }
 
 .image img {
     width: 100%;
+    max-height: 40rem;
     object-fit: cover;
     padding: 0.5rem 0rem;
 }

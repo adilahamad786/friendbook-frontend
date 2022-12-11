@@ -1,6 +1,7 @@
 import classes from "./Home.module.css";
 import StorySection from "../../components/storySection/StorySection";
 import PostSection from "../../components/postSection/PostSection";
+import CreatePostSection from "../../components/createPostSection/CreatePostSection";
 
 const Home = () => {
   const stories = [
@@ -167,6 +168,7 @@ const Home = () => {
   return (
     <div className={classes.container}>
       <StorySection stories={stories} user={user} />
+      <CreatePostSection />
       <PostSection user={user} posts={posts} comments={comments} />
     </div>
   );

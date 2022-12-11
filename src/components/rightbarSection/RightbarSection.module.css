@@ -13,3 +13,9 @@
 ::-webkit-scrollbar {
   display: none;
 }
+
+@media screen and (max-width : 850px) {
+  .rightbarSection {
+    display: none;
+  }
+}

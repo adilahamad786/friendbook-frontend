@@ -9,6 +9,8 @@ import Profile from './pages/profile/Profile';
 import Home from './pages/home/Home';
 import { useContext } from 'react';
 import { ThemeContext } from './context/ThemeContext';
+import ForgotPassword from './pages/forgotPassword/ForgetPassword';
+import ResetPassword from './pages/resetPassword/ResetPassword';
 
 function App() {
 
@@ -17,13 +19,15 @@ function App() {
   const Layout = () => {
     const { theme } = useContext(ThemeContext);
 
+    const user = { username : "Adil Ahamad", profilePicture : "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0" }
+
     return (
       <div className={`theme-${theme ? 'dark' : 'light'}`}>
         <Navbar />
         <div style={{display : "flex"}}>
-          <LeftbarSection />
+          <LeftbarSection user={user} className="leftSection" />
           <Outlet />
-          <RightbarSection />
+          <RightbarSection className="leftSection" />
         </div>
       </div>
     );
@@ -59,6 +63,14 @@ function App() {
     {
       path : '/register',
       element : <Register />
+    },
+    {
+      path : '/forgot',
+      element : <ForgotPassword />
+    },
+    {
+      path : '/reset/:id',
+      element : <ResetPassword />
     }
   ]);
 

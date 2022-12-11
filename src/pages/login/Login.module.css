@@ -2,32 +2,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100vw;
-    height: 100vh;
+    min-width: 100vw;
+    min-height: 100vh;
     background-color: #f0f2f5;
 }
 
 .loginWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 70%;
-    height: 70%;
+    max-height: 95%;
     display: flex;
     border-radius: 0.5rem;
-    overflow: hidden;
+    overflow: scroll;
     gap: 3rem;
 }
 
-.loginLeft, .loginRight {
+.about, .loginForm {
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: center;
 }
 
-.loginRight {
-    align-items: center;
-}
-
-.loginLeft {
+.about {
     gap: 0.6rem;
     padding-left: 1.5rem;
 }
@@ -41,29 +40,47 @@
     font-size: 22px;
 }
 
+.formBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    padding: 1.5rem 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+}
 
-.loginBox {
+.loginForm {
     display : flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     width: 100%;
-    height: 80%;
-    border-radius: 0.5rem;
     background-color: white;
+    border: none;
+}
+
+.invalidMessage {
+    align-self: center;
+    color: red;
+    width: 90%;
+    margin-top: 0.5rem;
 }
 
 .loginInput {
     height: 2.5rem;
-    width: 86%;
+    width: 90%;
     border-radius: 0.5rem;
     padding-left: 1rem;
+    margin-top: 1rem;
     font-size: 15px;
     border: 1px solid #b7b7b7;
     outline: none;
 }
 
-.loginButton {
+.formBox button {
     height: 2.5rem;
     width: 90%;
     border-radius: 0.5rem;
@@ -71,26 +88,73 @@
     outline: none;
     border: none;
     cursor: pointer;
+}
+
+.loginButton {
+    margin-top: 1rem;
     background-color: #1775ee;
     color: white;
 }
 
-.loginForgot {
+.forgot {
     font-size: 15px;
     cursor: pointer;
+    margin: 1rem 0rem;
+    text-decoration: none;
+    color: rgba(255, 0, 0, 0.842);
 }
 
-.signupButton {
-    height: 2.5rem;
-    padding: 0rem 1rem;
-    border-radius: 0.5rem;
-    font-size: 15px;
-    outline: none;
-    border: none;
-    cursor: pointer;
+.registerButtonLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-decoration: none;
+ }
+
+ .loginButton:disabled {
+    color: rgb(87, 85, 85);
+    opacity: 0.8;
+    cursor: auto;
+ }
+
+.registerButton {
     background-color: #42b72a;
     color: white;
+    width: 100%;
 }
 
 
+@media screen and (max-width : 920px) {
+    .loginWrapper {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: auto;
+    }
 
+    .about {
+        display: none;
+    }
+
+    .formBox {
+        width: 70%;
+    }
+
+    .loginForm{
+        gap: 0.3rem;
+    }
+}
+
+@media screen and (max-width : 560px) {
+    .formBox {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width : 400px) {
+    .formBox {
+        width: 95%;
+    }
+}

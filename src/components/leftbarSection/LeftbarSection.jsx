@@ -14,11 +14,17 @@ import Fund from '../../assets/13.png';
 
 import classes from './LeftbarSection.module.css'
 
-const LeftbarSection = () => {
+const LeftbarSection = (props) => {
   return (
     <div className={classes.leftbarSection} >
       <div className={classes.container}>
         <div className={classes.menu}>
+          <div className={classes.item}>
+            <div className={classes.profilePicture}>
+              <img src={props.user.profilePicture} alt="ProfilePicture" />
+            </div>
+            <span>{props.user.username}</span>
+          </div>
           <div className={classes.item}>
             <img src={Friends} alt="" />
             <span>Friends</span>
