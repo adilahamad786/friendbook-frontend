@@ -15,12 +15,18 @@ const useInput = (validate) => {
     setTouched(true);
   }
 
+  const reset = () => {
+    setInput('');
+    setTouched(false);
+  }
+
   return {
     value,
     setValue,
     isValid : valueIsValid,
     hasError : inputIsInvalid,
-    setFocus
+    setFocus,
+    reset
   };
 }
 

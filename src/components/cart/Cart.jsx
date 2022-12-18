@@ -1,4 +1,4 @@
-import classes from './RightbarCart.module.css';
+import classes from './Cart.module.css';
 
 const RightbarCart = (props) => {
   return (

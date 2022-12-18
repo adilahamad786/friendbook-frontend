@@ -1,6 +1,6 @@
 import classes from "./RightbarSection.module.css";
 // import profile from "../../assets/profile.jpg";
-import Cart from "../rightbarCart/RightbarCart";
+import Cart from "../cart/Cart";
 import FollowUser from "../followUser/FollowUser";
 import Comment from "../comment/Comment";
 import OnlineUser from "../onlineUser/OnlineUser";

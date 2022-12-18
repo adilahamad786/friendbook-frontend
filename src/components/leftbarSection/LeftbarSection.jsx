@@ -13,18 +13,35 @@ import Courses from '../../assets/12.png';
 import Fund from '../../assets/13.png';
 
 import classes from './LeftbarSection.module.css'
+import { useState, useContext } from 'react';
+
+import ProfileOptions from '../profileOptions/ProfileOptions';
+import Backdrop from '../backdrop/Backdrop';
+
+import ShowContext from '../../context/ShowContext';
 
 const LeftbarSection = (props) => {
+  const [showOptions, setShowOptions] = useState(false);
+  const ShowCtx = useContext(ShowContext);
+
+  const showOptionsHandler = () => {
+    setShowOptions(showOptions => !showOptions);
+  }
+
   return (
-    <div className={classes.leftbarSection} >
+    <div className={`${classes.leftbarSection} ${ShowCtx.show ? classes.show : ''}`} >
       <div className={classes.container}>
         <div className={classes.menu}>
-          <div className={classes.item}>
+          <div onClick={showOptionsHandler} className={classes.item}>
             <div className={classes.profilePicture}>
               <img src={props.user.profilePicture} alt="ProfilePicture" />
             </div>
             <span>{props.user.username}</span>
           </div>
+          <div className={classes.showProfileOptions}>
+            { showOptions && <ProfileOptions /> }
+          </div>
+          { showOptions && <Backdrop onClose={showOptionsHandler} /> }
           <div className={classes.item}>
             <img src={Friends} alt="" />
             <span>Friends</span>

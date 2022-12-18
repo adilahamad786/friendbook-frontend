@@ -3,20 +3,22 @@
     position: sticky;
     top: 0px;
     height: 2rem;
+    width: 100vw;
     padding: 1.5rem 1rem;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--border);
     background-color: var(--bg);
     color: var(--textColor);
-    z-index: 100;
+    z-index: 25;
 }
 
 .left {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 1rem;
+    flex: 1;
 }
 
 .logo {
@@ -27,13 +29,29 @@
     letter-spacing: 0.2px;
 }
 
+.homeIconLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--textColor);
+}
+
+.themeIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .search {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     border: 1px solid var(--border);
     padding-left: 0.5rem;
     border-radius: 1rem;
-    width: 100%;
+    width: 45%;
+    position: relative;
 }
 
 .search input {
@@ -44,6 +62,18 @@
     padding: 5px 10px;
     background-color: transparent;
     color: var(--textColor);
+}
+
+.searchResult {
+    position: fixed;
+    width: 30vw;
+    max-height: 40vh;
+    overflow-y: scroll;
+    top: 3rem;
+    left: 15rem;
+    background-color: white;
+    border-radius: 0.2rem;
+    z-index: 32;
 }
 
 .right {
@@ -59,11 +89,33 @@
     align-items: center;
     gap: 0.5rem;
     font-size: 15px;
+    position: relative;
+    cursor: pointer;
 }
 
 .profile img {
     width: 2rem;
     border-radius: 50%;
+}
+
+.menuIcon {
+    display: none;
+}
+
+.profileOptionsMenu {
+    position: absolute;
+    top: 2.3rem;
+    right: 1rem;
+    z-index: 30;
+}
+
+
+
+@media screen and (max-width : 1000px) {
+    .searchResult {
+        left: 13rem;
+        width: 20rem;
+    }
 }
 
 @media screen and (max-width : 750px) {
@@ -93,14 +145,30 @@
         background-color: transparent;
         color: var(--textColor);
     }
+
+    .searchResult {
+        left: 15rem;
+        width: 18rem;
+    }
 }
 
+@media screen and (max-width : 550px) {
+    .menuIcon {
+        display: flex;
+    }
+
+    .searchResult {
+        left: 14rem;
+        width: 14rem;
+    }
+}
 @media screen and (max-width : 460px) {   
     .left {
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 100%;
+        gap: 0.5rem;
     }
     
     .logo {
@@ -115,9 +183,23 @@
         width: auto;
         border: none;
     }
-    
-    .search input {
-        display: none;
+
+    .searchField {
+        position: fixed;
+        top: 4rem;
+        left: 10vw !important;
+        width: 80vw !important;
+        z-index: 50;
+        border: 0.1rem solid var(--textColor) !important;
+        background-color: var(--bgSoft) !important;
+        color: var(--textColor) !important;
+        padding-left: 1rem !important;
+    }
+
+    .searchResult {
+        top: 5rem;
+        left: 15vw;
+        width: 70vw;
     }
     
     .right {
@@ -136,6 +218,10 @@
     .profile img {
         width: 2rem;
         border-radius: 50%;
+    }
+
+    .hide {
+        display: none;
     }
 }
 

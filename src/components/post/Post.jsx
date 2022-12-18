@@ -10,17 +10,24 @@ import classes from "./Post.module.css";
 import ProfilePicture from "../../components/profilePicture/ProfilePicture";
 import CommentSection from "../commentSection/CommentSection";
 import { useState } from "react";
+import PostOptions from "../postOptions/PostOptions";
+import Backdrop from "../backdrop/Backdrop";
 
 const Post = (props) => {
-  const [showComments, setShowComments] = useState(false);
   const [liked, setLiked] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
 
   const likeHandler = () => {
-    setLiked(!liked)
+    setLiked(liked => !liked)
   }
 
   const commentHandler = () => {
-    setShowComments(!showComments)
+    setShowComments(showComments => !showComments)
+  }
+
+  const onClickHandler = () => {
+    setShowOptions(showOptions => !showOptions)
   }
 
   return (
@@ -34,7 +41,9 @@ const Post = (props) => {
           </div>
         </Link>
         <div className={classes.menu}>
-          <MoreHoriz/>
+          { !showOptions && <MoreHoriz onClick={onClickHandler}/> }
+          { showOptions && <Backdrop onClose={onClickHandler} /> }
+          { showOptions && <PostOptions onClose={onClickHandler} /> }
         </div>
       </div>
       <div className={classes.content}>
@@ -50,15 +59,15 @@ const Post = (props) => {
       </div>
       <div className={classes.options}>
         <div onClick={likeHandler} className={classes.option}>
-          {liked ? <FavoriteOutlined /> : <FavoriteBorderOutlined />}
+          {liked ? <FavoriteOutlined className={classes.optionIcon} /> : <FavoriteBorderOutlined className={classes.optionIcon} />}
           <span>{`${props.post.countLikes} Likes`}</span>
         </div>
         <div onClick={commentHandler} className={classes.option}>
-          <TextsmsOutlined />
+          <TextsmsOutlined className={classes.optionIcon} />
           <span>{`${props.post.countComments} Comments`}</span>
         </div>
         <div className={classes.option}>
-          <ShareOutlined />
+          <ShareOutlined className={classes.optionIcon} />
           <span>{`${props.post.countShares} Share`}</span>
         </div>
       </div>

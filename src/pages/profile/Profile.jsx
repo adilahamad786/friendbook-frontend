@@ -1,8 +1,11 @@
 import classes from "./Profile.module.css";
 import ProfileSection from "../../components/profileSection/ProfileSection";
 import PostSection from "../../components/postSection/PostSection";
+import { useContext } from "react";
+import ShowContext from "../../context/ShowContext";
 
 const Profile = () => {
+  const ShowCtx = useContext(ShowContext);
 
   const user = {
     id: 1,
@@ -121,7 +124,7 @@ const Profile = () => {
   ];
 
   return (
-    <div className={classes.container}>
+    <div className={`${classes.container} ${ShowCtx.show ? classes.hide : ''}`}>
       <ProfileSection />
       <PostSection user={user} posts={posts} comments={comments} />
     </div>

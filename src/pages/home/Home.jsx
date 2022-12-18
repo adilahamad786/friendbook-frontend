@@ -2,8 +2,11 @@ import classes from "./Home.module.css";
 import StorySection from "../../components/storySection/StorySection";
 import PostSection from "../../components/postSection/PostSection";
 import CreatePostSection from "../../components/createPostSection/CreatePostSection";
+import { useContext } from "react";
+import ShowContext from "../../context/ShowContext";
 
 const Home = () => {
+  const ShowCtx = useContext(ShowContext);
   const stories = [
     {
       id: 1,
@@ -166,7 +169,7 @@ const Home = () => {
   ];
 
   return (
-    <div className={classes.container}>
+    <div className={`${classes.container} ${ ShowCtx.show ? classes.hide : ''}`}>
       <StorySection stories={stories} user={user} />
       <CreatePostSection />
       <PostSection user={user} posts={posts} comments={comments} />

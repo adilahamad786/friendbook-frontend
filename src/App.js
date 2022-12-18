@@ -11,6 +11,7 @@ import { useContext } from 'react';
 import { ThemeContext } from './context/ThemeContext';
 import ForgotPassword from './pages/forgotPassword/ForgetPassword';
 import ResetPassword from './pages/resetPassword/ResetPassword';
+import ProfileUpdate from './pages/profileUpdate/ProfileUpdate';
 
 function App() {
 
@@ -25,9 +26,9 @@ function App() {
       <div className={`theme-${theme ? 'dark' : 'light'}`}>
         <Navbar />
         <div style={{display : "flex"}}>
-          <LeftbarSection user={user} className="leftSection" />
-          <Outlet />
-          <RightbarSection className="leftSection" />
+          <LeftbarSection user={user} className="leftSection"/>
+          <Outlet className="mainSection"/>
+          <RightbarSection className="rightSection" />
         </div>
       </div>
     );
@@ -53,6 +54,10 @@ function App() {
         {
           path : '/profile/:id',
           element : <Profile />
+        },
+        {
+          path : '/profile/update',
+          element : <ProfileUpdate />
         }
       ]
     },
