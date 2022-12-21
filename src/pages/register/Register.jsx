@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import validator from "validator";
 import classes from "./Register.module.css";
 import { useState, useEffect } from "react";
+import useHttp from "../../hooks/useHttp";
 
 const Register = () => {
   const {value: username, setValue: setUsername, isValid: usernameIsValid, setFocus: setUsernameFocus, hasError: hasUsernameError} = useInput(value => value.length > 0);
@@ -11,6 +12,9 @@ const Register = () => {
   const {value: againPassword, setValue: setAgainPassword, isValid: againPasswordIsValid, setFocus: setAgainPasswordFocus, hasError: hasAgainPasswordError} = useInput(value => value.length >= 6 && value === password);
 
   const [formIsValid, setFormIsValid] = useState(false);
+
+
+  const { sendRequest } = useHttp();
 
   useEffect(() => {
     if (usernameIsValid && emailIsValid && passwordIsValid && againPasswordIsValid) {
@@ -32,6 +36,20 @@ const Register = () => {
       password,
       againPassword
     }
+
+    const transformData = (data) => {
+      console.log(data);
+    }
+
+    sendRequest({ 
+      url : '/api/user/signup',
+      method : "POST",
+      headers : {
+        "Content-Type" : "application/json"
+      },
+      body : JSON.stringify(formData)
+    },
+    transformData)
 
     console.log(formData);
   }

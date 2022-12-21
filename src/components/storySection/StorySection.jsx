@@ -4,7 +4,7 @@ import Story from "../story/Story";
 
 const StorySection = (props) => {
   return (
-    <div className={classes.container}>
+    <section className={classes.container}>
       <CreateStory
         key={props.user.username}
         user={{
@@ -23,7 +23,7 @@ const StorySection = (props) => {
           />
         );
       })}
-    </div>
+    </section>
   );
 };
 

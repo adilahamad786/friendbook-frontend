@@ -17,7 +17,7 @@ const ForgetPassword = () => {
   console.log(value);
 
   return (
-    <div className={classes.container}>
+    <section className={classes.container}>
       <form onSubmit={submitHandler} className={classes.form}>
         <h3>Create password reset link.</h3>
         <input
@@ -35,7 +35,7 @@ const ForgetPassword = () => {
           Send Link
         </button>
       </form>
-    </div>
+    </section>
   );
 };
 

@@ -1,6 +1,7 @@
 import classes from "./ProfileUpdate.module.css";
 import { useRef, useState } from "react";
 import { FlipCameraIos, SystemUpdateAlt } from "@mui/icons-material";
+import { Link } from 'react-router-dom';
 
 function ProfileUpdate() {
   const user = {
@@ -15,6 +16,7 @@ function ProfileUpdate() {
   };
 
   const username = useRef();
+  const handle = useRef();
   const email = useRef();
   const location = useRef();
   const facebook = useRef();
@@ -30,8 +32,8 @@ function ProfileUpdate() {
   };
 
   return (
-    <div className={classes.container}>
-      <div className={classes.topSection}>
+    <section className={classes.container}>
+      <section className={classes.topSection}>
         <div className={classes.coverPictureChange}>
           <label
             htmlFor="coverPicture"
@@ -82,8 +84,8 @@ function ProfileUpdate() {
           />
         </div>
         <span className={classes.UserProfileName}>{user.username}</span>
-      </div>
-      <div className={classes.formContainer}>
+      </section>
+      <section className={classes.formSection}>
         <form className={classes.form} onSubmit={submitHandler}>
           <h3 className={classes.formTitle}>User information</h3>
           <div className={classes.fieldInputBox}>
@@ -94,6 +96,17 @@ function ProfileUpdate() {
               placeholder="Enter your full name"
               id="username"
               ref={username}
+              className={classes.formInput}
+            />
+          </div>
+          <div className={classes.fieldInputBox}>
+            <label htmlFor="handle" className={classes.inputLabel}>
+              Handle :
+            </label>
+            <input
+              placeholder="Enter your handle name"
+              id="handle"
+              ref={handle}
               className={classes.formInput}
             />
           </div>
@@ -185,11 +198,11 @@ function ProfileUpdate() {
             Update Profile
           </button>
         </form>
-        <button className={classes.formDiscartButton} type="submit">
+        <Link to='/' className={classes.discartButtonLink}><button className={classes.discartButton} type="submit">
           Discart Changes
-        </button>
-      </div>
-    </div>
+        </button></Link>
+      </section>
+    </section>
   );
 }
 

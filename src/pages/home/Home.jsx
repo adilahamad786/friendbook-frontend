@@ -169,11 +169,11 @@ const Home = () => {
   ];
 
   return (
-    <div className={`${classes.container} ${ ShowCtx.show ? classes.hide : ''}`}>
+    <section className={`${classes.container} ${ ShowCtx.show ? classes.hide : ''}`}>
       <StorySection stories={stories} user={user} />
       <CreatePostSection />
       <PostSection user={user} posts={posts} comments={comments} />
-    </div>
+    </section>
   );
 };
 

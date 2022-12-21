@@ -124,10 +124,10 @@ const Profile = () => {
   ];
 
   return (
-    <div className={`${classes.container} ${ShowCtx.show ? classes.hide : ''}`}>
+    <section className={`${classes.container} ${ShowCtx.show ? classes.hide : ''}`}>
       <ProfileSection />
       <PostSection user={user} posts={posts} comments={comments} />
-    </div>
+    </section>
   );
 };
 

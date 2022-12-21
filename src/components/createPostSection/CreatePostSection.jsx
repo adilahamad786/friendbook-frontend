@@ -20,7 +20,7 @@ const CreatePostSection = () => {
   };
 
   return (
-    <div className={classes.container}>
+    <section className={classes.container}>
       <div className={classes.userInfo}>
         <ProfilePicture image={user.profilePicture} />
         <span>What's on your mind Adil Ahamad?</span>
@@ -59,7 +59,7 @@ const CreatePostSection = () => {
           <span>Tag Friends</span>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

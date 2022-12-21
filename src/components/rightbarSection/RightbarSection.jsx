@@ -14,6 +14,14 @@ const RightbarSection = () => {
     { id: 2, img: profile, name: "Dainsh" },
     { id: 3, img: profile, name: "Farida" },
     { id: 4, img: profile, name: "Siraj" },
+    { id: 5, img: profile, name: "Fiza" },
+    { id: 6, img: profile, name: "Dainsh" },
+    { id: 7, img: profile, name: "Farida" },
+    { id: 8, img: profile, name: "Siraj" },
+    { id: 9, img: profile, name: "Fiza" },
+    { id: 10, img: profile, name: "Dainsh" },
+    { id: 11, img: profile, name: "Farida" },
+    { id: 12, img: profile, name: "Siraj" },
   ];
 
   const activities = [
@@ -45,6 +53,48 @@ const RightbarSection = () => {
       message: "Posted.",
       time: "1 mint ago",
     },
+    {
+      id: 5,
+      profilePicture: profile,
+      name: "Farida Begam",
+      message: "Posted.",
+      time: "1 mint ago",
+    },
+    {
+      id: 6,
+      profilePicture: profile,
+      name: "Farida Begam",
+      message: "Posted.",
+      time: "1 mint ago",
+    },
+    {
+      id: 7,
+      profilePicture: profile,
+      name: "Farida Begam",
+      message: "Posted.",
+      time: "1 mint ago",
+    },
+    {
+      id: 8,
+      profilePicture: profile,
+      name: "Farida Begam",
+      message: "Posted.",
+      time: "1 mint ago",
+    },
+    {
+      id: 9,
+      profilePicture: profile,
+      name: "Farida Begam",
+      message: "Posted.",
+      time: "1 mint ago",
+    },
+    {
+      id: 10,
+      profilePicture: profile,
+      name: "Farida Begam",
+      message: "Posted.",
+      time: "1 mint ago",
+    },
   ];
 
   const online = [
@@ -58,10 +108,50 @@ const RightbarSection = () => {
       img: profile,
       name: "Siraj Ahamad",
     },
+    {
+      id: 3,
+      img: profile,
+      name: "Siraj Ahamad",
+    },
+    {
+      id: 4,
+      img: profile,
+      name: "Siraj Ahamad",
+    },
+    {
+      id: 5,
+      img: profile,
+      name: "Siraj Ahamad",
+    },
+    {
+      id: 6,
+      img: profile,
+      name: "Siraj Ahamad",
+    },
+    {
+      id: 7,
+      img: profile,
+      name: "Siraj Ahamad",
+    },
+    {
+      id: 8,
+      img: profile,
+      name: "Siraj Ahamad",
+    },
+    {
+      id: 9,
+      img: profile,
+      name: "Siraj Ahamad",
+    },
+    {
+      id: 10,
+      img: profile,
+      name: "Siraj Ahamad",
+    },
   ];
 
   return (
-    <div className={classes.rightbarSection}>
+    <section className={classes.rightbarSection}>
       <Cart title="Suggestion For You">
         {suggestion.map((user) => {
           return <FollowUser key={user.id} user={user} />;
@@ -77,7 +167,7 @@ const RightbarSection = () => {
           return <OnlineUser key={user.id} user={user} />;
         })}
       </Cart>
-    </div>
+    </section>
   );
 };
 

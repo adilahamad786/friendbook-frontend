@@ -72,7 +72,7 @@
     font-size: 1.2rem;
 }
 
-.formContainer {
+.formSection {
     margin: 1.5rem 0rem;
     display: flex;
     flex-direction: column;
@@ -137,7 +137,15 @@
     background-color: #1775ee;
 }
 
-.formDiscartButton {
+.discartButtonLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-decoration: none;
+}
+
+.discartButton {
     margin-top: 0.5rem;
     background-color: red;
 }

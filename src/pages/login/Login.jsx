@@ -1,8 +1,11 @@
 import classes from "./Login.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import validator from "validator";
 import { useState, useEffect } from "react";
+import useHttp from "../../hooks/useHttp";
+import AuthContext from "../../context/AuthContext";
+import { useContext } from "react";
 
 const Login = () => {
   const {
@@ -23,6 +26,10 @@ const Login = () => {
 
   const [formIsValid, setFormIsValid] = useState(false);
 
+  const { isLoading, error, sendRequest } = useHttp();
+  const { isLogedIn ,setLogedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (emailIsValid && passwordIsValid) {
       setFormIsValid(true)
@@ -33,18 +40,36 @@ const Login = () => {
   }, [emailIsValid, passwordIsValid]);
 
   const submitHandler = (e) => {
-    alert("Form submit successfully!");
-
+    e.preventDefault();
+    // alert("Form submit successfully!");
     const credential = {
       email,
       password,
     };
 
+    const transformData = async (data) => {
+      setLogedIn(data.token);
+      console.log(data);
+      console.log(isLogedIn);
+      navigate('/')
+    }
+
+    sendRequest({ 
+        url : '/api/user/login',
+        method : "POST",
+        headers : {
+          "Content-Type" : "application/json"
+        },
+        body : JSON.stringify(credential)
+      },
+      transformData
+    );
+
     console.log(credential);
   };
 
   return (
-    <div className={classes.login}>
+    <section className={classes.login}>
       <div className={classes.loginWrapper}>
         <div className={classes.about}>
           <h3 className={classes.loginLogo}>Friendbook</h3>
@@ -93,7 +118,7 @@ const Login = () => {
           </Link>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

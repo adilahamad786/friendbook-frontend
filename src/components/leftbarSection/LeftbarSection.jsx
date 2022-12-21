@@ -29,7 +29,7 @@ const LeftbarSection = (props) => {
   }
 
   return (
-    <div className={`${classes.leftbarSection} ${ShowCtx.show ? classes.show : ''}`} >
+    <section className={`${classes.leftbarSection} ${ShowCtx.show ? classes.show : ''}`} >
       <div className={classes.container}>
         <div className={classes.menu}>
           <div onClick={showOptionsHandler} className={classes.item}>
@@ -104,7 +104,7 @@ const LeftbarSection = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

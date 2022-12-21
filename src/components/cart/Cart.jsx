@@ -4,7 +4,9 @@ const RightbarCart = (props) => {
   return (
     <div className={classes.cart}>
       <span className={classes.cartTitle}>{props.title}</span>
-      { props.children }
+      <div className={classes.itemsContainer}>
+        { props.children }
+      </div>
     </div>
   );
 }

@@ -7,15 +7,32 @@ import RightbarSection from './components/rightbarSection/RightbarSection';
 import Navbar from './components/navbar/Navbar';
 import Profile from './pages/profile/Profile';
 import Home from './pages/home/Home';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ThemeContext } from './context/ThemeContext';
 import ForgotPassword from './pages/forgotPassword/ForgetPassword';
 import ResetPassword from './pages/resetPassword/ResetPassword';
 import ProfileUpdate from './pages/profileUpdate/ProfileUpdate';
+import AuthContext from './context/AuthContext';
 
 function App() {
+  // const [data, setData] = useState();
+  // useEffect( () => {
+  //   const fetchData = async () => {
+  //     const res = await fetch('/api/users?username=Danish Ahamad', {
+  //       method : "GET",
+  //       headers : {
+  //         "Content-Type" : 'application/json',
+  //         Authorization : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Mzg3ODI5ODhmMDM0NzcwNGRiN2NjOGQiLCJpYXQiOjE2NzE0MzE0NTZ9.c1dp7shAC0dvK3L0Bzxxbpj5wEfIFwx-PULE9TRI5Xc"
+  //       }
+  //     });
+  //     const result = await res.json();
+  //     setData(result);
+  //   }
+  //   fetchData();
+  // }, []);
+  // console.log(data);
 
-  const current_user = true;
+  const { isLogedIn } = useContext(AuthContext)
 
   const Layout = () => {
     const { theme } = useContext(ThemeContext);
@@ -34,18 +51,18 @@ function App() {
     );
   }
 
-  const ProtectedRoute = ({children}) => {
-    if (!current_user) {
-      return <Navigate to="/login" />
-    }
+  // const ProtectedRoute = ({children}) => {
+  //   if (!isLogedIn) {
+  //     return <Navigate to="/login" />
+  //   }
 
-    return children;
-  }
+  //   return children;
+  // }
 
   const router = createBrowserRouter([
     {
       path : '/',
-      element : <ProtectedRoute><Layout /></ProtectedRoute>,
+      element : isLogedIn ? <Layout /> : <Login />,
       children : [
         {
           path : '/',
