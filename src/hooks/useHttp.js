@@ -13,18 +13,19 @@ const useHttp = () => {
                 headers : reqConfig.headers ? reqConfig.headers : {},
                 body : reqConfig.body ? reqConfig.body : null
             });
-            
+
             if (!res.ok) {
-                throw new Error(res);
+                throw new Error("Request failed!");
             }
-            
+
             applyData(await res.json());
         }
         catch (error) {
             setError(error);
         }
+
         setIsLoading(false);
-    },   []);
+    }, []);
 
     return {
         isLoading,

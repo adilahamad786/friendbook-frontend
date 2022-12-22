@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import useHttp from "../../hooks/useHttp";
 import AuthContext from "../../context/AuthContext";
 import { useContext } from "react";
+import Cookies from 'js-cookie'
 
 const Login = () => {
   const {
@@ -27,7 +28,7 @@ const Login = () => {
   const [formIsValid, setFormIsValid] = useState(false);
 
   const { isLoading, error, sendRequest } = useHttp();
-  const { isLogedIn ,setLogedIn } = useContext(AuthContext);
+  const { setLogedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,17 +42,17 @@ const Login = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // alert("Form submit successfully!");
-    const credential = {
+
+    const userFromData = {
       email,
       password,
     };
 
-    const transformData = async (data) => {
-      setLogedIn(data.token);
-      console.log(data);
-      console.log(isLogedIn);
-      navigate('/')
+    const transformData = (data) => {
+      // Setting user data inside redux store (pending...)
+      setLogedIn();
+      Cookies.set('token', data.token, { expires: 1 });
+      navigate('/');
     }
 
     sendRequest({ 
@@ -60,12 +61,14 @@ const Login = () => {
         headers : {
           "Content-Type" : "application/json"
         },
-        body : JSON.stringify(credential)
+        body : JSON.stringify(userFromData)
       },
       transformData
     );
 
-    console.log(credential);
+    if (error) {
+      alert("Please enter correct email and password!");
+    }
   };
 
   return (

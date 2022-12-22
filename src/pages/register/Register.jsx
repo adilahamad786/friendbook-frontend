@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import validator from "validator";
 import classes from "./Register.module.css";
@@ -12,9 +12,8 @@ const Register = () => {
   const {value: againPassword, setValue: setAgainPassword, isValid: againPasswordIsValid, setFocus: setAgainPasswordFocus, hasError: hasAgainPasswordError} = useInput(value => value.length >= 6 && value === password);
 
   const [formIsValid, setFormIsValid] = useState(false);
-
-
-  const { sendRequest } = useHttp();
+  const { sendRequest, error } = useHttp();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (usernameIsValid && emailIsValid && passwordIsValid && againPasswordIsValid) {
@@ -27,10 +26,8 @@ const Register = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    alert("Submit successfully!")
-    console.log(e);
 
-    const formData = {
+    const registerFormData = {
       username,
       email,
       password,
@@ -38,20 +35,25 @@ const Register = () => {
     }
 
     const transformData = (data) => {
-      console.log(data);
+      // console.log(data);
+      alert("Registeration successful!");
+      navigate('/login');
     }
 
-    sendRequest({ 
-      url : '/api/user/signup',
-      method : "POST",
-      headers : {
-        "Content-Type" : "application/json"
+    sendRequest({
+        url : '/api/user/signup',
+        method : "POST",
+        headers : {
+          "Content-Type" : "application/json"
+        },
+        body : JSON.stringify(registerFormData)
       },
-      body : JSON.stringify(formData)
-    },
-    transformData)
+      transformData
+    );
 
-    console.log(formData);
+    if (error) {
+      alert(error);
+    }
   }
 
   return (
