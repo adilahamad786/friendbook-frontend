@@ -18,10 +18,16 @@ import Backdrop from '../backdrop/Backdrop';
 
 import { useState, useContext } from 'react';
 import ShowContext from '../../context/ShowContext';
+import FriendSection from '../friendSection/FriendSection';
 
 const LeftbarSection = (props) => {
   const [showOptions, setShowOptions] = useState(false);
   const { show: showMenu, setShow: setShowMenu } = useContext(ShowContext);
+  const [showFriendList, setShowFriendList] = useState(false);
+
+  const showFriendListHandler = () => {
+    setShowFriendList(state => !state);
+  }
 
   const showOptionsHandler = () => {
     setShowOptions(showOptions => !showOptions);
@@ -48,10 +54,14 @@ const LeftbarSection = (props) => {
             { showOptions && <ProfileOptions onClose={showOptionsAndMenuHandler} /> }
           </div>
           { showOptions && <Backdrop onClose={showOptionsHandler} /> }
-          <div className={classes.item}>
+          <div onClick={showFriendListHandler} className={classes.item}>
             <img src={Friends} alt="Friends" />
             <span>Friends</span>
           </div>
+          { showFriendList && <div className={classes.friends}>
+            <FriendSection />
+          </div> }
+          { showFriendList && <Backdrop onClose={showFriendListHandler} /> }
           <div className={classes.item}>
             <img src={Groups} alt="Groups" />
             <span>Groups</span>

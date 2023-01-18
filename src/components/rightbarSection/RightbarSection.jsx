@@ -2,7 +2,7 @@ import classes from "./RightbarSection.module.css";
 import SuggestionSection from "../suggestionSection/SuggestionSection";
 import FriendSection from "../friendSection/FriendSection";
 
-const RightbarSection = () => {
+const RightbarSection = (props) => {
   return (
     <section className={classes.rightbarSection}>
       <SuggestionSection />

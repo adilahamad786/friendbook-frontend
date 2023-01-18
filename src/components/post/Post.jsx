@@ -77,7 +77,7 @@ const Post = (props) => {
   return (
     <div className={classes.post}>
       <div className={classes.user}>
-        <Link className={classes.userInfo}>
+        <Link to={`/profile/${props.post.owner}`} className={classes.userInfo}>
           <ProfilePicture user={{_id: props.post.owner, hasProfilePicture: props.post.hasProfilePicture}} />
           <div className={classes.details}>
             <span className={classes.username}>{props.post.username.toUpperCase()}</span>
