@@ -1,38 +1,98 @@
 import classes from "./ProfileUpdate.module.css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FlipCameraIos, SystemUpdateAlt } from "@mui/icons-material";
 import { Link } from 'react-router-dom';
+import useHttp from '../../hooks/useHttp';
+import Cookies from 'js-cookie';
+import { useSelector, useDispatch } from 'react-redux';
+import { userActions } from '../../store/userSlice';
+import noProfilePicture from "../../assets/noProfilePicture.png";
+import noCoverPicture from "../../assets/noCoverPicture.png";
+import { useContext } from "react";
+import ShowContext from "../../context/ShowContext";
+import AuthContext from "../../context/AuthContext";
 
 function ProfileUpdate() {
-  const user = {
-    id: 1,
-    username: "Adil Ahamad",
-    profilePicture:
-      "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-    coverPicture:
-      "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-    story:
-      "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-  };
+  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  const { show: hideSection } = useContext(ShowContext);
+  const { setLogedOut } = useContext(AuthContext);
+
+  const profilePictureLink = `/api/user/profile-picture/${user?._id.toString()}`;
+  const coverPictureLink = `/api/user/cover-picture/${user?._id.toString()}`;
 
   const username = useRef();
-  const handle = useRef();
-  const email = useRef();
+  const age = useRef();
+  const description = useRef();
   const location = useRef();
   const facebook = useRef();
   const instagram = useRef();
   const twitter = useRef();
-  const linkedin = useRef();
+  const linkedIn = useRef();
   const pinterest = useRef();
+  const [gender, setGender] = useState('');
+  const [relationship, setRelationship] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
   const [coverPicture, setCoverPicture] = useState(null);
 
+  const { error, sendRequest } = useHttp();
+
   const submitHandler = (e) => {
-    e.preverntDefault();
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    if (username.current.value)
+      formData.append("username", username.current.value);
+    if (age.current.value)
+      formData.append("age", age.current.value);
+    if (description.current.value)
+      formData.append("description", description.current.value);
+    if (location.current.value)
+      formData.append("location", location.current.value);  
+    if (facebook.current.value)
+      formData.append("facebook", facebook.current.value);  
+    if (instagram.current.value)
+      formData.append("instagram", instagram.current.value);  
+    if (twitter.current.value)
+      formData.append("twitter", twitter.current.value);  
+    if (linkedIn.current.value)
+      formData.append("linkedIn", linkedIn.current.value);  
+    if (pinterest.current.value)
+      formData.append("pinterest", pinterest.current.value);  
+    if (gender)
+      formData.append("gender", gender);  
+    if (relationship)
+      formData.append("relationship", relationship);  
+    if (profilePicture)
+      formData.append("profilePicture", profilePicture);  
+    if (coverPicture)
+      formData.append("coverPicture", coverPicture);  
+
+    sendRequest({
+      url : "/api/user/update",
+      method : "PATCH",
+      headers : {
+        Authorization : Cookies.get("token"),
+      },
+      body : formData
+    }, (updatedUser) => {
+      dispatch(userActions.replace(updatedUser));
+      console.log("RESee", updatedUser);
+    })
   };
 
+  useEffect(() => {
+    if (error) {
+      alert(error.message);
+      if (error.message === "Please authenticate!") {
+        setLogedOut();
+      }
+    }
+  }, [error, setLogedOut]);
+  
   return (
-    <section className={classes.container}>
+    <section className={`${classes.container} ${hideSection ? classes.hide : ''}`}>
       <section className={classes.topSection}>
         <div className={classes.coverPictureChange}>
           <label
@@ -46,7 +106,7 @@ function ProfileUpdate() {
             src={
               coverPicture
                 ? URL.createObjectURL(coverPicture)
-                : user.coverPicture
+                : user.hasCoverPicture ? coverPictureLink : noCoverPicture
             }
             className={classes.profileCoverImg}
             alt="CoverPicture"
@@ -70,7 +130,7 @@ function ProfileUpdate() {
             src={
               profilePicture
                 ? URL.createObjectURL(profilePicture)
-                : user.profilePicture
+                : user.hasProfilePicture ? profilePictureLink : noProfilePicture
             }
             className={classes.profileUserImg}
             alt="ProfilePicture"
@@ -83,7 +143,7 @@ function ProfileUpdate() {
             onChange={(e) => setProfilePicture(e.target.files[0])}
           />
         </div>
-        <span className={classes.UserProfileName}>{user.username}</span>
+        <span className={classes.UserProfileName}>{user.username.toUpperCase()}</span>
       </section>
       <section className={classes.formSection}>
         <form className={classes.form} onSubmit={submitHandler}>
@@ -100,27 +160,57 @@ function ProfileUpdate() {
             />
           </div>
           <div className={classes.fieldInputBox}>
-            <label htmlFor="handle" className={classes.inputLabel}>
-              Handle :
+            <label htmlFor="description" className={classes.inputLabel}>
+              Description :
             </label>
             <input
-              placeholder="Enter your handle name"
-              id="handle"
-              ref={handle}
+              placeholder="Enter your description"
+              id="description"
+              ref={description}
               className={classes.formInput}
             />
           </div>
           <div className={classes.fieldInputBox}>
-            <label htmlFor="email" className={classes.inputLabel}>
-              Email :
+            <label htmlFor="age" className={classes.inputLabel}>
+              Age :
             </label>
             <input
-              placeholder="Enter your mail address"
-              id="email"
-              type="email"
-              ref={email}
+              placeholder="Enter your age"
+              id="age"
+              type="number"
+              ref={age}
               className={classes.formInput}
             />
+          </div>
+          <div className={classes.fieldInputBox}>
+            <label htmlFor="gender" className={classes.inputLabel}>
+              Gender :
+            </label>
+            <div className={classes.radioContainer}>
+              <div className={classes.item}>
+                <label htmlFor="gender">Male :</label>
+                <input value={1} type="radio" name="gender" onChange={(e) => setGender(e.target.value)} />
+              </div>
+              <div className={classes.item}>
+                <label htmlFor="gender" >Female :</label>
+                <input value={2} type="radio" name="gender" onChange={(e) => setGender(e.target.value)} />
+              </div>
+            </div>
+          </div>
+          <div className={classes.fieldInputBox}>
+            <label htmlFor="relationship" className={classes.inputLabel}>
+              Relationship :
+            </label>
+            <div className={classes.radioContainer}>
+              <div className={classes.item}>
+                <label htmlFor="relationship">Single :</label>
+                <input value={1} type="radio" name="relationship" onChange={(e) => setRelationship(e.target.value)} />
+              </div>
+              <div className={classes.item}>
+                <label htmlFor="relationship" >Married :</label>
+                <input value={2} type="radio" name="relationship" onChange={(e) => setRelationship(e.target.value)} />
+              </div>
+            </div>
           </div>
           <div className={classes.fieldInputBox}>
             <label htmlFor="location" className={classes.inputLabel}>
@@ -142,7 +232,7 @@ function ProfileUpdate() {
               placeholder="Enter your LinkedIn link"
               id="linkedin"
               type="url"
-              ref={linkedin}
+              ref={linkedIn}
               className={classes.formInput}
             />
           </div>

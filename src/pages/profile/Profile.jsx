@@ -1,132 +1,61 @@
 import classes from "./Profile.module.css";
 import ProfileSection from "../../components/profileSection/ProfileSection";
-import PostSection from "../../components/postSection/PostSection";
-import { useContext } from "react";
+import SuggestionItem from "../../components/suggestionItem/SuggestionItem";
+import Cart from "../../components/cart/Cart";
+import UserPosts from "../../components/userPosts/UserPosts";
+import { useState, useEffect, useContext } from "react";
 import ShowContext from "../../context/ShowContext";
+import useHttp from "../../hooks/useHttp";
+import { useParams } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const ShowCtx = useContext(ShowContext);
+  const userId = useParams().id;
+  const { token, setLogedOut } = useContext(AuthContext);
+  const [friends, setFriends] = useState([]);
+  const { error, sendRequest: fetchFriends } = useHttp();
+  const { _id : currentUserId, username} = useSelector(state => state.user);
 
-  const user = {
-    id: 1,
-    username: "Adil Ahamad",
-    profilePicture:
-      "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-    story:
-      "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-  };
+  const hasOtherUser = userId !== currentUserId;
 
-  const posts = [
-    {
-      id: 1,
-      profilePicture:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      username: "Adil",
-      time: "1 mint ago",
-      message: "This is my first post i like this post because this is my first post and also create a amazing post for this post.This is my first post i like this post because this is my first post and also create a amazing post for this post.",
-      image:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      liked: true,
-      toggleCommentButton: false,
-      countLikes: 5,
-      countComments: 3,
-      countShares: 6,
-    },
-    {
-      id: 2,
-      profilePicture:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      username: "Adil",
-      time: "1 mint ago",
-      message: "Liked a post.",
-      image:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      liked: false,
-      toggleCommentButton: true,
-      countLikes: 5,
-      countComments: 3,
-      countShares: 6,
-    },
-    {
-      id: 3,
-      profilePicture:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      username: "Adil",
-      time: "1 mint ago",
-      message: "Liked a post.",
-      image:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      liked: true,
-      toggleCommentButton: true,
-      countLikes: 5,
-      countComments: 3,
-      countShares: 6,
-    },
-  ];
+  useEffect(() => {
+    if (hasOtherUser) {
+      fetchFriends({
+        url : `/api/user/friends/${userId}`,
+        headers : {
+          Authorization : token
+        }
+      }, (resFriendList) => setFriends(resFriendList));
+    }
+  }, [hasOtherUser, fetchFriends, userId, token]);
 
-  const comments = [
-    {
-      id: 1,
-      profilePicture:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      name: "Fiza",
-      message: "Recently update their profile picture.",
-      time: "1 mint ago",
-    },
-    {
-      id: 2,
-      profilePicture:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      name: "Adil",
-      message: "Liked a post.",
-      time: "1 mint ago",
-    },
-    {
-      id: 3,
-      profilePicture:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      name: "Danish",
-      message: "Comment on your post.",
-      time: "1 mint ago",
-    },
-    {
-      id: 4,
-      profilePicture:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      name: "Farida Begam",
-      message: "Posted.",
-      time: "1 mint ago",
-    },
-    {
-      id: 5,
-      profilePicture:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      name: "Farida Begam",
-      message: "Posted.",
-      time: "1 mint ago",
-    },
-    {
-      id: 6,
-      profilePicture:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      name: "Farida Begam",
-      message: "Posted.",
-      time: "1 mint ago",
-    },
-    {
-      id: 7,
-      profilePicture:
-        "https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0",
-      name: "Farida Begam",
-      message: "Posted.",
-      time: "1 mint ago",
-    },
-  ];
+  useEffect(() => {
+    if (error) {
+      alert(error.message);
+      if (error.message === "Please authenticate!") {
+        setLogedOut();
+      }
+    }
+  }, [error, setLogedOut]);
 
   return (
     <section className={`${classes.container} ${ShowCtx.show ? classes.hide : ''}`}>
       <ProfileSection />
-      <PostSection user={user} posts={posts} comments={comments} />
+      { hasOtherUser && <div className={classes.friendSection}>
+        <Cart title="User Friends" className={classes.friendSection}>
+          {
+            friends.map(friend => {
+              return <SuggestionItem user={friend} />
+            })
+          }
+          {
+            friends.length === 0 && <span className={classes.noFriend}>Friends Not Found!</span>
+          }
+        </Cart>
+      </div>}
+      <UserPosts />
     </section>
   );
 };

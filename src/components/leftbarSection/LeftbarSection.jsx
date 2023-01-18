@@ -1,3 +1,4 @@
+import classes from './LeftbarSection.module.css'
 import Friends from '../../assets/1.png';
 import Groups from '../../assets/2.png';
 import Market from '../../assets/3.png';
@@ -11,55 +12,60 @@ import Messages from '../../assets/10.png';
 import Tutorials from '../../assets/11.png';
 import Courses from '../../assets/12.png';
 import Fund from '../../assets/13.png';
-
-import classes from './LeftbarSection.module.css'
-import { useState, useContext } from 'react';
-
+import noProfilePicture from '../../assets/noProfilePicture.png';
 import ProfileOptions from '../profileOptions/ProfileOptions';
 import Backdrop from '../backdrop/Backdrop';
 
+import { useState, useContext } from 'react';
 import ShowContext from '../../context/ShowContext';
 
 const LeftbarSection = (props) => {
   const [showOptions, setShowOptions] = useState(false);
-  const ShowCtx = useContext(ShowContext);
+  const { show: showMenu, setShow: setShowMenu } = useContext(ShowContext);
 
   const showOptionsHandler = () => {
     setShowOptions(showOptions => !showOptions);
   }
 
+  const showOptionsAndMenuHandler = () => {
+    setShowOptions(showOptions => !showOptions);
+    setShowMenu();
+  }
+
+  const profilePicture = `/api/user/profile-picture/${props.user?._id?.toString()}`;
+
   return (
-    <section className={`${classes.leftbarSection} ${ShowCtx.show ? classes.show : ''}`} >
+    <section className={`${classes.leftbarSection} ${showMenu ? classes.show : ''}`} >
       <div className={classes.container}>
         <div className={classes.menu}>
           <div onClick={showOptionsHandler} className={classes.item}>
             <div className={classes.profilePicture}>
-              <img src={props.user.profilePicture} alt="ProfilePicture" />
+              <img src={props.user.hasProfilePicture ? profilePicture : noProfilePicture} alt="ProfilePicture" />
             </div>
-            <span>{props.user.username}</span>
+            <span className={classes.username}>{props.user?.username?.toUpperCase()}</span>
           </div>
           <div className={classes.showProfileOptions}>
-            { showOptions && <ProfileOptions /> }
+            { showOptions && <ProfileOptions onClose={showOptionsAndMenuHandler} /> }
           </div>
           { showOptions && <Backdrop onClose={showOptionsHandler} /> }
           <div className={classes.item}>
-            <img src={Friends} alt="" />
+            <img src={Friends} alt="Friends" />
             <span>Friends</span>
           </div>
           <div className={classes.item}>
-            <img src={Groups} alt="" />
+            <img src={Groups} alt="Groups" />
             <span>Groups</span>
           </div>
           <div className={classes.item}>
-            <img src={Market} alt="" />
+            <img src={Market} alt="Marketplace" />
             <span>Marketplace</span>
           </div>
           <div className={classes.item}>
-            <img src={Watch} alt="" />
+            <img src={Watch} alt="Watch" />
             <span>Watch</span>
           </div>
           <div className={classes.item}>
-            <img src={Memories} alt="" />
+            <img src={Memories} alt="Memories" />
             <span>Memories</span>
           </div>
         </div>
@@ -67,23 +73,23 @@ const LeftbarSection = (props) => {
         <span className={classes.title}>Your shortcuts</span>
         <div className={classes.menu}>
           <div className={classes.item}>
-            <img src={Events} alt="" />
+            <img src={Events} alt="Events" />
             <span>Events</span>
           </div>
           <div className={classes.item}>
-            <img src={Gaming} alt="" />
+            <img src={Gaming} alt="Gaming" />
             <span>Gaming</span>
           </div>
           <div className={classes.item}>
-            <img src={Gallery} alt="" />
+            <img src={Gallery} alt="Gallery" />
             <span>Gallery</span>
           </div>
           <div className={classes.item}>
-            <img src={Videos} alt="" />
+            <img src={Videos} alt="Videos" />
             <span>Videos</span>
           </div>
           <div className={classes.item}>
-            <img src={Messages} alt="" />
+            <img src={Messages} alt="Messages" />
             <span>Messages</span>
           </div>
         </div>
@@ -91,15 +97,15 @@ const LeftbarSection = (props) => {
         <span className={classes.title}>Others</span>
         <div className={classes.menu}>
           <div className={classes.item}>
-            <img src={Fund} alt="" />
+            <img src={Fund} alt="Fundraser" />
             <span>Fundraser</span>
           </div>
           <div className={classes.item}>
-            <img src={Tutorials} alt="" />
+            <img src={Tutorials} alt="Tutorials" />
             <span>Tutorials</span>
           </div>
           <div className={classes.item}>
-            <img src={Courses} alt="" />
+            <img src={Courses} alt="Courses" />
             <span>Courses</span>
           </div>
         </div>

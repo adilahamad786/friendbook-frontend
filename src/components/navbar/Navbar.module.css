@@ -71,7 +71,6 @@
     overflow-y: scroll;
     top: 3rem;
     left: 15rem;
-    background-color: white;
     border-radius: 0.2rem;
     z-index: 32;
 }
@@ -95,7 +94,13 @@
 
 .profile img {
     width: 2rem;
+    height: 2rem;
     border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile span {
+    font-size: 0.9rem;
 }
 
 .menuIcon {
@@ -152,16 +157,19 @@
     }
 }
 
-@media screen and (max-width : 550px) {
+@media screen and (max-width : 600px) {
     .menuIcon {
         display: flex;
     }
+}
 
+@media screen and (max-width : 550px) {
     .searchResult {
         left: 14rem;
         width: 14rem;
     }
 }
+
 @media screen and (max-width : 460px) {   
     .left {
         display: flex;

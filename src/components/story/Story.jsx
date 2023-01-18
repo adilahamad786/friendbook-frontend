@@ -1,13 +1,12 @@
 import classes from "./Story.module.css";
 
 const Story = (props) => {
+  const image = `/api/user/story/${props.story._id}`;
+  
   return (
     <div className={classes.story}>
-      <img
-        src={props.user.story}
-        alt="Story"
-      />
-      <span>{props.user.name}</span>
+      <img src={image} alt="Story" />
+      <span>{props.story.username.toUpperCase()}</span>
     </div>
   );
 };

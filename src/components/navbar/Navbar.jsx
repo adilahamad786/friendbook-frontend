@@ -1,7 +1,4 @@
 import classes from "./Navbar.module.css";
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
-import { ThemeContext } from "../../context/ThemeContext";
 import {
   HomeOutlined,
   DarkModeOutlined,
@@ -18,10 +15,15 @@ import Backdrop from "../backdrop/Backdrop";
 import ShowContext from "../../context/ShowContext";
 import SearchResultCart from "../searchResultCart/SearchResultCart";
 import useInput from "../../hooks/useInput";
+import noProfilePicture from "../../assets/noProfilePicture.png";
+import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { ThemeContext } from "../../context/ThemeContext";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const { theme, changeTheme } = useContext(ThemeContext);
-  const { show, setShow } = useContext(ShowContext);
+  const { show: showMenu, setShow: setShowMenu } = useContext(ShowContext);
+  const [showOptions, setShowOptions] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const {
     value: searchText,
@@ -35,6 +37,12 @@ const Navbar = () => {
     setShowSearch((oldValue) => !oldValue);
     reset();
   };
+
+  const showOptionsHandler = () => {
+    setShowOptions(state => !state);
+  }
+
+  const profilePicture = `/api/user/profile-picture/${props.user?._id?.toString()}`;
 
   return (
     <div className={classes.navbar}>
@@ -63,27 +71,27 @@ const Navbar = () => {
           <SearchResultCart searchText={searchText}/>
         </div> }
         { (showSearch || searchTextIsValid) && <Backdrop onClose={setShowHandler} />}
-        <div className={classes.menuIcon} onClick={setShow}>
-          {show ? <Close /> : <GridViewOutlined />}
+        <div className={classes.menuIcon} onClick={setShowMenu}>
+          {showMenu ? <Close /> : <GridViewOutlined />}
         </div>
       </div>
       <div className={classes.right}>
         <PersonOutlined />
         <EmailOutlined />
         <NotificationsOutlined />
-        <div onClick={setShow} className={classes.profile}>
+        <div onClick={showOptionsHandler} className={classes.profile}>
           <img
-            src="https://zultimate.com/wp-content/uploads/2019/12/default-profile-300x300.png"
+            src={props.user.hasProfilePicture ? profilePicture : noProfilePicture}
             alt="Profile"
           />
-          <span>Adil Ahamad</span>
+          <span>{props.user.username.toUpperCase()}</span>
         </div>
-        {show && (
-          <div className={classes.profileOptionsMenu}>
-            <ProfileOptions />
+        {showOptions && (
+          <div className={classes.profileOptionsMenu} >
+            <ProfileOptions onClose={showOptionsHandler} />
           </div>
         )}
-        {show && <Backdrop onClose={setShow} />}
+        {showOptions && <Backdrop onClose={showOptionsHandler} />}
       </div>
     </div>
   );

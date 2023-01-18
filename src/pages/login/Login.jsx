@@ -1,12 +1,13 @@
 import classes from "./Login.module.css";
+import Cookies from 'js-cookie';
+import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import useInput from "../../hooks/useInput";
-import validator from "validator";
-import { useState, useEffect } from "react";
 import useHttp from "../../hooks/useHttp";
+import validator from "validator";
 import AuthContext from "../../context/AuthContext";
-import { useContext } from "react";
-import Cookies from 'js-cookie'
+import { userActions } from "../../store/userSlice";
 
 const Login = () => {
   const {
@@ -16,7 +17,6 @@ const Login = () => {
     hasError: hasEmailError,
     setFocus: setEmailFocus,
   } = useInput((value) => validator.isEmail(value));
-
   const {
     value: password,
     setValue: setPassword,
@@ -27,8 +27,11 @@ const Login = () => {
 
   const [formIsValid, setFormIsValid] = useState(false);
 
-  const { isLoading, error, sendRequest } = useHttp();
+  const { error, sendRequest: fetchUser } = useHttp();
+  const { sendRequest: fetchReloadUser } = useHttp();
   const { setLogedIn } = useContext(AuthContext);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,22 +43,32 @@ const Login = () => {
     }
   }, [emailIsValid, passwordIsValid]);
 
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      fetchReloadUser({
+        url : '/api/user/me',
+        headers : {
+          Authorization : token
+        }
+      }, (userData) => {
+        dispatch(userActions.replace(userData));
+        setLogedIn(token);
+      });
+    }
+  }, [setLogedIn, fetchReloadUser, dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+ 
   const submitHandler = (e) => {
     e.preventDefault();
+    const userFromData = { email, password };
 
-    const userFromData = {
-      email,
-      password,
-    };
-
-    const transformData = (data) => {
-      // Setting user data inside redux store (pending...)
-      setLogedIn();
-      Cookies.set('token', data.token, { expires: 1 });
-      navigate('/');
-    }
-
-    sendRequest({ 
+    fetchUser({ 
         url : '/api/user/login',
         method : "POST",
         headers : {
@@ -63,12 +76,13 @@ const Login = () => {
         },
         body : JSON.stringify(userFromData)
       },
-      transformData
+      (resData) => {
+        // Setting user data inside redux store
+        dispatch(userActions.replace(resData.user));
+        setLogedIn(resData.token);
+        navigate('/');
+      }
     );
-
-    if (error) {
-      alert("Please enter correct email and password!");
-    }
   };
 
   return (

@@ -1,6 +1,8 @@
 import { createContext, useState } from "react";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext({
+    token : '',
     isLogedIn : false,
     setLogedIn : (token) => {},
     setLogedOut : () => {},
@@ -8,20 +10,23 @@ const AuthContext = createContext({
 
 
 export const AuthContextProvider = (props) => {
+    const [token, setToken] = useState('');
     const [isLogedIn, setIsLogedIn] = useState(false);
 
     const setLogedIn = (token) => {
+        Cookies.set('token', token, { expires: 1 });
+        setToken(token);
         setIsLogedIn(true);
-        // Cookies.set('token', JSON.stringify(token), { expires: 1 });
     }
 
     const setLogedOut = () => {
-        // callback(Cookies.get('token'));
-        // Cookies.remove('token')
-        setIsLogedIn(false)
+        Cookies.remove('token');
+        setToken('');
+        setIsLogedIn(false);
     }
 
-    return <AuthContext.Provider value={ {
+    return <AuthContext.Provider value={{
+        token,
         isLogedIn,
         setLogedIn,
         setLogedOut

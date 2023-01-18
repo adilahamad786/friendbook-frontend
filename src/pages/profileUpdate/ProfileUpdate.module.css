@@ -33,7 +33,7 @@
     top: 1rem;
     left: 1rem;
     width: 5rem;
-    color: var(--textColor);
+    color : darkgray;
 }
 
 .profileCoverImg {
@@ -57,7 +57,7 @@
 
 .profilePictureUpdateLabel {
     position: absolute;
-    color: var(--textColor);
+    color: darkgray;
 }
 
 .profileUserImg {
@@ -106,6 +106,22 @@
     border-radius: 0.3rem;
 }
 
+.radioContainer {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 0.5rem;
+}
+
+.radioContainer .item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+}
+
 .inputLabel {
     padding: 0.2rem 0.3rem;
     cursor: pointer;
@@ -123,7 +139,7 @@
     flex: 4;
 }
 
-.formContainer button {
+.container button {
     font-size: 0.8rem;
     width: 80%;
     padding: 0.5rem;
@@ -167,12 +183,12 @@
         margin: 0rem;
     }
 
-    .formContainer button {
+    .container button {
         width: 90%;
     }
   }
   
-  @media screen and (max-width : 550px) {
+  @media screen and (max-width : 600px) {
     .container {
       width: 100%;
     }
@@ -180,5 +196,20 @@
     .formContainer {
         width: 95%;
         padding: 1rem 0rem;
+    }
+
+    .hide {
+        display: none;
+    }
+  }
+
+  @media screen and (max-width : 430px) {
+    .fieldInputBox {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .radioContainer .item {
+        padding-left: 0.3rem;
     }
   }

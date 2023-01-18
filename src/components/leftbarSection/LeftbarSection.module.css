@@ -52,11 +52,17 @@
   width: 2rem;
 }
 
+.username {
+  margin-left: -0.5rem;
+  font-size: 0.9rem;
+}
+
 .profilePicture img {
   height: 2rem;
   width: 2rem;
   border-radius: 50%;
   margin: 0rem;
+  object-fit: cover;
 }
 
 .showProfileOptions {
@@ -72,7 +78,7 @@
   }
 }
 
-@media screen and (max-width : 550px) {
+@media screen and (max-width : 600px) {
   .leftbarSection {
     display: none;
   }

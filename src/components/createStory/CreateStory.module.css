@@ -23,6 +23,10 @@
     color: white;
 }
 
+.createStory input {
+    display: none;
+}
+
 .add {
     display: flex;
     align-items: center;

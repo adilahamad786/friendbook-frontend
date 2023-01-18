@@ -5,7 +5,7 @@
   width: 30%;
   position: sticky;
   top: 3rem;
-  overflow: scroll;
+  overflow-y: scroll;
   background-color: var(--bgSoft);
   padding: 1rem;
   padding-bottom: 0rem;

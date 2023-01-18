@@ -12,7 +12,7 @@ const Register = () => {
   const {value: againPassword, setValue: setAgainPassword, isValid: againPasswordIsValid, setFocus: setAgainPasswordFocus, hasError: hasAgainPasswordError} = useInput(value => value.length >= 6 && value === password);
 
   const [formIsValid, setFormIsValid] = useState(false);
-  const { sendRequest, error } = useHttp();
+  const { error, sendRequest: login } = useHttp();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +23,12 @@ const Register = () => {
       setFormIsValid(false);
     }
   }, [usernameIsValid, emailIsValid, passwordIsValid, againPasswordIsValid]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error.message);
+    }
+  }, [error]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -35,13 +41,12 @@ const Register = () => {
     }
 
     const transformData = (data) => {
-      // console.log(data);
       alert("Registeration successful!");
       navigate('/login');
     }
 
-    sendRequest({
-        url : '/api/user/signup',
+    login({
+        url : '/api/user/register',
         method : "POST",
         headers : {
           "Content-Type" : "application/json"
@@ -50,11 +55,9 @@ const Register = () => {
       },
       transformData
     );
-
-    if (error) {
-      alert(error);
-    }
   }
+
+  
 
   return (
     <div className={classes.register}>

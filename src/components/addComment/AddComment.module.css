@@ -5,7 +5,12 @@
     gap: 0.5rem;
 }
 
+.profilePicture {
+    flex: 1;
+}
+
 .commentForm {
+    flex: 1;
     display: flex;
     width: 100%;
 }

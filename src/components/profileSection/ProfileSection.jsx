@@ -1,6 +1,4 @@
 import classes from "./ProfileSection.module.css";
-import { Link } from "react-router-dom";
-import Button from '../button/Button';
 import {
   FacebookTwoTone,
   Instagram,
@@ -11,19 +9,66 @@ import {
   EmailOutlined,
   MoreVertOutlined
 } from '@mui/icons-material';
+import FollowButton from '../followButton/FollowButton';
+import MoreUserInfo from "../moreUserInfo/MoreUserInfo";
+import { Link, useParams } from "react-router-dom";
+import { useEffect, useState, useContext } from 'react';
+import { useSelector } from "react-redux";
+import noProfilePicture from "../../assets/noProfilePicture.png";
+import noCoverPicture from "../../assets/noCoverPicture.png";
+import useHttp from "../../hooks/useHttp";
+import AuthContext from "../../context/AuthContext";
 
 const ProfileSection = (props) => {
+  const userId = useParams().id;
+  const [showMore, setShowMore] = useState(false);
+  const currentUser = useSelector(state => state.user);
+  const [user, setUser] = useState(currentUser);
+  const { token, setLogedOut } = useContext(AuthContext);
+  const { error, sendRequest : fetchUser } = useHttp();
+
+  const profilePicture = `/api/user/profile-picture/${user._id.toString()}`;
+  const coverPicture = `/api/user/cover-picture/${user._id.toString()}`;
+  const otherUser = userId !== currentUser._id.toString();
+
+  const showMoreHandler = () => {
+    setShowMore(preState => !preState);
+  }
+
+  useEffect(() => {
+    if (otherUser) {
+      fetchUser({
+        url : `/api/user?userId=${userId}`,
+        headers : {
+          Authorization : token
+        }
+      }, (resData) => setUser(resData));
+    }
+    else {
+      setUser(currentUser);
+    }
+  }, [otherUser, currentUser, userId, fetchUser, token]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error.message);
+      if (error.message === "Please authenticate!") {
+        setLogedOut();
+      }
+    }
+  }, [error, setLogedOut]);
+
   return (
     <section className={classes.profileSection}>
       <div className={classes.coverPicture}>
         <img
-          src="https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0"
+          src={user.hasCoverPicture ? coverPicture : noCoverPicture}
           alt="CoverPicture"
         />
       </div>
       <img
         className={classes.profilePicture}
-        src="https://th.bing.com/th/id/R.d15b456aba80c4a523cf1f6d31dce7e8?rik=2ZT%2baXLkZYcxWg&riu=http%3a%2f%2fthewowstyle.com%2fwp-content%2fuploads%2f2015%2f01%2fnature-wallpaper-27.jpg&ehk=jIVFSOxLN%2fQKs4hEfZHNWAeXoeXkeEXooP%2fTy9Vwkek%3d&risl=&pid=ImgRaw&r=0"
+        src={user.hasProfilePicture ? profilePicture : noProfilePicture}
         alt="profilePicture"
       />
       <div className={classes.about}>
@@ -45,24 +90,26 @@ const ProfileSection = (props) => {
           </Link>
         </div>
         <div className={classes.center}>
-          <span className={classes.username}>Adil Ahamad</span>
-          <Button title="Follow" />
+          <span className={classes.username}>{user.username.toUpperCase()}</span>
+          <span className={classes.userDescription}>{user.description}</span>
+          { otherUser && <FollowButton className={classes.followButton} userId={user._id.toString()} />}
         </div>
         <div className={classes.right}>
           <Link className={classes.icons}>
             <div className={classes.location}>
               <Place />
-              <span>India</span>
+              <span>{user.location}</span>
             </div>
           </Link>
           <Link className={classes.icons}>
             <EmailOutlined />
           </Link>
           <Link className={classes.icons}>
-            <MoreVertOutlined />
+            <MoreVertOutlined onClick={showMoreHandler} />
           </Link>
         </div>
       </div>
+      { showMore && <MoreUserInfo age={user.age} gender={user.gender} relationship={user.relationship}/> }
     </section>
   );
 };
