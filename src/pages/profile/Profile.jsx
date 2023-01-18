@@ -16,7 +16,7 @@ const Profile = () => {
   const { token, setLogedOut } = useContext(AuthContext);
   const [friends, setFriends] = useState([]);
   const { error, sendRequest: fetchFriends } = useHttp();
-  const { _id : currentUserId, username} = useSelector(state => state.user);
+  const currentUserId = useSelector(state => state.user._id.toString());
 
   const hasOtherUser = userId !== currentUserId;
 
@@ -47,7 +47,7 @@ const Profile = () => {
         <Cart title="User Friends" className={classes.friendSection}>
           {
             friends.map(friend => {
-              return <SuggestionItem user={friend} />
+              return <SuggestionItem key={friend._id} user={friend} />
             })
           }
           {

@@ -166,7 +166,7 @@
 @media screen and (max-width : 550px) {
     .searchResult {
         left: 14rem;
-        width: 14rem;
+        width: 15rem;
     }
 }
 
@@ -233,3 +233,9 @@
     }
 }
 
+@media screen and (max-width : 400px) {
+    .searchResult {
+        left: 10vw;
+        width: 80vw;
+    }
+}
