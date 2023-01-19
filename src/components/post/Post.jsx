@@ -4,13 +4,13 @@ import {
   FavoriteOutlined,
   FavoriteBorderOutlined,
   TextsmsOutlined,
-  ShareOutlined,
+  ShareOutlined
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import ProfilePicture from "../../components/profilePicture/ProfilePicture";
 import CommentSection from "../commentSection/CommentSection";
 import { useState, useContext, useEffect } from "react";
-import PostOptions from "../postOptions/PostOptions";
+import Options from "../options/Options";
 import Backdrop from "../backdrop/Backdrop";
 import { format } from "timeago.js";
 import useHttp from "../../hooks/useHttp";
@@ -20,25 +20,22 @@ import { useSelector } from "react-redux";
 const Post = (props) => {
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  const [commentsCounter, setCommentsCounter] = useState(props.post.commentsCounter)
+  // const [commentsCounter, setCommentsCounter] = useState(props.post.commentsCounter)
   const [showOptions, setShowOptions] = useState(false);
   const { token, setLogedOut } = useContext(AuthContext);
   const { error, sendRequest: sendLikeRequest } = useHttp();
-  const { sendRequest: sendLikeStatusRequest } = useHttp();
-  const { _id: userId } = useSelector(state => state.user);
+  const currentUeserId = useSelector(state => state.user._id.toString());
 
-  const hasOwnPost = props.post.owner === userId.toString();
+  const hasOwnPost = props.post.owner === currentUeserId;
 
   useEffect(() => {
-    sendLikeStatusRequest({
-      url : `/api/like/status/${props.post._id}`,
-      headers : {
-        Authorization : token
-      }
-    }, (resStatus) => {
-      setLiked(resStatus.likeStatus);
-    })
-  }, [sendLikeStatusRequest, token, props]);
+    if (props.post.likes.includes(currentUeserId)) {
+      setLiked(true);
+    }
+    else {
+      setLiked(false);
+    }
+  }, [props.post.likes, currentUeserId, setLiked]);
 
   const likeHandler = () => {
     sendLikeRequest({
@@ -48,7 +45,7 @@ const Post = (props) => {
         Authorization : token
       }
     }, (resData) => {
-      props.post.likesCounter = resData.likesCounter;
+      props.post.likes = resData.likes;
       setLiked(resData.hasLiked);
     });
   }
@@ -62,16 +59,16 @@ const Post = (props) => {
     }
   }, [error, setLogedOut]);
 
-  const commentHandler = () => {
+  const showCommentHandler = () => {
     setShowComments(showComments => !showComments);
   }
 
-  const onClickHandler = () => {
+  const showMenuHandler = () => {
     setShowOptions(showOptions => !showOptions && hasOwnPost);
   }
 
-  const updateCommentCounter = () => {
-    setCommentsCounter(state => ++state);
+  const updateCommentCounter = (currentCommentCounter) => {
+    props.post.commentCounter = currentCommentCounter;
   }
 
   return (
@@ -85,9 +82,9 @@ const Post = (props) => {
           </div>
         </Link>
         <div className={classes.menu}>
-          { !showOptions && <MoreHoriz onClick={onClickHandler} /> }
-          { showOptions && <Backdrop onClose={onClickHandler} /> }
-          { showOptions && <PostOptions onClose={onClickHandler} /> }
+          { !showOptions && <MoreHoriz onClick={showMenuHandler} /> }
+          { showOptions && <Backdrop onClose={showMenuHandler} /> }
+          { showOptions && <Options delete={props.deletePost.bind(null, props.post._id.toString())} onClose={showMenuHandler} /> }
         </div>
       </div>
       <div className={classes.content}>
@@ -104,11 +101,11 @@ const Post = (props) => {
       <div className={classes.options}>
         <div onClick={likeHandler} className={classes.option}>
           {liked ? <FavoriteOutlined className={classes.optionIcon} /> : <FavoriteBorderOutlined className={classes.optionIcon} />}
-          <span>{`${props.post.likesCounter} Likes`}</span>
+          <span>{`${props.post.likes.length} Likes`}</span>
         </div>
-        <div onClick={commentHandler} className={classes.option}>
+        <div onClick={showCommentHandler} className={classes.option}>
           <TextsmsOutlined className={classes.optionIcon} />
-          <span>{`${commentsCounter} Comments`}</span>
+          <span>{`${props.post.commentCounter} Comments`}</span>
         </div>
         <div className={classes.option}>
           <ShareOutlined className={classes.optionIcon} />

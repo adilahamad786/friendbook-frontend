@@ -4,11 +4,13 @@ import Post from '../post/Post';
 import { useState, useEffect, useContext } from 'react';
 import useHttp from "../../hooks/useHttp";
 import AuthContext from "../../context/AuthContext";
+import { deleteElement } from '../../helper/deleteElement';
 
 const PostSection = () => {
   const [posts, setPosts] = useState([]);
   const { error, sendRequest: fetchPosts } = useHttp();
   const { token, setLogedOut } = useContext(AuthContext);
+  const { error: deletePostError, sendRequest: deletePostRequest } = useHttp()
 
   useEffect(() => {
     fetchPosts({
@@ -22,13 +24,26 @@ const PostSection = () => {
   }, [fetchPosts, setPosts, token]);
   
   useEffect(() => {
-    if (error) {
-      alert(error);
-      if (error.message === "Please authenticate!") {
+    if (error || deletePostError) {
+      alert(error.message || deletePostError.message);
+      if (error.message === "Please authenticate!" || deletePostError.message === "Please authenticate!") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [error, deletePostError, setLogedOut]);
+
+  const deletePost = (postId) => {
+    deletePostRequest({
+      url: `/api/post/delete/${postId}`,
+      method: "DELETE",
+      headers: {
+        Authorization: token
+      }
+    }, (resData) => {
+      const newPosts = deleteElement(posts, resData.postId);
+      setPosts(newPosts);
+    });
+  };
   
   const addPost = (post) => {
     setPosts(oldPosts => [post, ...oldPosts]);
@@ -39,7 +54,7 @@ const PostSection = () => {
       <CreatePost addPost={addPost} />
       {
         posts.map(post => {
-          return <Post key={post._id} post={post} />
+          return <Post key={post._id} deletePost={deletePost} post={post} />
         })
       }
     </section>

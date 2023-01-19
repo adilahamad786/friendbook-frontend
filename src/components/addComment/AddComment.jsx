@@ -24,15 +24,15 @@ const AddComment = (props) => {
         "Content-Type" : "application/json"
       },
       body : JSON.stringify(data)
-    }, (newComment) => {
-      props.updateComments(newComment);
+    }, (resData) => {
+      props.updateComments(resData.newComment, resData.commentCounter);
     });
     messageRef.current.value = "";
   }
 
   useEffect(() => {
     if (error) {
-      alert(error);
+      alert(error.message);
       if (error.message === "Please authenticate!") {
         setLogedOut();
       }
