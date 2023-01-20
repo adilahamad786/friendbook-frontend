@@ -78,7 +78,6 @@ function ProfileUpdate() {
       body : formData
     }, (updatedUser) => {
       dispatch(userActions.replace(updatedUser));
-      console.log("RESee", updatedUser);
     })
   };
 

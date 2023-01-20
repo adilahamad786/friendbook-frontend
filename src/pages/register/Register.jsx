@@ -26,7 +26,7 @@ const Register = () => {
 
   useEffect(() => {
     if (error) {
-      alert(error.message);
+      alert(error);
     }
   }, [error]);
 
@@ -56,8 +56,6 @@ const Register = () => {
       transformData
     );
   }
-
-  
 
   return (
     <div className={classes.register}>

@@ -57,12 +57,6 @@ const Login = () => {
       });
     }
   }, [setLogedIn, fetchReloadUser, dispatch]);
-
-  useEffect(() => {
-    if (error) {
-      alert(error);
-    }
-  }, [error]);
  
   const submitHandler = (e) => {
     e.preventDefault();
@@ -84,6 +78,12 @@ const Login = () => {
       }
     );
   };
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
 
   return (
     <section className={classes.login}>

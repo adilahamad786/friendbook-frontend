@@ -3,7 +3,7 @@ import ProfilePicture from "../profilePicture/ProfilePicture";
 import Backdrop from "../backdrop/Backdrop";
 import Options from "../options/Options";
 import { MoreHoriz } from "@mui/icons-material";
-import { format } from "timeago.js";
+import moment from "moment";
 import { useState } from 'react';
 import { useSelector } from "react-redux";
 
@@ -12,6 +12,7 @@ const Comment = (props) => {
   const [showOptions, setShowOptions] = useState(false);
   const currentUserId = useSelector(state => state.user._id.toString());
 
+  const timeago = moment(new Date(createdAt)).fromNow();
   const hasOwnComment = owner === currentUserId;
 
   const showMenuHandler = () => {
@@ -25,7 +26,7 @@ const Comment = (props) => {
         <div className={classes.message}>
           <div className={classes.owner}>
             <span>{username.toUpperCase()}</span>
-            <span className={classes.time}>{format(createdAt)}</span>
+            <span className={classes.time}>{timeago}</span>
           </div>
           <p>{message}</p> 
         </div>

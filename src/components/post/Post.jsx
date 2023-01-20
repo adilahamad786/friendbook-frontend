@@ -12,7 +12,7 @@ import CommentSection from "../commentSection/CommentSection";
 import { useState, useContext, useEffect } from "react";
 import Options from "../options/Options";
 import Backdrop from "../backdrop/Backdrop";
-import { format } from "timeago.js";
+import moment from "moment"
 import useHttp from "../../hooks/useHttp";
 import AuthContext from "../../context/AuthContext";
 import { useSelector } from "react-redux";
@@ -20,12 +20,12 @@ import { useSelector } from "react-redux";
 const Post = (props) => {
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  // const [commentsCounter, setCommentsCounter] = useState(props.post.commentsCounter)
   const [showOptions, setShowOptions] = useState(false);
   const { token, setLogedOut } = useContext(AuthContext);
   const { error, sendRequest: sendLikeRequest } = useHttp();
   const currentUeserId = useSelector(state => state.user._id.toString());
 
+  const timeago = moment(new Date(props.post.createdAt)).fromNow();
   const hasOwnPost = props.post.owner === currentUeserId;
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const Post = (props) => {
           <ProfilePicture user={{_id: props.post.owner, hasProfilePicture: props.post.hasProfilePicture}} />
           <div className={classes.details}>
             <span className={classes.username}>{props.post.username.toUpperCase()}</span>
-            <span className={classes.time}>{format(new Date(props.post.createdAt))}</span>
+            <span className={classes.time}>{timeago}</span>
           </div>
         </Link>
         <div className={classes.menu}>
