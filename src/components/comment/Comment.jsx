@@ -32,10 +32,10 @@ const Comment = (props) => {
         </div>
       </div>
       <div className={classes.menu}>
-          { <MoreHoriz onClick={showMenuHandler} /> }
-          { showOptions && <Backdrop onClose={showMenuHandler} />  }
-          { showOptions && <div className={classes.options}><Options id={commentId.toString()} delete={props.delete} onClose={showMenuHandler}/></div> }
-        </div>
+        { <MoreHoriz onClick={showMenuHandler} /> }
+        { showOptions && <Backdrop onClose={showMenuHandler} />  }
+        { showOptions && <div className={classes.options}><Options id={commentId.toString()} delete={props.delete} onClose={showMenuHandler}/></div> }
+      </div>
     </div>
   );
 };

@@ -16,17 +16,20 @@ import moment from "moment"
 import useHttp from "../../hooks/useHttp";
 import AuthContext from "../../context/AuthContext";
 import { useSelector } from "react-redux";
+import PostUpdate from "../postUpdate/PostUpdate";
 
 const Post = (props) => {
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  const [showUpdatePost, setShowUpdatePost] = useState(false);
   const { token, setLogedOut } = useContext(AuthContext);
-  const { error, sendRequest: sendLikeRequest } = useHttp();
+  const { error: likeError, sendRequest: sendLikeRequest } = useHttp();
   const currentUeserId = useSelector(state => state.user._id.toString());
 
   const timeago = moment(new Date(props.post.createdAt)).fromNow();
   const hasOwnPost = props.post.owner === currentUeserId;
+  const postImageLink = `/api/post/${props.post._id}`;
 
   useEffect(() => {
     if (props.post.likes.includes(currentUeserId)) {
@@ -51,24 +54,33 @@ const Post = (props) => {
   }
 
   useEffect(() => {
-    if (error) {
-      alert(error);
-      if (error.message === "Please authenticate!") {
+    if (likeError) {
+      alert(likeError);
+      if (likeError.message === "Please authenticate!") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [likeError, setLogedOut]);
 
   const showCommentHandler = () => {
     setShowComments(showComments => !showComments);
+  }
+  
+  const updateCommentCounter = (currentCommentCounter) => {
+    props.post.commentCounter = currentCommentCounter;
   }
 
   const showMenuHandler = () => {
     setShowOptions(showOptions => !showOptions && hasOwnPost);
   }
 
-  const updateCommentCounter = (currentCommentCounter) => {
-    props.post.commentCounter = currentCommentCounter;
+  const showUpdatePostOption = () => {
+    setShowUpdatePost(state => !state);
+  }
+
+  const closeBackdrop = () => {
+    setShowOptions(false);
+    setShowUpdatePost(false);
   }
 
   return (
@@ -83,8 +95,9 @@ const Post = (props) => {
         </Link>
         <div className={classes.menu}>
           { !showOptions && <MoreHoriz onClick={showMenuHandler} /> }
-          { showOptions && <Backdrop onClose={showMenuHandler} /> }
-          { showOptions && <Options delete={props.deletePost.bind(null, props.post._id.toString())} onClose={showMenuHandler} /> }
+          { showOptions && <Options update={showUpdatePostOption} delete={props.deletePost.bind(null, props.post._id.toString())} onClose={showMenuHandler} /> }
+          { showUpdatePost && <div className={classes.postUpdate}><PostUpdate onClose={showUpdatePostOption} update={props.updatePost} image={{postId : props.post._id.toString(), hasImage : props.post.hasImage}}/></div> }
+          { (showOptions || showUpdatePost) && <Backdrop onClose={closeBackdrop} /> }
         </div>
       </div>
       <div className={classes.content}>
@@ -93,7 +106,7 @@ const Post = (props) => {
         </div>
         <div className={classes.image}>
           { props.post.hasImage && <img
-            src={`/api/post/${props.post._id}`}
+            src={postImageLink}
             alt="PostImage"
           /> }
         </div>

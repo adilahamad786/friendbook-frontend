@@ -5,12 +5,14 @@ import { useState, useEffect, useContext } from 'react';
 import useHttp from "../../hooks/useHttp";
 import AuthContext from "../../context/AuthContext";
 import { deleteElement } from '../../helper/deleteElement';
+import { replaceElement } from '../../helper/replaceElement';
 
 const PostSection = () => {
   const [posts, setPosts] = useState([]);
   const { error, sendRequest: fetchPosts } = useHttp();
   const { token, setLogedOut } = useContext(AuthContext);
   const { error: deletePostError, sendRequest: deletePostRequest } = useHttp()
+  const { error: updatePostError, sendRequest: updatePostRequest } = useHttp();
 
   useEffect(() => {
     fetchPosts({
@@ -22,15 +24,6 @@ const PostSection = () => {
       setPosts(resPosts);
     });
   }, [fetchPosts, setPosts, token]);
-  
-  useEffect(() => {
-    if (error || deletePostError) {
-      alert(error.message || deletePostError.message);
-      if (error.message === "Please authenticate!" || deletePostError.message === "Please authenticate!") {
-        setLogedOut();
-      }
-    }
-  }, [error, deletePostError, setLogedOut]);
 
   const deletePost = (postId) => {
     deletePostRequest({
@@ -44,6 +37,29 @@ const PostSection = () => {
       setPosts(newPosts);
     });
   };
+
+  const updatePost = ({ postId, formData}) => {
+    updatePostRequest({
+      url : `/api/post/update/${postId}`,
+      method : "PATCH",
+      headers : {
+        Authorization : token
+      },
+      body : formData
+    }, (updatedPost) => {
+      const newPosts = replaceElement(posts, updatedPost);
+      setPosts(newPosts);
+    });
+  }
+
+  useEffect(() => {
+    if (error || deletePostError || updatePostError) {
+      alert(error || deletePostError || updatePostError);
+      if (error.message === "Please authenticate!" || deletePostError.message === "Please authenticate!" || updatePostError === "Please authenticate!") {
+        setLogedOut();
+      }
+    }
+  }, [error, deletePostError, updatePostError, setLogedOut]);
   
   const addPost = (post) => {
     setPosts(oldPosts => [post, ...oldPosts]);
@@ -54,7 +70,7 @@ const PostSection = () => {
       <CreatePost addPost={addPost} />
       {
         posts.map(post => {
-          return <Post key={post._id} deletePost={deletePost} post={post} />
+          return <Post key={post._id} deletePost={deletePost} updatePost={updatePost} post={post} />
         })
       }
     </section>

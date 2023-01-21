@@ -11,6 +11,7 @@
 
 .user {
     display: flex;
+    position: relative;
     justify-content: space-between;
     align-items: center;
     color: var(--textColor);
@@ -44,6 +45,13 @@
     position: relative;
 }
 
+.postUpdate {
+    position: fixed;
+    top: calc(50vh - 10rem);
+    left: calc(50vw - 12rem);
+    z-index: 30;
+}
+
 .message {
     padding-top: 0.7rem;
     font-size: 0.85rem;
@@ -54,7 +62,7 @@
 
 .image img {
     width: 100%;
-    /* max-height: 60rem; */
+    max-height: 40rem;
     object-fit: cover;
     padding: 0.5rem 0rem;
 }
@@ -72,6 +80,18 @@
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
+}
+
+@media screen and (max-width : 850px) {
+    .postUpdate {
+        left: calc(50vw - 3rem);
+    }
+}
+
+@media screen and (max-width : 600px) {
+    .postUpdate {
+        left: calc(50vw - 8rem);
+    }
 }
 
 @media screen and (max-width : 370px) {
