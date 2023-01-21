@@ -5,11 +5,13 @@ import { useState, useEffect, useContext } from "react";
 import useHttp from "../../hooks/useHttp";
 import AuthContext from "../../context/AuthContext";
 import { deleteElement } from "../../helper/deleteElement";
+import { replaceElement } from "../../helper/replaceElement";
 
 function CommentSection(props) {
   const [comments, setComments] = useState([]);
   const { error, sendRequest: fetchComments } = useHttp();
   const { deleteCommentError, sendRequest: deleteCommentRequest } = useHttp();
+  const { error: updateCommentError, sendRequest: updateCommentRequest } = useHttp();
   const { token, setLogedOut } = useContext(AuthContext);
 
   useEffect(() => {
@@ -22,20 +24,6 @@ function CommentSection(props) {
       setComments(comments.reverse());
     });
   }, [fetchComments, props.postId, setComments, token]);
-
-  useEffect(() => {
-    if (error || deleteCommentError) {
-      alert(error || deleteCommentError);
-      if (error.message === "Please authenticate!" || error.deleteCommentError === "Please authenticate!") {
-        setLogedOut();
-      }
-    }
-  }, [error, deleteCommentError, setLogedOut]);
-
-  const updateComments = (newComment, commentCounter) => {
-    setComments(state => [newComment, ...state]);
-    props.updateCommentCounter(commentCounter);
-  };
 
   const deleteComment = (commentId) => {
     deleteCommentRequest({
@@ -51,12 +39,41 @@ function CommentSection(props) {
     });
   };
 
+  const updateComment = ({ commentId, message}) => {
+    updateCommentRequest({
+      url : `/api/comment/update/${commentId}`,
+      method : "PATCH",
+      headers : {
+        Authorization : token,
+        "Content-Type" : "application/json"
+      },
+      body : JSON.stringify({ message })
+    }, (updatedComment) => {
+      const newComments = replaceElement(comments, updatedComment);
+      setComments(newComments);
+    });
+  }
+  
+  useEffect(() => {
+    if (error || deleteCommentError || updateCommentError) {
+      alert(error || deleteCommentError || updateCommentError);
+      if (error.message === "Please authenticate!" || error.deleteCommentError === "Please authenticate!" || error.updateCommentError === "Please authenticate!") {
+        setLogedOut();
+      }
+    }
+  }, [error, deleteCommentError, updateCommentError, setLogedOut]);
+
+  const updateComments = (newComment, commentCounter) => {
+    setComments(state => [newComment, ...state]);
+    props.updateCommentCounter(commentCounter);
+  };
+
   return (
     <section className={classes.container}>
       <AddComment updateComments={updateComments} postId={props.postId} />
       <div className={classes.commentsContainer}>
         {comments.map((comment) => {
-          return <Comment delete={deleteComment} key={comment._id} data={comment} />;
+          return <Comment update={updateComment} delete={deleteComment} key={comment._id} data={comment} />;
         })}
       </div>
     </section>

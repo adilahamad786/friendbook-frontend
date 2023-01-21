@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import PostUpdate from "../postUpdate/PostUpdate";
 
 const Post = (props) => {
+  const { _id: postId, createdAt, owner: ownerId, hasProfilePicture, hasImage, username, message } = props.post;
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -27,9 +28,9 @@ const Post = (props) => {
   const { error: likeError, sendRequest: sendLikeRequest } = useHttp();
   const currentUeserId = useSelector(state => state.user._id.toString());
 
-  const timeago = moment(new Date(props.post.createdAt)).fromNow();
-  const hasOwnPost = props.post.owner === currentUeserId;
-  const postImageLink = `/api/post/${props.post._id}`;
+  const timeago = moment(new Date(createdAt)).fromNow();
+  const hasOwnPost = ownerId === currentUeserId;
+  const postImageLink = `/api/post/${postId}`;
 
   useEffect(() => {
     if (props.post.likes.includes(currentUeserId)) {
@@ -42,7 +43,7 @@ const Post = (props) => {
 
   const likeHandler = () => {
     sendLikeRequest({
-      url : `/api/like/${props.post._id}`,
+      url : `/api/like/${postId}`,
       method : "PUT",
       headers : {
         Authorization : token
@@ -86,26 +87,26 @@ const Post = (props) => {
   return (
     <div className={classes.post}>
       <div className={classes.user}>
-        <Link to={`/profile/${props.post.owner}`} className={classes.userInfo}>
-          <ProfilePicture user={{_id: props.post.owner, hasProfilePicture: props.post.hasProfilePicture}} />
+        <Link to={`/profile/${ownerId}`} className={classes.userInfo}>
+          <ProfilePicture user={{_id: ownerId, hasProfilePicture}} />
           <div className={classes.details}>
-            <span className={classes.username}>{props.post.username.toUpperCase()}</span>
+            <span className={classes.username}>{username.toUpperCase()}</span>
             <span className={classes.time}>{timeago}</span>
           </div>
         </Link>
         <div className={classes.menu}>
           { !showOptions && <MoreHoriz onClick={showMenuHandler} /> }
-          { showOptions && <Options update={showUpdatePostOption} delete={props.deletePost.bind(null, props.post._id.toString())} onClose={showMenuHandler} /> }
-          { showUpdatePost && <div className={classes.postUpdate}><PostUpdate onClose={showUpdatePostOption} update={props.updatePost} image={{postId : props.post._id.toString(), hasImage : props.post.hasImage}}/></div> }
+          { showOptions && <Options update={showUpdatePostOption} delete={props.deletePost.bind(null, postId)} onClose={showMenuHandler} /> }
+          { showUpdatePost && <div className={classes.postUpdate}><PostUpdate onClose={showUpdatePostOption} update={props.updatePost} image={{postId, hasImage}}/></div> }
           { (showOptions || showUpdatePost) && <Backdrop onClose={closeBackdrop} /> }
         </div>
       </div>
       <div className={classes.content}>
         <div className={classes.message}>
-          <p>{props.post.message}</p>
+          <p>{message}</p>
         </div>
         <div className={classes.image}>
-          { props.post.hasImage && <img
+          { hasImage && <img
             src={postImageLink}
             alt="PostImage"
           /> }
@@ -125,7 +126,7 @@ const Post = (props) => {
           <span>Share</span>
         </div>
       </div>
-      {showComments && <CommentSection updateCommentCounter={updateCommentCounter} postId={props.post._id}/>}
+      {showComments && <CommentSection updateCommentCounter={updateCommentCounter} postId={postId}/>}
     </div>
   );
 };

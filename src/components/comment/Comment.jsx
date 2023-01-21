@@ -6,10 +6,12 @@ import { MoreHoriz } from "@mui/icons-material";
 import moment from "moment";
 import { useState } from 'react';
 import { useSelector } from "react-redux";
+import CommentUpdate from "../commentUpdate/CommentUpdate";
 
 const Comment = (props) => {
   const { _id: commentId, owner, hasProfilePicture, message, username, createdAt } = props.data;
   const [showOptions, setShowOptions] = useState(false);
+  const [showUpdateComment, setShowUpdateComment] = useState(false);
   const currentUserId = useSelector(state => state.user._id.toString());
 
   const timeago = moment(new Date(createdAt)).fromNow();
@@ -17,6 +19,15 @@ const Comment = (props) => {
 
   const showMenuHandler = () => {
     setShowOptions(showOptions => !showOptions && hasOwnComment);
+  }
+
+  const showUpdateCommentOption = () => {
+    setShowUpdateComment(state => !state);
+  }
+
+  const closeBackdrop = () => {
+    setShowOptions(false);
+    setShowUpdateComment(false);
   }
 
   return (
@@ -33,8 +44,9 @@ const Comment = (props) => {
       </div>
       <div className={classes.menu}>
         { <MoreHoriz onClick={showMenuHandler} /> }
-        { showOptions && <Backdrop onClose={showMenuHandler} />  }
-        { showOptions && <div className={classes.options}><Options id={commentId.toString()} delete={props.delete} onClose={showMenuHandler}/></div> }
+        { showOptions && <div className={classes.options}><Options update={showUpdateCommentOption} id={commentId.toString()} delete={props.delete} onClose={showMenuHandler}/></div> }
+        { showUpdateComment && <div className={classes.commentUpdate}><CommentUpdate onClose={showUpdateCommentOption} update={props.update} commentId={commentId}/></div> }
+        { (showOptions || showUpdateComment) && <Backdrop onClose={closeBackdrop} />  }
       </div>
     </div>
   );

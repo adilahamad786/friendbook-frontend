@@ -54,3 +54,22 @@
   position: relative;
   top: 1rem;
 }
+
+.commentUpdate {
+  position: fixed;
+  top: calc(50vh - 10rem);
+  left: calc(50vw - 12rem);
+  z-index: 30;
+}
+
+@media screen and (max-width : 850px) {
+  .commentUpdate {
+      left: calc(50vw - 3rem);
+  }
+}
+
+@media screen and (max-width : 600px) {
+  .commentUpdate {
+      left: calc(50vw - 8rem);
+  }
+}

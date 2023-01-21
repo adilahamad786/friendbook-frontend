@@ -25,7 +25,8 @@ const PostUpdate = (props) => {
     inputImage && formData.append('image', inputImage);
     inputText && formData.append('message', inputText);
 
-    props.update({ postId : props.image.postId, formData})
+    props.update({ postId : props.image.postId, formData});
+    props.onClose();
   }
 
   return (
