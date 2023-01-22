@@ -2,7 +2,7 @@ import classes from './FollowButton.module.css';
 import useHttp from "../../hooks/useHttp";
 import AuthContext from "../../context/AuthContext";
 import { useContext, useState, useEffect} from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { rightbarUpdateActions } from '../../store/rightbarUpdateSlice';
 
 const Button = (props) => {
@@ -11,6 +11,9 @@ const Button = (props) => {
   const {error , sendRequest: sendFollowUnfollowRequest } = useHttp();
   const {sendRequest: fetchFollowedStatus } = useHttp();
   const dispatch = useDispatch();
+  const currentUserId = useSelector(state => state.user._id.toString());
+
+  const hasCurrentUser = currentUserId === props.userId;
 
   const clickHandler = () => {
     sendFollowUnfollowRequest({
@@ -26,13 +29,15 @@ const Button = (props) => {
   }
 
   useEffect(() => {
-    fetchFollowedStatus({
-      url : `/api/user/follow-status/${props.userId}`,
-      headers : {
-        Authorization : token
-      }
-    }, (resData) => setFollowed(resData.hasFollowed))
-  }, [fetchFollowedStatus, token, setFollowed, props.userId]);
+    if (!hasCurrentUser) {
+      fetchFollowedStatus({
+        url : `/api/user/follow-status/${props.userId}`,
+        headers : {
+          Authorization : token
+        }
+      }, (resData) => setFollowed(resData.hasFollowed));
+    }
+  }, [hasCurrentUser, fetchFollowedStatus, token, setFollowed, props.userId]);
 
   useEffect(() => {
     if (error) {
@@ -44,7 +49,7 @@ const Button = (props) => {
   }, [error, setLogedOut]);
 
   return (
-    <button onClick={clickHandler} className={`${classes.btn} ${followed ? classes.unfollow : ""}`}>{followed ? "Unfollow" : "Follow"}</button>
+    <button disabled={hasCurrentUser} onClick={clickHandler} className={`${classes.btn} ${followed ? classes.unfollow : ""}`}>{followed ? "Unfollow" : "Follow"}</button>
   );
 }
 

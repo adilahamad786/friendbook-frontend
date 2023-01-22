@@ -7,6 +7,11 @@
   cursor: pointer;
 }
 
+.btn:disabled {
+  background-color: #415b7e;
+  color: rgb(177, 153, 153);
+}
+
 .unfollow {
   background-color: red;
   color: black;
