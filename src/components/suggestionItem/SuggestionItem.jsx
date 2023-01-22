@@ -4,7 +4,7 @@ import FollowButton from "../followButton/FollowButton";
 
 const SuggestionItem = (props) => {
   return (
-    <div className={classes.container}>
+    <div onClick={props?.onClose} className={classes.container}>
       <UserItem user={props.user}/>
       <FollowButton userId={props.user._id} />
     </div>

@@ -35,7 +35,7 @@ const SearchResultCart = (props) => {
   return (
       <Cart className={classes.searchResultCart}>
         {searchResult.map((user) => {
-          return <SuggestionItem key={user._id} user={user} />;
+          return <SuggestionItem onClose={props.onClose} key={user._id} user={user} />;
         })}
       </Cart>
   );

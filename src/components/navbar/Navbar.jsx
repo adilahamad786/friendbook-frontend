@@ -17,10 +17,12 @@ import SearchResultCart from "../searchResultCart/SearchResultCart";
 import useInput from "../../hooks/useInput";
 import noProfilePicture from "../../assets/noProfilePicture.png";
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 
 const Navbar = (props) => {
+  const { _id : userId, hasProfilePicture, username } = props.user;
+  const profilePicture = `/api/user/profile-picture/${userId.toString()}`;
   const { theme, changeTheme } = useContext(ThemeContext);
   const { show: showMenu, setShow: setShowMenu } = useContext(ShowContext);
   const [showOptions, setShowOptions] = useState(false);
@@ -33,16 +35,23 @@ const Navbar = (props) => {
     reset
   } = useInput((value) => value.length > 0);
 
-  const setShowHandler = () => {
-    setShowSearch((oldValue) => !oldValue);
+  useEffect(() => {
+    if (searchTextIsValid) {
+      setShowSearch(true);
+    }
+    else {
+      setShowSearch(false);
+    }
+  }, [searchTextIsValid, setShowSearch]);
+
+  const showSearchHandler = () => {
+    setShowSearch(state => !state);
     reset();
   };
 
   const showOptionsHandler = () => {
     setShowOptions(state => !state);
   }
-
-  const profilePicture = `/api/user/profile-picture/${props.user?._id?.toString()}`;
 
   return (
     <div className={classes.navbar}>
@@ -57,7 +66,7 @@ const Navbar = (props) => {
           {theme ? <DarkModeOutlined /> : <WbSunnyOutlined />}
         </div>
         <form className={classes.search}>
-          <SearchOutlined onClick={setShowHandler} />
+          <SearchOutlined onClick={showSearchHandler} />
           <input
             onChange={setSearchText}
             onFocus={setSearchTextFieldFocus}
@@ -68,9 +77,9 @@ const Navbar = (props) => {
           />
         </form>
         { searchTextIsValid && <div className={classes.searchResult}>
-          <SearchResultCart searchText={searchText}/>
+          <SearchResultCart onClose={showSearchHandler} searchText={searchText}/>
         </div> }
-        { (showSearch || searchTextIsValid) && <Backdrop onClose={setShowHandler} />}
+        { (showSearch || searchTextIsValid) && <Backdrop onClose={showSearchHandler} />}
         <div className={classes.menuIcon} onClick={setShowMenu}>
           {showMenu ? <Close /> : <GridViewOutlined />}
         </div>
@@ -81,10 +90,10 @@ const Navbar = (props) => {
         <NotificationsOutlined />
         <div onClick={showOptionsHandler} className={classes.profile}>
           <img
-            src={props.user.hasProfilePicture ? profilePicture : noProfilePicture}
+            src={hasProfilePicture ? profilePicture : noProfilePicture}
             alt="Profile"
           />
-          <span>{props.user.username.toUpperCase()}</span>
+          <span>{username.toUpperCase()}</span>
         </div>
         {showOptions && (
           <div className={classes.profileOptionsMenu} >
