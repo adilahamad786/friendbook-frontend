@@ -13,13 +13,10 @@ import ShowContext from "../../context/ShowContext";
 import AuthContext from "../../context/AuthContext";
 
 function ProfileUpdate() {
-  const user = useSelector(state => state.user);
+  const currentUser = useSelector(state => state.user);
   const dispatch = useDispatch();
   const { show: hideSection } = useContext(ShowContext);
   const { setLogedOut } = useContext(AuthContext);
-
-  const profilePictureLink = `/api/user/profile-picture/${user?._id.toString()}`;
-  const coverPictureLink = `/api/user/cover-picture/${user?._id.toString()}`;
 
   const username = useRef();
   const age = useRef();
@@ -105,7 +102,7 @@ function ProfileUpdate() {
             src={
               coverPicture
                 ? URL.createObjectURL(coverPicture)
-                : user.hasCoverPicture ? coverPictureLink : noCoverPicture
+                : currentUser.hasCoverPicture ? currentUser.coverPictureLink : noCoverPicture
             }
             className={classes.profileCoverImg}
             alt="CoverPicture"
@@ -129,7 +126,7 @@ function ProfileUpdate() {
             src={
               profilePicture
                 ? URL.createObjectURL(profilePicture)
-                : user.hasProfilePicture ? profilePictureLink : noProfilePicture
+                : currentUser.hasProfilePicture ? currentUser.profilePictureLink : noProfilePicture
             }
             className={classes.profileUserImg}
             alt="ProfilePicture"
@@ -142,7 +139,8 @@ function ProfileUpdate() {
             onChange={(e) => setProfilePicture(e.target.files[0])}
           />
         </div>
-        <span className={classes.UserProfileName}>{user.username.toUpperCase()}</span>
+        <span className={classes.userProfileName}>{currentUser.username.toUpperCase()}</span>
+        <span className={classes.userProfileDescription}>{currentUser?.description}</span>
       </section>
       <section className={classes.formSection}>
         <form className={classes.form} onSubmit={submitHandler}>

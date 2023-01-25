@@ -13,16 +13,16 @@ const CreatePostSection = (props) => {
   const user = useSelector(state => state.user);
   const { token, setLogedOut } = useContext(AuthContext);
   const [file, setFile] = useState();
-  const descriptionRef = useRef();
+  const messageRef = useRef();
   const { error, sendRequest: sendPost } = useHttp();
 
   const submitHandler = (e) => {
     e.preventDefault();
     const postData = new FormData();
 
-    descriptionRef.current.value && postData.append("message", descriptionRef.current.value);
+    messageRef.current.value && postData.append("message", messageRef.current.value);
     file && postData.append("image", file);
-    descriptionRef.current.value = '';
+    messageRef.current.value = '';
     setFile(null);
 
     sendPost({
@@ -33,6 +33,7 @@ const CreatePostSection = (props) => {
       },
       body : postData
     }, (resPost) => {
+      console.log(resPost)
       props.addPost(resPost);
     });
   }
@@ -60,7 +61,7 @@ const CreatePostSection = (props) => {
         )
       }
       <form onSubmit={submitHandler} className={classes.postForm}>
-        <input type="text" ref={descriptionRef} placeholder="Write here..." name="postForm" />
+        <input type="text" ref={messageRef} placeholder="Write here..." name="postForm" />
         <input type="file" onChange={(e) => setFile(e.target.files[0])} name='image' id="image" />
         <button>
           <SendRounded />

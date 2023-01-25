@@ -7,6 +7,13 @@
     background-color: #f0f2f5;
 }
 
+.image img{
+    width: 10rem;
+    height: 10rem;
+    object-fit: contain;
+    z-index: 99999;
+}
+
 .loginWrapper {
     display: flex;
     align-items: center;
@@ -60,6 +67,7 @@
     width: 100%;
     background-color: white;
     border: none;
+    margin-bottom: 1rem;
 }
 
 .invalidMessage {
@@ -94,6 +102,19 @@
     margin-top: 1rem;
     background-color: #1775ee;
     color: white;
+}
+
+.googleBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    width: 90%;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0rem;
+    background-color: whitesmoke;
+    cursor: pointer;
 }
 
 .forgot {

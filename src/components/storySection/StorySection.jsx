@@ -4,13 +4,11 @@ import Story from "../story/Story";
 import useHttp from "../../hooks/useHttp";
 import { useState, useEffect, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
-import { useSelector } from "react-redux";
 
-const StorySection = (props) => {
+const StorySection = () => {
   const { error, sendRequest: fetchStories } = useHttp();
   const { token, setLogedOut } = useContext(AuthContext);
   const [stories, setStories] = useState([]);
-  const { story, username } = useSelector(state => state.user);
 
   useEffect(() => {
     fetchStories({
@@ -34,13 +32,7 @@ const StorySection = (props) => {
 
   return (
     <section className={classes.container}>
-      <CreateStory
-        key={username}
-        user={{
-          story,
-          username
-        }}
-      />
+      <CreateStory />
       {stories.map((story) => {
         return (
           <Story

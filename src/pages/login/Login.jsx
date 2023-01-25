@@ -8,6 +8,8 @@ import useHttp from "../../hooks/useHttp";
 import validator from "validator";
 import AuthContext from "../../context/AuthContext";
 import { userActions } from "../../store/userSlice";
+import getGoogleOAuthUrl from "../../utils/getGoogleOAuthUrl";
+import google from "../../assets/google.png";
 
 const Login = () => {
   const {
@@ -125,6 +127,10 @@ const Login = () => {
             )}
             <button disabled={ !formIsValid } className={classes.loginButton}>Log In</button>
           </form>
+          <a href={getGoogleOAuthUrl()} className={classes.googleBtn}>
+            <img src={google} alt="" />
+            <span>Login With Google</span>
+          </a>
           <Link className={classes.forgot} to="/forgot">
             Forgot Password?
           </Link>

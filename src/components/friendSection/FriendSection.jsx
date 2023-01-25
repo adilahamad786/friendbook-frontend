@@ -33,8 +33,8 @@ const FriendSection = () => {
 
   return (
     <Cart title="User Friends">
-      {friends.map((user) => {
-        return <FriendItem key={Math.random()} user={user} />;
+      {friends.map((friend) => {
+        return <FriendItem key={Math.random()} user={friend} />;
       })}
       {
         friends.length === 0 && <span className={classes.noFriend}>Friends Not Found!</span>

@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import CommentUpdate from "../commentUpdate/CommentUpdate";
 
 const Comment = (props) => {
-  const { _id: commentId, owner, hasProfilePicture, message, username, createdAt } = props.data;
+  const { _id: commentId, owner, hasProfilePicture, profilePictureLink, message, username, createdAt } = props.data;
   const [showOptions, setShowOptions] = useState(false);
   const [showUpdateComment, setShowUpdateComment] = useState(false);
   const currentUserId = useSelector(state => state.user._id.toString());
@@ -33,7 +33,7 @@ const Comment = (props) => {
   return (
     <div className={classes.user}>
       <div className={classes.userInfo}>
-        <ProfilePicture className={classes.profilePicture} user={ {_id : owner, hasProfilePicture} }/>
+        <ProfilePicture className={classes.profilePicture} user={{hasProfilePicture, profilePictureLink}}/>
         <div className={classes.message}>
           <div className={classes.owner}>
             <span>{username.toUpperCase()}</span>

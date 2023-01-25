@@ -3,15 +3,9 @@ import noProfilePicture from '../../assets/noProfilePicture.png';
 
 
 const ProfilePicture = (props) => {
-
-  let profilePicture = `/api/user/profile-picture/${props.user._id.toString()}`;
-
-  if (typeof props.user._id === "string") {
-    profilePicture = `/api/user/profile-picture/${props.user._id}`;
-  }
-
+  const {hasProfilePicture, profilePictureLink} = props.user;
   return (
-    <img className={classes.profile} src={props.user.hasProfilePicture ? profilePicture : noProfilePicture } alt="ProfilePicture" />
+    <img className={classes.profile} src={hasProfilePicture ? profilePictureLink : noProfilePicture } alt="ProfilePicture" />
   );
 }
 

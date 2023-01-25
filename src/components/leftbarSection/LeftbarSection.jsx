@@ -21,6 +21,7 @@ import ShowContext from '../../context/ShowContext';
 import FriendSection from '../friendSection/FriendSection';
 
 const LeftbarSection = (props) => {
+  const { hasProfilePicture, profilePictureLink, username } = props.user;
   const [showOptions, setShowOptions] = useState(false);
   const { show: showMenu, setShow: setShowMenu } = useContext(ShowContext);
   const [showFriendList, setShowFriendList] = useState(false);
@@ -38,17 +39,15 @@ const LeftbarSection = (props) => {
     setShowMenu();
   }
 
-  const profilePicture = `/api/user/profile-picture/${props.user?._id?.toString()}`;
-
   return (
     <section className={`${classes.leftbarSection} ${showMenu ? classes.show : ''}`} >
       <div className={classes.container}>
         <div className={classes.menu}>
           <div onClick={showOptionsHandler} className={classes.item}>
             <div className={classes.profilePicture}>
-              <img src={props.user.hasProfilePicture ? profilePicture : noProfilePicture} alt="ProfilePicture" />
+              <img src={hasProfilePicture ? profilePictureLink : noProfilePicture} alt="ProfilePicture"/>
             </div>
-            <span className={classes.username}>{props.user?.username?.toUpperCase()}</span>
+            <span className={classes.username}>{username?.toUpperCase()}</span>
           </div>
           <div className={classes.showProfileOptions}>
             { showOptions && <ProfileOptions onClose={showOptionsAndMenuHandler} /> }

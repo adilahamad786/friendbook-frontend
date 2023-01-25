@@ -27,8 +27,6 @@ const ProfileSection = (props) => {
   const { token, setLogedOut } = useContext(AuthContext);
   const { error, sendRequest : fetchUser } = useHttp();
 
-  const profilePicture = `/api/user/profile-picture/${user._id.toString()}`;
-  const coverPicture = `/api/user/cover-picture/${user._id.toString()}`;
   const otherUser = userId !== currentUser._id.toString();
 
   const showMoreHandler = () => {
@@ -62,13 +60,13 @@ const ProfileSection = (props) => {
     <section className={classes.profileSection}>
       <div className={classes.coverPicture}>
         <img
-          src={user.hasCoverPicture ? coverPicture : noCoverPicture}
+          src={user.hasCoverPicture ? user.coverPictureLink : noCoverPicture}
           alt="CoverPicture"
         />
       </div>
       <img
         className={classes.profilePicture}
-        src={user.hasProfilePicture ? profilePicture : noProfilePicture}
+        src={user.hasProfilePicture ? user.profilePictureLink : noProfilePicture}
         alt="profilePicture"
       />
       <div className={classes.about}>

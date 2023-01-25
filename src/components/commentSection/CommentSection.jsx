@@ -4,8 +4,8 @@ import Comment from "../comment/Comment";
 import { useState, useEffect, useContext } from "react";
 import useHttp from "../../hooks/useHttp";
 import AuthContext from "../../context/AuthContext";
-import { deleteElement } from "../../helper/deleteElement";
-import { replaceElement } from "../../helper/replaceElement";
+import { deleteElement } from "../../helpers/deleteElement";
+import { replaceElement } from "../../helpers/replaceElement";
 
 function CommentSection(props) {
   const [comments, setComments] = useState([]);

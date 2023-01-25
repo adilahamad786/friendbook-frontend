@@ -9,8 +9,7 @@ const CreateStory = (props) => {
   const [story, setStory] = useState(undefined);
   const { token, setLogedOut } = useContext(AuthContext);
   const { error, sendRequest: updateStory } = useHttp();
-  const { _id: userId, hasStory } = useSelector(state => state.user);
-  const storyLink = `/api/user/story/${userId}`;
+  const { hasStory, storyLink, username } = useSelector(state => state.user);
 
   const changeHandler = (e) => {
     setStory(e.target.files[0]);
@@ -46,7 +45,7 @@ const CreateStory = (props) => {
         alt="CreateStory"
       />
       <input type="file" onChange={changeHandler} name="story" id="story" />
-      <span>{props.user.username.toUpperCase()}</span>
+      <span>{username.toUpperCase()}</span>
       <label htmlFor="story" className={classes.add}>+</label>
     </div>
   );

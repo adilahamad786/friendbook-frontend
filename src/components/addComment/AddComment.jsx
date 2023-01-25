@@ -7,7 +7,7 @@ import useHttp from "../../hooks/useHttp";
 import AuthContext from "../../context/AuthContext";
 
 const AddComment = (props) => {
-  const { _id, hasProfilePicture } = useSelector(state => state.user);
+  const { hasProfilePicture, profilePictureLink } = useSelector(state => state.user);
   const messageRef = useRef();
   const { token, setLogedOut } = useContext(AuthContext);
   const { error, sendRequest: sendComment } = useHttp();
@@ -41,7 +41,7 @@ const AddComment = (props) => {
 
   return (
     <div className={classes.addComment}>
-      <ProfilePicture className={classes.profilePicture} user={{ _id, hasProfilePicture }} />
+      <ProfilePicture className={classes.profilePicture} user={{ hasProfilePicture, profilePictureLink }} />
       <form onSubmit={addComment} className={classes.commentForm}>
         <input type="text" ref={messageRef}/>
         <button>

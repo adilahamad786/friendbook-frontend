@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 import PostUpdate from "../postUpdate/PostUpdate";
 
 const Post = (props) => {
-  const { _id: postId, createdAt, owner: ownerId, hasProfilePicture, hasImage, username, message } = props.post;
+  const { _id: postId, createdAt, owner: ownerId, hasProfilePicture, profilePictureLink, hasImage, imageLink, username, message } = props.post;
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -30,7 +30,6 @@ const Post = (props) => {
 
   const timeago = moment(new Date(createdAt)).fromNow();
   const hasOwnPost = ownerId === currentUeserId;
-  const postImageLink = `/api/post/${postId}`;
 
   useEffect(() => {
     if (props.post.likes.includes(currentUeserId)) {
@@ -88,7 +87,7 @@ const Post = (props) => {
     <div className={classes.post}>
       <div className={classes.user}>
         <Link to={`/profile/${ownerId}`} className={classes.userInfo}>
-          <ProfilePicture user={{_id: ownerId, hasProfilePicture}} />
+          <ProfilePicture user={{hasProfilePicture, profilePictureLink}} />
           <div className={classes.details}>
             <span className={classes.username}>{username.toUpperCase()}</span>
             <span className={classes.time}>{timeago}</span>
@@ -107,7 +106,7 @@ const Post = (props) => {
         </div>
         <div className={classes.image}>
           { hasImage && <img
-            src={postImageLink}
+            src={imageLink}
             alt="PostImage"
           /> }
         </div>
