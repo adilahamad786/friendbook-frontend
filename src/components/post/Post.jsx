@@ -22,6 +22,7 @@ const Post = (props) => {
   const { _id: postId, createdAt, owner: ownerId, hasProfilePicture, profilePictureLink, hasImage, imageLink, username, message } = props.post;
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [commentCounter, setCommentCounter] = useState(props.post.commentCounter);
   const [showOptions, setShowOptions] = useState(false);
   const [showUpdatePost, setShowUpdatePost] = useState(false);
   const { token, setLogedOut } = useContext(AuthContext);
@@ -67,7 +68,7 @@ const Post = (props) => {
   }
   
   const updateCommentCounter = (currentCommentCounter) => {
-    props.post.commentCounter = currentCommentCounter;
+    setCommentCounter(currentCommentCounter);
   }
 
   const showMenuHandler = () => {
@@ -118,7 +119,7 @@ const Post = (props) => {
         </div>
         <div onClick={showCommentHandler} className={classes.option}>
           <TextsmsOutlined className={classes.optionIcon} />
-          <span>{`${props.post.commentCounter} Comments`}</span>
+          <span>{`${commentCounter} Comments`}</span>
         </div>
         <div className={classes.option}>
           <ShareOutlined className={classes.optionIcon} />
