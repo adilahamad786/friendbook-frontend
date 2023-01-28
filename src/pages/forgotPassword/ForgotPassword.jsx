@@ -1,24 +1,23 @@
-import classes from "./AccountVerification.module.css";
+import classes from "./ForgotPassword.module.css";
 import { useNavigate } from "react-router-dom";
 import useHttp from "../../hooks/useHttp";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import Form from "../../components/form/Form";
+import validator from "validator";
 
-const AccountVerification = () => {
+const ForgotPassword = () => {
   const [otpBtnClicked, setOtpBtnClicked] = useState(false);
   const navigate = useNavigate();
   const { error: otpError, sendRequest: sendOtp } = useHttp();
-  const { error: registerationError, sendRequest: sendRegisterRequest } = useHttp();
+  const { error: verificationError, sendRequest: sendVerificationRequest } = useHttp();
+  const [email, setEmail] = useState('');
 
-  // Getting user from cookies
-  const user = Cookies.get("user") && JSON.parse(Cookies.get("user"));
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/register");
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     navigate("/register");
+  //   }
+  // }, [user, navigate]);
 
   const otpSendHandler = (inputValue, event) => {
     event.preventDefault();
@@ -31,14 +30,15 @@ const AccountVerification = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: user?.email }),
+        body: JSON.stringify({ email: inputValue }),
       },
       (res) => {
-        if (res.emailExist) {
-          alert("Email already exist!");
-          navigate('/login');
+        if (!res.emailExist) {
+          alert("Email not exist!");
+          navigate("/login");
         }
         else {
+          setEmail(inputValue);
           alert(res.message);
           setOtpBtnClicked(true);
         }
@@ -46,59 +46,59 @@ const AccountVerification = () => {
     );
   };
 
-  const sendRegisterForm = (inputValue, event) => {
+  const verificationHandler = (inputValue, event) => {
     event.preventDefault();
 
-    const registerationForm = {
-      username: user?.username,
-      email: user?.email,
-      password: user?.password,
+    const verificationForm = {
+      email: email,
       otp: inputValue,
     };
 
     // submit registeration form
-    sendRegisterRequest(
+    sendVerificationRequest(
       {
-        url: "/api/user/register",
+        url: "/api/user/forgot",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(registerationForm),
+        body: JSON.stringify(verificationForm),
       },
       (res) => {
-        Cookies.remove("user");
-        alert(res.message);
-        navigate("/");
+        if (res.verification) {
+          Cookies.set("user", JSON.stringify({ email: email, otp: inputValue }));
+          navigate("/reset-password");
+        }
       }
     );
   };
 
   useEffect(() => {
-    if (otpError || registerationError) {
-      alert(otpError || registerationError);
+    if (otpError || verificationError) {
+      alert(otpError || verificationError);
     }
-  }, [otpError, registerationError]);
+  }, [otpError, verificationError]);
 
   return (
     <section className={classes.container}>
       <div className={classes.formBox}>
-        <h3>Account Verification</h3>
+        <h3>Forgot Password</h3>
         <Form
           handler={otpSendHandler}
-          inputDisable={true}
-          placeholder={user?.email}
+          inputDisable={false}
+          placeholder="Enter Your Email"
           type="email"
-          validate={(value) => value}
+          validate={(value) => validator.isEmail(value)}
           btnClicked={false}
-          btnDisabled={false}
+          btnDisabled={true}
           btnTextOne="Resend OTP"
           btnTextTwo="Send OTP"
+          inputErrorMessage="Invalid Email!"
           />
         {
           otpBtnClicked &&
           <Form
-            handler={sendRegisterForm}
+            handler={verificationHandler}
             inputDisabled={false}
             placeholder="Enter your OTP"
             type="number"
@@ -113,4 +113,4 @@ const AccountVerification = () => {
   );
 };
 
-export default AccountVerification;
+export default ForgotPassword;

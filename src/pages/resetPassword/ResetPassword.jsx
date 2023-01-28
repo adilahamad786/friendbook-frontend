@@ -1,6 +1,9 @@
 import classes from "./ResetPassword.module.css";
 import useInput from "../../hooks/useInput";
 import { useState, useEffect } from "react";
+import useHttp from "../../hooks/useHttp";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const ResetPassword = () => {
   const {
@@ -20,6 +23,17 @@ const ResetPassword = () => {
   } = useInput((value) => value.length >= 6 &&  value === password);
 
   const [formIsValid, setFormIsValid] = useState(false);
+  const { error: resetError, sendRequest: sendResetRequest } = useHttp();
+  const navigate = useNavigate();
+
+  // Getting user from cookies
+  const user = Cookies.get("user") && JSON.parse(Cookies.get("user"));
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/forgot");
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     if (passwordIsValid && againPasswordIsValid) {
@@ -30,15 +44,34 @@ const ResetPassword = () => {
     }
   }, [passwordIsValid, againPasswordIsValid, password, againPassword]);
 
-  const submitHanlder = () => {
-    alert("Password update successfully!");
+  const submitHanlder = (event) => {
+    event.preventDefault();
 
-    const formData = {
-      password,
+    const resetForm = {
+      email : user?.email,
+      otp : user?.otp,
+      password
     };
 
-    console.log(formData);
+    sendResetRequest({
+      url : '/api/user/reset-password',
+      method : "POST",
+      headers : {
+        "Content-Type" : "application/json"
+      },
+      body : JSON.stringify(resetForm)
+    }, (res) => {
+      Cookies.remove("user");
+      alert(res.message);
+      navigate("/login");
+    });
   };
+
+  useEffect(() => {
+    if (resetError) {
+      alert(resetError);
+    }
+  }, [resetError]);
 
   return (
     <div className={classes.container}>
