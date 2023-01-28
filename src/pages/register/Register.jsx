@@ -1,18 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import validator from "validator";
+import { nameValidator } from "../../utils/nameValidator";
 import classes from "./Register.module.css";
 import { useState, useEffect } from "react";
-import useHttp from "../../hooks/useHttp";
+import Cookies from "js-cookie";
 
 const Register = () => {
-  const {value: username, setValue: setUsername, isValid: usernameIsValid, setFocus: setUsernameFocus, hasError: hasUsernameError} = useInput(value => value.length > 0);
+  const {value: username, setValue: setUsername, isValid: usernameIsValid, setFocus: setUsernameFocus, hasError: hasUsernameError} = useInput(value => nameValidator(value));
   const {value: email, setValue: setEmail, isValid: emailIsValid, setFocus: setEmailFocus, hasError: hasEmailError} = useInput(value => validator.isEmail(value));
   const {value: password, setValue: setPassword, isValid: passwordIsValid, setFocus: setPasswordFocus, hasError: hasPasswordError} = useInput(value => value.length >= 6);
-  const {value: againPassword, setValue: setAgainPassword, isValid: againPasswordIsValid, setFocus: setAgainPasswordFocus, hasError: hasAgainPasswordError} = useInput(value => value.length >= 6 && value === password);
+  const {setValue: setAgainPassword, isValid: againPasswordIsValid, setFocus: setAgainPasswordFocus, hasError: hasAgainPasswordError} = useInput(value => value.length >= 6 && value === password);
 
   const [formIsValid, setFormIsValid] = useState(false);
-  const { error, sendRequest: login } = useHttp();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,37 +24,17 @@ const Register = () => {
     }
   }, [usernameIsValid, emailIsValid, passwordIsValid, againPasswordIsValid]);
 
-  useEffect(() => {
-    if (error) {
-      alert(error);
-    }
-  }, [error]);
-
   const submitHandler = (e) => {
     e.preventDefault();
 
     const registerFormData = {
       username,
       email,
-      password,
-      againPassword
+      password
     }
 
-    const transformData = (data) => {
-      alert("Registeration successful!");
-      navigate('/login');
-    }
-
-    login({
-        url : '/api/user/register',
-        method : "POST",
-        headers : {
-          "Content-Type" : "application/json"
-        },
-        body : JSON.stringify(registerFormData)
-      },
-      transformData
-    );
+    Cookies.set("user", JSON.stringify(registerFormData));
+    navigate('/verification');
   }
 
   return (
@@ -100,7 +80,7 @@ const Register = () => {
               required
             />
             { hasPasswordError && <span className={classes.invalidMessage}>
-              Create password!
+              Password is too short!
             </span> }
             <input
               onChange={setAgainPassword}
@@ -111,7 +91,7 @@ const Register = () => {
               required
             />
             { hasAgainPasswordError && <span className={classes.invalidMessage}>
-              Confirm password!
+              Password doesn't match!
             </span> }
             <button disabled={ !formIsValid } className={classes.registerButton}>Register</button>
           </form>

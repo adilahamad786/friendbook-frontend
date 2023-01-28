@@ -9,8 +9,9 @@ import Profile from './pages/profile/Profile';
 import Home from './pages/home/Home';
 import { useContext } from 'react';
 import { ThemeContext } from './context/ThemeContext';
-import ForgotPassword from './pages/forgotPassword/ForgetPassword';
+import ForgotPassword from './pages/forgotPassword/ForgotPassword';
 import ResetPassword from './pages/resetPassword/ResetPassword';
+import AccountVerification from './pages/accountVerification/AccountVerification';
 import ProfileUpdate from './pages/profileUpdate/ProfileUpdate';
 import AuthContext from './context/AuthContext';
 import { useSelector } from 'react-redux';
@@ -60,6 +61,10 @@ function App() {
     {
       path : '/register',
       element : <Register />
+    },
+    {
+      path : '/verification',
+      element : <AccountVerification />
     },
     {
       path : '/forgot',
