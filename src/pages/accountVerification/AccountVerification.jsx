@@ -26,12 +26,12 @@ const AccountVerification = () => {
     // Sending Otp on user email
     sendOtp(
       {
-        url: "/api/user/send-otp",
+        url: "/api/user/verification",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: inputValue }),
+        body: JSON.stringify({ email: user?.email }),
       },
       (res) => {
         alert(res.message);
