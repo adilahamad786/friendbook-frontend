@@ -67,7 +67,7 @@ function App() {
       element : <AccountVerification />
     },
     {
-      path : '/forgot',
+      path : '/forgot-password',
       element : <ForgotPassword />
     },
     {

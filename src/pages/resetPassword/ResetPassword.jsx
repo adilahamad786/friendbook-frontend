@@ -23,7 +23,7 @@ const ResetPassword = () => {
   } = useInput((value) => value.length >= 6 &&  value === password);
 
   const [formIsValid, setFormIsValid] = useState(false);
-  const { error: resetError, sendRequest: sendResetRequest } = useHttp();
+  const { error: passwordResetError, sendRequest: sendPasswrodResetRequest } = useHttp();
   const navigate = useNavigate();
 
   // Getting user from cookies
@@ -31,7 +31,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/forgot");
+      navigate("/forgot-password");
     }
   }, [user, navigate]);
 
@@ -53,7 +53,7 @@ const ResetPassword = () => {
       password
     };
 
-    sendResetRequest({
+    sendPasswrodResetRequest({
       url : '/api/user/reset-password',
       method : "POST",
       headers : {
@@ -68,10 +68,11 @@ const ResetPassword = () => {
   };
 
   useEffect(() => {
-    if (resetError) {
-      alert(resetError);
+    if (passwordResetError) {
+      alert(passwordResetError);
+      navigate("/forgot-password");
     }
-  }, [resetError]);
+  }, [passwordResetError, navigate]);
 
   return (
     <div className={classes.container}>

@@ -24,26 +24,17 @@ const AccountVerification = () => {
     event.preventDefault();
 
     // Sending Otp on user email
-    sendOtp(
-      {
-        url: "/api/user/send-otp",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: user?.email }),
+    sendOtp({
+      url: "/api/user/send-otp",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      (res) => {
-        if (res.emailExist) {
-          alert("Email already exist!");
-          navigate('/login');
-        }
-        else {
-          alert(res.message);
-          setOtpBtnClicked(true);
-        }
-      }
-    );
+      body: JSON.stringify({ email: user?.email }),
+    }, (res) => {
+      alert(res.message);
+      setOtpBtnClicked(true);
+    });
   };
 
   const sendRegisterForm = (inputValue, event) => {
@@ -78,7 +69,11 @@ const AccountVerification = () => {
     if (otpError || registerationError) {
       alert(otpError || registerationError);
     }
-  }, [otpError, registerationError]);
+    if (otpError.message === "Account already exist!") {
+      Cookies.remove("user");
+      navigate("/login");
+    }
+  }, [otpError, registerationError, navigate]);
 
   return (
     <section className={classes.container}>

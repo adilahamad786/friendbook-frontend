@@ -131,7 +131,7 @@ const Login = () => {
             <img src={google} alt="" />
             <span>Login With Google</span>
           </a>
-          <Link className={classes.forgot} to="/forgot">
+          <Link className={classes.forgot} to="/forgot-password">
             Forgot Password?
           </Link>
           <Link className={classes.registerButtonLink} to="/register">

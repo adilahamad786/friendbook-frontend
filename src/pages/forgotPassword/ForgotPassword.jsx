@@ -7,43 +7,29 @@ import Form from "../../components/form/Form";
 import validator from "validator";
 
 const ForgotPassword = () => {
-  const [otpBtnClicked, setOtpBtnClicked] = useState(false);
+  const [forgotOtpBtnClicked, setForgotOtpBtnClicked] = useState(false);
   const navigate = useNavigate();
-  const { error: otpError, sendRequest: sendOtp } = useHttp();
-  const { error: verificationError, sendRequest: sendVerificationRequest } = useHttp();
-  const [email, setEmail] = useState('');
+  const { error: forgotOtpError, sendRequest: sendForgotOtp } = useHttp();
+  const { error: verificationOtpError, sendRequest: verifyOtp } = useHttp();
+  const [email, setEmail] = useState("")
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     navigate("/register");
-  //   }
-  // }, [user, navigate]);
-
-  const otpSendHandler = (inputValue, event) => {
+  const sendForgotOtpHandler = (inputValue, event) => {
     event.preventDefault();
 
     // Sending Otp on user email
-    sendOtp(
-      {
-        url: "/api/user/send-otp",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: inputValue }),
+    sendForgotOtp({
+      url: "/api/user/forgot-otp",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      (res) => {
-        if (!res.emailExist) {
-          alert("Email not exist!");
-          navigate("/login");
-        }
-        else {
-          setEmail(inputValue);
-          alert(res.message);
-          setOtpBtnClicked(true);
-        }
-      }
-    );
+      body: JSON.stringify({ email: inputValue }),
+    },
+    (res) => {
+      setEmail(inputValue);
+      alert(res.message);
+      setForgotOtpBtnClicked(true);
+    });
   };
 
   const verificationHandler = (inputValue, event) => {
@@ -55,9 +41,9 @@ const ForgotPassword = () => {
     };
 
     // submit registeration form
-    sendVerificationRequest(
+    verifyOtp(
       {
-        url: "/api/user/forgot",
+        url: "/api/user/verify-otp",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +51,7 @@ const ForgotPassword = () => {
         body: JSON.stringify(verificationForm),
       },
       (res) => {
-        if (res.verification) {
+        if (res.otpIsVerified) {
           Cookies.set("user", JSON.stringify({ email: email, otp: inputValue }));
           navigate("/reset-password");
         }
@@ -74,17 +60,20 @@ const ForgotPassword = () => {
   };
 
   useEffect(() => {
-    if (otpError || verificationError) {
-      alert(otpError || verificationError);
+    if (forgotOtpError || verificationOtpError) {
+      alert(forgotOtpError || verificationOtpError);
     }
-  }, [otpError, verificationError]);
+    if (forgotOtpError.message === "Account not found!") {
+      navigate("/register");
+    }
+  }, [forgotOtpError, verificationOtpError, navigate]);
 
   return (
     <section className={classes.container}>
       <div className={classes.formBox}>
         <h3>Forgot Password</h3>
         <Form
-          handler={otpSendHandler}
+          handler={sendForgotOtpHandler}
           inputDisable={false}
           placeholder="Enter Your Email"
           type="email"
@@ -96,7 +85,7 @@ const ForgotPassword = () => {
           inputErrorMessage="Invalid Email!"
           />
         {
-          otpBtnClicked &&
+          forgotOtpBtnClicked &&
           <Form
             handler={verificationHandler}
             inputDisabled={false}
