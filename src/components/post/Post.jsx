@@ -67,8 +67,8 @@ const Post = (props) => {
     setShowComments(showComments => !showComments);
   }
   
-  const updateCommentCounter = (currentCommentCounter) => {
-    setCommentCounter(currentCommentCounter);
+  const updateCommentCounter = (add) => {
+    setCommentCounter(state => state + add);
   }
 
   const showMenuHandler = () => {

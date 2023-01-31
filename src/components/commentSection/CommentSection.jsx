@@ -32,10 +32,10 @@ function CommentSection(props) {
       headers: {
         Authorization: token
       }
-    }, (resData) => {
-      const newComments = deleteElement(comments, resData.commentId);
+    }, (res) => {
+      const newComments = deleteElement(comments, res.commentId);
       setComments(newComments);
-      props.updateCommentCounter(resData.commentCounter);
+      props.updateCommentCounter(-1);
     });
   };
 
@@ -63,9 +63,9 @@ function CommentSection(props) {
     }
   }, [error, deleteCommentError, updateCommentError, setLogedOut]);
 
-  const updateComments = (newComment, commentCounter) => {
+  const updateComments = (newComment) => {
     setComments(state => [newComment, ...state]);
-    props.updateCommentCounter(commentCounter);
+    props.updateCommentCounter(1);
   };
 
   return (

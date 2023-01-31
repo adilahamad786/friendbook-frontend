@@ -24,8 +24,8 @@ const AddComment = (props) => {
         "Content-Type" : "application/json"
       },
       body : JSON.stringify(data)
-    }, (resData) => {
-      props.updateComments(resData.newComment, resData.commentCounter);
+    }, (newComment) => {
+      props.updateComments(newComment);
     });
     messageRef.current.value = "";
   }
