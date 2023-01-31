@@ -11,8 +11,12 @@ import noCoverPicture from "../../assets/noCoverPicture.png";
 import { useContext } from "react";
 import ShowContext from "../../context/ShowContext";
 import AuthContext from "../../context/AuthContext";
+import { moveOnTop } from "../../utils/moveOnTop";
 
 function ProfileUpdate() {
+  // Move top of the page
+  moveOnTop();
+
   const currentUser = useSelector(state => state.user);
   const dispatch = useDispatch();
   const { show: hideSection } = useContext(ShowContext);

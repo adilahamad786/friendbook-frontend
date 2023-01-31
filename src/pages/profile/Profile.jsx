@@ -9,8 +9,12 @@ import useHttp from "../../hooks/useHttp";
 import { useParams } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import { useSelector } from "react-redux";
+import { moveOnTop } from "../../utils/moveOnTop";
 
 const Profile = () => {
+  // Move top of the page
+  moveOnTop();
+
   const ShowCtx = useContext(ShowContext);
   const userId = useParams().id;
   const { token, setLogedOut } = useContext(AuthContext);
