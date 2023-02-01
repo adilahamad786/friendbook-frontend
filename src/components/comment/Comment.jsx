@@ -9,13 +9,13 @@ import { useSelector } from "react-redux";
 import CommentUpdate from "../commentUpdate/CommentUpdate";
 
 const Comment = (props) => {
-  const { _id: commentId, owner, hasProfilePicture, profilePictureLink, message, username, createdAt } = props.data;
+  const { _id: commentId, owner, message, createdAt } = props.data;
   const [showOptions, setShowOptions] = useState(false);
   const [showUpdateComment, setShowUpdateComment] = useState(false);
   const currentUserId = useSelector(state => state.user._id.toString());
 
   const timeago = moment(new Date(createdAt)).fromNow();
-  const hasOwnComment = owner === currentUserId;
+  const hasOwnComment = owner._id.toString() === currentUserId;
 
   const showMenuHandler = () => {
     setShowOptions(showOptions => !showOptions && hasOwnComment);
@@ -33,10 +33,10 @@ const Comment = (props) => {
   return (
     <div className={classes.user}>
       <div className={classes.userInfo}>
-        <ProfilePicture className={classes.profilePicture} user={{hasProfilePicture, profilePictureLink}}/>
+        <ProfilePicture className={classes.profilePicture} user={{hasProfilePicture: owner.hasProfilePicture, profilePictureLink: owner.profilePictureLink}}/>
         <div className={classes.message}>
           <div className={classes.owner}>
-            <span>{username.toUpperCase()}</span>
+            <span>{owner.username.toUpperCase()}</span>
             <span className={classes.time}>{timeago}</span>
           </div>
           <p>{message}</p> 
