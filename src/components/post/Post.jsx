@@ -21,25 +21,29 @@ import PostUpdate from "../postUpdate/PostUpdate";
 const Post = (props) => {
   const { _id: postId, createdAt, owner: ownerId, hasProfilePicture, profilePictureLink, hasImage, imageLink, username, message } = props.post;
   const [liked, setLiked] = useState(false);
+  const [likeCounter, setLikeCounter] = useState(props.post.likeCounter);
   const [showComments, setShowComments] = useState(false);
   const [commentCounter, setCommentCounter] = useState(props.post.commentCounter);
   const [showOptions, setShowOptions] = useState(false);
   const [showUpdatePost, setShowUpdatePost] = useState(false);
   const { token, setLogedOut } = useContext(AuthContext);
   const { error: likeError, sendRequest: sendLikeRequest } = useHttp();
+  const { sendRequest: getLikeStatus } = useHttp();
   const currentUeserId = useSelector(state => state.user._id.toString());
 
   const timeago = moment(new Date(createdAt)).fromNow();
   const hasOwnPost = ownerId === currentUeserId;
 
   useEffect(() => {
-    if (props.post.likes.includes(currentUeserId)) {
-      setLiked(true);
-    }
-    else {
-      setLiked(false);
-    }
-  }, [props.post.likes, currentUeserId, setLiked]);
+    getLikeStatus({
+      url : `/api/like/status/${postId}`,
+      headers : {
+        Authorization : token
+      }
+    }, (res) => {
+      setLiked(res.liked);
+    });
+  }, [getLikeStatus, postId, token, setLiked]);
 
   const likeHandler = () => {
     sendLikeRequest({
@@ -48,9 +52,9 @@ const Post = (props) => {
       headers : {
         Authorization : token
       }
-    }, (resData) => {
-      props.post.likes = resData.likes;
-      setLiked(resData.hasLiked);
+    }, (res) => {
+      setLiked(res.liked);
+      setLikeCounter(state => state + (res.liked ? 1 : -1));
     });
   }
 
@@ -115,7 +119,7 @@ const Post = (props) => {
       <div className={classes.options}>
         <div onClick={likeHandler} className={classes.option}>
           {liked ? <FavoriteOutlined className={classes.optionIcon} /> : <FavoriteBorderOutlined className={classes.optionIcon} />}
-          <span>{`${props.post.likes.length} Likes`}</span>
+          <span>{`${likeCounter} Likes`}</span>
         </div>
         <div onClick={showCommentHandler} className={classes.option}>
           <TextsmsOutlined className={classes.optionIcon} />
