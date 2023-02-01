@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 import PostUpdate from "../postUpdate/PostUpdate";
 
 const Post = (props) => {
-  const { _id: postId, createdAt, owner: ownerId, hasProfilePicture, profilePictureLink, hasImage, imageLink, username, message } = props.post;
+  const { _id: postId, createdAt, owner, imageUrl, message } = props.post;
   const [liked, setLiked] = useState(false);
   const [likeCounter, setLikeCounter] = useState(props.post.likeCounter);
   const [showComments, setShowComments] = useState(false);
@@ -32,11 +32,11 @@ const Post = (props) => {
   const currentUeserId = useSelector(state => state.user._id.toString());
 
   const timeago = moment(new Date(createdAt)).fromNow();
-  const hasOwnPost = ownerId === currentUeserId;
+  const hasOwnPost = owner._id.toString() === currentUeserId;
 
   useEffect(() => {
     getLikeStatus({
-      url : `/api/like/status/${postId}`,
+      url : `/api/like/status/${postId.toString()}`,
       headers : {
         Authorization : token
       }
@@ -91,17 +91,17 @@ const Post = (props) => {
   return (
     <div className={classes.post}>
       <div className={classes.user}>
-        <Link to={`/profile/${ownerId}`} className={classes.userInfo}>
-          <ProfilePicture user={{hasProfilePicture, profilePictureLink}} />
+        <Link to={`/profile/${owner._id.toString()}`} className={classes.userInfo}>
+          <ProfilePicture user={{hasProfilePicture: owner.hasProfilePicture, profilePictureLink: owner.profilePictureLink}} />
           <div className={classes.details}>
-            <span className={classes.username}>{username.toUpperCase()}</span>
+            <span className={classes.username}>{owner.username.toUpperCase()}</span>
             <span className={classes.time}>{timeago}</span>
           </div>
         </Link>
         <div className={classes.menu}>
           { !showOptions && <MoreHoriz onClick={showMenuHandler} /> }
           { showOptions && <Options update={showUpdatePostOption} delete={props.deletePost.bind(null, postId)} onClose={showMenuHandler} /> }
-          { showUpdatePost && <div className={classes.postUpdate}><PostUpdate onClose={showUpdatePostOption} update={props.updatePost} image={{postId, hasImage}}/></div> }
+          { showUpdatePost && <div className={classes.postUpdate}><PostUpdate onClose={showUpdatePostOption} update={props.updatePost} postId={postId.toString()} imageUrl={imageUrl}/></div> }
           { (showOptions || showUpdatePost) && <Backdrop onClose={closeBackdrop} /> }
         </div>
       </div>
@@ -110,8 +110,8 @@ const Post = (props) => {
           <p>{message}</p>
         </div>
         <div className={classes.image}>
-          { hasImage && <img
-            src={imageLink}
+          { imageUrl && <img
+            src={imageUrl}
             alt="PostImage"
           /> }
         </div>

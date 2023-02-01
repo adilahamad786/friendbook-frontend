@@ -7,7 +7,6 @@ const PostUpdate = (props) => {
   const [inputImage, setInputImage] = useState(null);
   const [inputText, setInputText] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
-  const postImageLink = `/api/post/${props.image.postId}`;
 
   useEffect(() => {
     if (inputImage || inputText) {
@@ -25,7 +24,7 @@ const PostUpdate = (props) => {
     inputImage && formData.append('image', inputImage);
     inputText && formData.append('message', inputText);
 
-    props.update({ postId : props.image.postId, formData});
+    props.update({ postId : props.postId, formData});
     props.onClose();
   }
 
@@ -42,7 +41,7 @@ const PostUpdate = (props) => {
           </label>
           <img
             src={
-              inputImage ? URL.createObjectURL(inputImage) : props.image.hasImage ? postImageLink : uploadImage 
+              inputImage ? URL.createObjectURL(inputImage) : props.imageUrl ? props.imageUrl : uploadImage 
             }
             className={classes.profileCoverImg}
             alt="PostImage"
