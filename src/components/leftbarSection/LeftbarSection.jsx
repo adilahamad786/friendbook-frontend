@@ -21,7 +21,7 @@ import ShowContext from '../../context/ShowContext';
 import FriendSection from '../friendSection/FriendSection';
 
 const LeftbarSection = (props) => {
-  const { hasProfilePicture, profilePictureLink, username } = props.user;
+  const { profilePictureUrl, username } = props.user;
   const [showOptions, setShowOptions] = useState(false);
   const { show: showMenu, setShow: setShowMenu } = useContext(ShowContext);
   const [showFriendList, setShowFriendList] = useState(false);
@@ -45,7 +45,7 @@ const LeftbarSection = (props) => {
         <div className={classes.menu}>
           <div onClick={showOptionsHandler} className={classes.item}>
             <div className={classes.profilePicture}>
-              <img src={hasProfilePicture ? profilePictureLink : noProfilePicture} alt="ProfilePicture"/>
+              <img src={profilePictureUrl ? profilePictureUrl : noProfilePicture} alt="ProfilePicture"/>
             </div>
             <span className={classes.username}>{username?.toUpperCase()}</span>
           </div>

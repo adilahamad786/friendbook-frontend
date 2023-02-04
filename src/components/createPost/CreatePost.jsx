@@ -10,7 +10,7 @@ import useHttp from "../../hooks/useHttp";
 import AuthContext from "../../context/AuthContext";
 
 const CreatePostSection = (props) => {
-  const user = useSelector(state => state.user);
+  const { username, profilePictureUrl } = useSelector(state => state.user);
   const { token, setLogedOut } = useContext(AuthContext);
   const [file, setFile] = useState();
   const messageRef = useRef();
@@ -33,7 +33,6 @@ const CreatePostSection = (props) => {
       },
       body : postData
     }, (resPost) => {
-      console.log(resPost)
       props.addPost(resPost);
     });
   }
@@ -50,8 +49,8 @@ const CreatePostSection = (props) => {
   return (
     <section className={classes.container}>
       <div className={classes.userInfo}>
-        <ProfilePicture user={user} />
-        <span>What's on your mind Adil Ahamad?</span>
+        <ProfilePicture imageUrl={profilePictureUrl} />
+        <span>{`What's on your mind ${username.toUpperCase()}?`}</span>
       </div>
       {
         file && (

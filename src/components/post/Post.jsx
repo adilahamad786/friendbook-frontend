@@ -29,14 +29,14 @@ const Post = (props) => {
   const { token, setLogedOut } = useContext(AuthContext);
   const { error: likeError, sendRequest: sendLikeRequest } = useHttp();
   const { sendRequest: getLikeStatus } = useHttp();
-  const currentUeserId = useSelector(state => state.user._id.toString());
+  const currentUeserId = useSelector(state => state.user._id);
 
   const timeago = moment(new Date(createdAt)).fromNow();
-  const hasOwnPost = owner._id.toString() === currentUeserId;
+  const hasOwnPost = owner._id === currentUeserId;
 
   useEffect(() => {
     getLikeStatus({
-      url : `/api/like/status/${postId.toString()}`,
+      url : `/api/like/status/${postId}`,
       headers : {
         Authorization : token
       }
@@ -91,8 +91,8 @@ const Post = (props) => {
   return (
     <div className={classes.post}>
       <div className={classes.user}>
-        <Link to={`/profile/${owner._id.toString()}`} className={classes.userInfo}>
-          <ProfilePicture user={{hasProfilePicture: owner.hasProfilePicture, profilePictureLink: owner.profilePictureLink}} />
+        <Link to={`/profile/${owner._id}`} className={classes.userInfo}>
+          <ProfilePicture imageUrl={owner.profilePictureUrl} />
           <div className={classes.details}>
             <span className={classes.username}>{owner.username.toUpperCase()}</span>
             <span className={classes.time}>{timeago}</span>

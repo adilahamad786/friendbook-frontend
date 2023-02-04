@@ -106,7 +106,7 @@ function ProfileUpdate() {
             src={
               coverPicture
                 ? URL.createObjectURL(coverPicture)
-                : currentUser.hasCoverPicture ? currentUser.coverPictureLink : noCoverPicture
+                : currentUser.coverPictureUrl ? currentUser.coverPictureUrl : noCoverPicture
             }
             className={classes.profileCoverImg}
             alt="CoverPicture"
@@ -130,7 +130,7 @@ function ProfileUpdate() {
             src={
               profilePicture
                 ? URL.createObjectURL(profilePicture)
-                : currentUser.hasProfilePicture ? currentUser.profilePictureLink : noProfilePicture
+                : currentUser.profilePictureUrl ? currentUser.profilePictureUrl : noProfilePicture
             }
             className={classes.profileUserImg}
             alt="ProfilePicture"

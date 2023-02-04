@@ -20,7 +20,7 @@ const Profile = () => {
   const { token, setLogedOut } = useContext(AuthContext);
   const [friends, setFriends] = useState([]);
   const { error, sendRequest: fetchFriends } = useHttp();
-  const currentUserId = useSelector(state => state.user._id.toString());
+  const currentUserId = useSelector(state => state.user._id);
 
   const hasOtherUser = userId !== currentUserId;
 

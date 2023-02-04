@@ -33,7 +33,7 @@ function CommentSection(props) {
         Authorization: token
       }
     }, (res) => {
-      const newComments = deleteElement(comments, res.commentId);
+      const newComments = deleteElement(comments, res.commentId); 
       setComments(newComments);
       props.updateCommentCounter(-1);
     });

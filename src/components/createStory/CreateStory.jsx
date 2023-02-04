@@ -5,11 +5,11 @@ import AuthContext from "../../context/AuthContext";
 import { useSelector } from "react-redux";
 import noStory from "../../assets/noStory.jpg";
 
-const CreateStory = (props) => {
+const CreateStory = () => {
   const [story, setStory] = useState(undefined);
   const { token, setLogedOut } = useContext(AuthContext);
   const { error, sendRequest: updateStory } = useHttp();
-  const { hasStory, storyLink, username } = useSelector(state => state.user);
+  const { storyUrl, username } = useSelector(state => state.user);
 
   const changeHandler = (e) => {
     setStory(e.target.files[0]);
@@ -41,7 +41,7 @@ const CreateStory = (props) => {
   return (
     <div className={classes.createStory}>
       <img
-        src={ story ? URL.createObjectURL(story) : hasStory ? storyLink : noStory }
+        src={ story ? URL.createObjectURL(story) : storyUrl ? storyUrl : noStory }
         alt="CreateStory"
       />
       <input type="file" onChange={changeHandler} name="story" id="story" />

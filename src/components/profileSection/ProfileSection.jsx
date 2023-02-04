@@ -19,7 +19,7 @@ import noCoverPicture from "../../assets/noCoverPicture.png";
 import useHttp from "../../hooks/useHttp";
 import AuthContext from "../../context/AuthContext";
 
-const ProfileSection = (props) => {
+const ProfileSection = () => {
   const userId = useParams().id;
   const [showMore, setShowMore] = useState(false);
   const currentUser = useSelector(state => state.user);
@@ -27,7 +27,7 @@ const ProfileSection = (props) => {
   const { token, setLogedOut } = useContext(AuthContext);
   const { error, sendRequest : fetchUser } = useHttp();
 
-  const otherUser = userId !== currentUser._id.toString();
+  const otherUser = userId !== currentUser._id;
 
   const showMoreHandler = () => {
     setShowMore(preState => !preState);
@@ -60,13 +60,13 @@ const ProfileSection = (props) => {
     <section className={classes.profileSection}>
       <div className={classes.coverPicture}>
         <img
-          src={user.hasCoverPicture ? user.coverPictureLink : noCoverPicture}
+          src={user.coverPictureUrl ? user.coverPictureUrl : noCoverPicture}
           alt="CoverPicture"
         />
       </div>
       <img
         className={classes.profilePicture}
-        src={user.hasProfilePicture ? user.profilePictureLink : noProfilePicture}
+        src={user.profilePictureUrl ? user.profilePictureUrl : noProfilePicture}
         alt="profilePicture"
       />
       <div className={classes.about}>

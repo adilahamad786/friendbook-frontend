@@ -18,16 +18,16 @@ import { useSelector } from 'react-redux';
 
 function App() {
   const { isLogedIn } = useContext(AuthContext);
-  const { hasProfilePicture, profilePictureLink, username } = useSelector(state => state.user);
+  const { profilePictureUrl, username } = useSelector(state => state.user);
 
   const Layout = () => {
     const { theme } = useContext(ThemeContext);
 
     return (
       <div className={`theme-${theme ? 'dark' : 'light'}`}>
-        <Navbar user={{hasProfilePicture, profilePictureLink, username}}/>
+        <Navbar user={{profilePictureUrl, username}}/>
         <div style={{display : "flex"}}>
-          <LeftbarSection user={{hasProfilePicture, profilePictureLink, username}} />
+          <LeftbarSection user={{profilePictureUrl, username}} />
           <Outlet />
           <RightbarSection />
         </div>

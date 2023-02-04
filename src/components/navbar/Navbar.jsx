@@ -21,7 +21,7 @@ import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 
 const Navbar = (props) => {
-  const { hasProfilePicture, profilePictureLink, username } = props.user;
+  const { profilePictureUrl, username } = props.user;
   const { theme, changeTheme } = useContext(ThemeContext);
   const { show: showMenu, setShow: setShowMenu } = useContext(ShowContext);
   const [showOptions, setShowOptions] = useState(false);
@@ -89,7 +89,7 @@ const Navbar = (props) => {
         <NotificationsOutlined />
         <div onClick={showOptionsHandler} className={classes.profile}>
           <img
-            src={hasProfilePicture ? profilePictureLink : noProfilePicture}
+            src={profilePictureUrl ? profilePictureUrl : noProfilePicture}
             alt="Profile"
           />
           <span>{username.toUpperCase()}</span>

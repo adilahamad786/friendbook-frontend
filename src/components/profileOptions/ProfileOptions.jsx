@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const ProfileOptions = (props) => {
   const { token, setLogedOut } = useContext(AuthContext);
-  const { _id: userId } = useSelector(state => state.user);
+  const { _id: currentUserId } = useSelector(state => state.user);
   const { error, sendRequest: logout } = useHttp();
 
   const onLogoutHandler = () => {
@@ -30,7 +30,7 @@ const ProfileOptions = (props) => {
 
   return (
     <div className={classes.profileOptions}>
-      <Link to={`/profile/${userId}`} onClick={props.onClose} className={classes.profileOptionsLink} ><button className={classes.profileOptionButton}>Profile</button></Link>
+      <Link to={`/profile/${currentUserId}`} onClick={props.onClose} className={classes.profileOptionsLink} ><button className={classes.profileOptionButton}>Profile</button></Link>
       <Link to='/profile/update' onClick={props.onClose} className={classes.profileOptionsLink} ><button className={classes.profileOptionButton}>Update</button></Link>
       <Link to='/login' onClick={onLogoutHandler} className={classes.profileOptionsLink} ><button className={`${classes.profileOptionButton} ${classes.logoutButton}`}>Logout</button></Link>
     </div>

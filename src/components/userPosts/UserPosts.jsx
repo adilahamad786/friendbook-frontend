@@ -48,7 +48,6 @@ const PostSection = () => {
       },
       body : formData
     }, (updatedPost) => {
-      console.log("UD", updatedPost)
       const newPosts = replaceElement(posts, updatedPost);
       setPosts(newPosts);
     });
