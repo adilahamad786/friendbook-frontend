@@ -11,7 +11,7 @@ import noCoverPicture from "../../assets/noCoverPicture.png";
 import { useContext } from "react";
 import ShowContext from "../../context/ShowContext";
 import AuthContext from "../../context/AuthContext";
-import { moveOnTop } from "../../utils/moveOnTop";
+import moveOnTop from "../../utils/moveOnTop";
 
 function ProfileUpdate() {
   // Move top of the page
@@ -36,7 +36,7 @@ function ProfileUpdate() {
   const [profilePicture, setProfilePicture] = useState(null);
   const [coverPicture, setCoverPicture] = useState(null);
 
-  const { error, sendRequest } = useHttp();
+  const { error: sendUpdateRequestError, sendUpdateRequest } = useHttp();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -70,7 +70,7 @@ function ProfileUpdate() {
     if (coverPicture)
       formData.append("coverPicture", coverPicture);  
 
-    sendRequest({
+      sendUpdateRequest({
       url : "/api/user/update",
       method : "PATCH",
       headers : {
@@ -83,13 +83,13 @@ function ProfileUpdate() {
   };
 
   useEffect(() => {
-    if (error) {
-      alert(error.message);
-      if (error.message === "Please authenticate!") {
+    if (sendUpdateRequestError) {
+      alert(sendUpdateRequestError.message);
+      if (sendUpdateRequestError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [sendUpdateRequestError, setLogedOut]);
   
   return (
     <section className={`${classes.container} ${hideSection ? classes.hide : ''}`}>

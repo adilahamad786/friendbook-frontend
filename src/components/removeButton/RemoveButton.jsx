@@ -8,7 +8,7 @@ import { rightbarUpdateActions } from '../../store/rightbarUpdateSlice';
 const FriendButton = (props) => {
   const { token, setLogedOut } = useContext(AuthContext);
   const [removed, setRemoved] = useState(false);
-  const {error , sendRequest: sendFollowUnfollowRequest } = useHttp();
+  const {error: sendFollowUnfollowRequestError , sendRequest: sendFollowUnfollowRequest } = useHttp();
   const dispatch = useDispatch();
 
   const clickHandler = () => {
@@ -25,13 +25,13 @@ const FriendButton = (props) => {
   }
 
   useEffect(() => {
-    if (error) {
-      alert(error.message)
-      if (error.message === "Please authenticate!") {
+    if (sendFollowUnfollowRequestError) {
+      alert(sendFollowUnfollowRequestError.message)
+      if (sendFollowUnfollowRequestError.errorType === "unauthorized") {
         setLogedOut()
       }
     }
-  }, [error, setLogedOut]);
+  }, [sendFollowUnfollowRequestError, setLogedOut]);
 
   return (
     <button onClick={clickHandler} disabled={removed} className={`${classes.btn} ${removed ? classes.removed : ""}`}>{ removed ? "Removed" : "Remove"}</button>

@@ -69,7 +69,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (passwordResetError) {
-      alert(passwordResetError);
+      alert(passwordResetError.message);
       navigate("/forgot-password");
     }
   }, [passwordResetError, navigate]);

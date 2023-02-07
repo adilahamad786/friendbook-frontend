@@ -10,7 +10,7 @@ const AddComment = (props) => {
   const { profilePictureUrl } = useSelector(state => state.user);
   const messageRef = useRef();
   const { token, setLogedOut } = useContext(AuthContext);
-  const { error, sendRequest: sendComment } = useHttp();
+  const { error: sendCommentError, sendRequest: sendComment } = useHttp();
 
   const addComment = (e) => {
     e.preventDefault();
@@ -31,13 +31,13 @@ const AddComment = (props) => {
   }
 
   useEffect(() => {
-    if (error) {
-      alert(error.message);
-      if (error.message === "Please authenticate!") {
+    if (sendCommentError) {
+      alert(sendCommentError.message);
+      if (sendCommentError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [sendCommentError, setLogedOut]);
 
   return (
     <div className={classes.addComment}>

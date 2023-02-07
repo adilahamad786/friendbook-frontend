@@ -18,13 +18,13 @@ const useHttp = () => {
             const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(data.error);
+                throw new Error(JSON.stringify(data.error));
             }
 
             applyData(data);
         }
         catch (error) {
-            setError(error);
+            setError(JSON.parse(error.message));
         }
 
         setIsLoading(false);

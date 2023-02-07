@@ -6,9 +6,9 @@ import { useState, useEffect, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 
 const StorySection = () => {
-  const { error, sendRequest: fetchStories } = useHttp();
-  const { token, setLogedOut } = useContext(AuthContext);
   const [stories, setStories] = useState([]);
+  const { token, setLogedOut } = useContext(AuthContext);
+  const { error: fetchStoriesError, sendRequest: fetchStories } = useHttp();
 
   useEffect(() => {
     fetchStories({
@@ -22,13 +22,13 @@ const StorySection = () => {
   }, [fetchStories, token]);
 
   useEffect(() => {
-    if (error) {
-      alert(error);
-      if (error.message === "Please authenticate!") {
+    if (fetchStoriesError) {
+      alert(fetchStoriesError.message);
+      if (fetchStoriesError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [fetchStoriesError, setLogedOut]);
 
   return (
     <section className={classes.container}>

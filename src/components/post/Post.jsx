@@ -28,7 +28,7 @@ const Post = (props) => {
   const [showUpdatePost, setShowUpdatePost] = useState(false);
   const { token, setLogedOut } = useContext(AuthContext);
   const { error: likeError, sendRequest: sendLikeRequest } = useHttp();
-  const { sendRequest: getLikeStatus } = useHttp();
+  const { error: likeStatusError, sendRequest: getLikeStatus } = useHttp();
   const currentUeserId = useSelector(state => state.user._id);
 
   const timeago = moment(new Date(createdAt)).fromNow();
@@ -59,13 +59,13 @@ const Post = (props) => {
   }
 
   useEffect(() => {
-    if (likeError) {
-      alert(likeError);
-      if (likeError.message === "Please authenticate!") {
+    if (likeError || likeStatusError) {
+      alert(likeError.message || likeStatusError.message);
+      if (likeError.errorType === "unauthorized" || likeStatusError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [likeError, setLogedOut]);
+  }, [likeError, likeStatusError, setLogedOut]);
 
   const showCommentHandler = () => {
     setShowComments(showComments => !showComments);

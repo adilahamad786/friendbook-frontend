@@ -25,7 +25,7 @@ const ProfileSection = () => {
   const currentUser = useSelector(state => state.user);
   const [user, setUser] = useState(currentUser);
   const { token, setLogedOut } = useContext(AuthContext);
-  const { error, sendRequest : fetchUser } = useHttp();
+  const { error: fetchUserError, sendRequest : fetchUser } = useHttp();
 
   const otherUser = userId !== currentUser._id;
 
@@ -48,13 +48,13 @@ const ProfileSection = () => {
   }, [otherUser, currentUser, userId, fetchUser, token]);
 
   useEffect(() => {
-    if (error) {
-      alert(error.message);
-      if (error.message === "Please authenticate!") {
+    if (fetchUserError) {
+      alert(fetchUserError.message);
+      if (fetchUserError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [fetchUserError, setLogedOut]);
 
   return (
     <section className={classes.profileSection}>

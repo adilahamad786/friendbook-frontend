@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 const SuggestionSection = () => {
   const { token, setLogedOut} = useContext(AuthContext);
   const [suggestion, setSuggestion] = useState([]);
-  const { error, sendRequest: fetchSuggestion } = useHttp();
+  const { error: fetchSuggestionError, sendRequest: fetchSuggestion } = useHttp();
   const reload = useSelector(state => state.rightbarUpdate.updateCounter);
 
   useEffect(() => {
@@ -24,13 +24,13 @@ const SuggestionSection = () => {
   }, [fetchSuggestion, setSuggestion, token, reload]);
 
   useEffect(() => {
-    if (error) {
-      alert("Please login again!");
-      if (error.message === "Please authenticate!") {
+    if (fetchSuggestionError) {
+      alert(fetchSuggestionError.message);
+      if (fetchSuggestionError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [fetchSuggestionError, setLogedOut]);
 
   return (
     <Cart title="Suggestion For You">

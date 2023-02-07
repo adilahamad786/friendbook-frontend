@@ -9,7 +9,7 @@ import useHttp from "../../hooks/useHttp";
 import { useParams } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import { useSelector } from "react-redux";
-import { moveOnTop } from "../../utils/moveOnTop";
+import moveOnTop from "../../utils/moveOnTop";
 
 const Profile = () => {
   // Move top of the page
@@ -19,7 +19,7 @@ const Profile = () => {
   const userId = useParams().id;
   const { token, setLogedOut } = useContext(AuthContext);
   const [friends, setFriends] = useState([]);
-  const { error, sendRequest: fetchFriends } = useHttp();
+  const { error: fetchFriendsError, sendRequest: fetchFriends } = useHttp();
   const currentUserId = useSelector(state => state.user._id);
 
   const hasOtherUser = userId !== currentUserId;
@@ -36,13 +36,13 @@ const Profile = () => {
   }, [hasOtherUser, fetchFriends, userId, token]);
 
   useEffect(() => {
-    if (error) {
-      alert(error.message);
-      if (error.message === "Please authenticate!") {
+    if (fetchFriendsError) {
+      alert(fetchFriendsError.message);
+      if (fetchFriendsError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [fetchFriendsError, setLogedOut]);
 
   return (
     <section className={`${classes.container} ${ShowCtx.show ? classes.hide : ''}`}>

@@ -61,9 +61,9 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     if (forgotOtpError || verificationOtpError) {
-      alert(forgotOtpError || verificationOtpError);
+      alert(forgotOtpError.message || verificationOtpError.message);
     }
-    if (forgotOtpError.message === "Account not found!") {
+    if (forgotOtpError.errorType === "bad_request") {
       navigate("/register");
     }
   }, [forgotOtpError, verificationOtpError, navigate]);

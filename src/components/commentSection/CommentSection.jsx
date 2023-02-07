@@ -9,10 +9,10 @@ import { replaceElement } from "../../helpers/replaceElement";
 
 function CommentSection(props) {
   const [comments, setComments] = useState([]);
-  const { error, sendRequest: fetchComments } = useHttp();
-  const { deleteCommentError, sendRequest: deleteCommentRequest } = useHttp();
-  const { error: updateCommentError, sendRequest: updateCommentRequest } = useHttp();
   const { token, setLogedOut } = useContext(AuthContext);
+  const { error: commentsError, sendRequest: fetchComments } = useHttp();
+  const { error: deleteCommentError, sendRequest: deleteCommentRequest } = useHttp();
+  const { error: updateCommentError, sendRequest: updateCommentRequest } = useHttp();
 
   useEffect(() => {
     fetchComments({
@@ -55,13 +55,13 @@ function CommentSection(props) {
   }
   
   useEffect(() => {
-    if (error || deleteCommentError || updateCommentError) {
-      alert(error || deleteCommentError || updateCommentError);
-      if (error.message === "Please authenticate!" || error.deleteCommentError === "Please authenticate!" || error.updateCommentError === "Please authenticate!") {
+    if (commentsError || deleteCommentError || updateCommentError) {
+      alert(commentsError.message || deleteCommentError.message || updateCommentError.message);
+      if (commentsError.errorType === "unauthorized" || deleteCommentError.errorType === "unauthorized" || updateCommentError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, deleteCommentError, updateCommentError, setLogedOut]);
+  }, [commentsError, deleteCommentError, updateCommentError, setLogedOut]);
 
   const updateComments = (newComment) => {
     setComments(state => [newComment, ...state]);

@@ -29,7 +29,7 @@ const Login = () => {
 
   const [formIsValid, setFormIsValid] = useState(false);
 
-  const { error, sendRequest: fetchUser } = useHttp();
+  const { error: fetchUserError, sendRequest: fetchUser } = useHttp();
   const { sendRequest: fetchReloadUser } = useHttp();
   const { setLogedIn } = useContext(AuthContext);
 
@@ -82,10 +82,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (error) {
-      alert(error);
+    if (fetchUserError) {
+      alert(fetchUserError.message);
     }
-  }, [error]);
+  }, [fetchUserError]);
 
   return (
     <section className={classes.login}>

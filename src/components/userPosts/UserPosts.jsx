@@ -10,8 +10,8 @@ import { replaceElement } from '../../helpers/replaceElement';
 const PostSection = () => {
   const userId = useParams().id;
   const [posts, setPosts] = useState([]);
-  const { error, sendRequest: fetchPosts } = useHttp();
   const { token, setLogedOut } = useContext(AuthContext);
+  const { error: fetchPostsError, sendRequest: fetchPosts } = useHttp();
   const { error: deletePostError, sendRequest: deletePostRequest } = useHttp()
   const { error: updatePostError, sendRequest: updatePostRequest } = useHttp();
 
@@ -54,13 +54,13 @@ const PostSection = () => {
   }
   
   useEffect(() => {
-    if (error || deletePostError || updatePostError) {
-      alert(error || deletePostError || updatePostError);
-      if (error.message === "Please authenticate!" || deletePostError.message === "Please authenticate!" || updatePostError === "Please authenticate!") {
+    if (fetchPostsError || deletePostError || updatePostError) {
+      alert(fetchPostsError.message || deletePostError.message || updatePostError.message);
+      if (fetchPostsError.errorType === "unauthorized" || deletePostError.errorType === "unauthorized" || updatePostError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, deletePostError, updatePostError, setLogedOut]);
+  }, [fetchPostsError, deletePostError, updatePostError, setLogedOut]);
 
   return (
     <section className={classes.container}>

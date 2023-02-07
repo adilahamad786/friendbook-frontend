@@ -8,8 +8,8 @@ import noStory from "../../assets/noStory.jpg";
 const CreateStory = () => {
   const [story, setStory] = useState(undefined);
   const { token, setLogedOut } = useContext(AuthContext);
-  const { error, sendRequest: updateStory } = useHttp();
   const { storyUrl, username } = useSelector(state => state.user);
+  const { error: updateStoryError, sendRequest: updateStory } = useHttp();
 
   const changeHandler = (e) => {
     setStory(e.target.files[0]);
@@ -30,13 +30,13 @@ const CreateStory = () => {
   }
 
   useEffect(() => {
-    if (error) {
-      alert(error);
-      if (error.message === "Please authenticate!") {
+    if (updateStoryError) {
+      alert(updateStoryError.message);
+      if (updateStoryError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [updateStoryError, setLogedOut]);
 
   return (
     <div className={classes.createStory}>

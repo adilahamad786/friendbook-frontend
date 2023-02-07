@@ -8,8 +8,8 @@ import { rightbarUpdateActions } from '../../store/rightbarUpdateSlice';
 const Button = (props) => {
   const { token, setLogedOut } = useContext(AuthContext);
   const [followed, setFollowed] = useState("");
-  const {error , sendRequest: sendFollowUnfollowRequest } = useHttp();
-  const {sendRequest: fetchFollowedStatus } = useHttp();
+  const {error: sendFollowUnfollowRequestError , sendRequest: sendFollowUnfollowRequest } = useHttp();
+  const {error: fetchFollowedStatusError, sendRequest: fetchFollowedStatus } = useHttp();
   const dispatch = useDispatch();
   const currentUserId = useSelector(state => state.user._id.toString());
 
@@ -40,13 +40,13 @@ const Button = (props) => {
   }, [hasCurrentUser, fetchFollowedStatus, token, setFollowed, props.userId]);
 
   useEffect(() => {
-    if (error) {
-      alert(error.message)
-      if (error.message === "Please authenticate!") {
+    if (sendFollowUnfollowRequestError || fetchFollowedStatusError) {
+      alert(sendFollowUnfollowRequestError.message || fetchFollowedStatusError.message)
+      if (sendFollowUnfollowRequestError.errorType === "unauthorized" || fetchFollowedStatusError.errorType === "unauthorized") {
         setLogedOut()
       }
     }
-  }, [error, setLogedOut]);
+  }, [sendFollowUnfollowRequestError, fetchFollowedStatusError, setLogedOut]);
 
   return (
     <button disabled={hasCurrentUser} onClick={clickHandler} className={`${classes.btn} ${followed ? classes.unfollow : ""}`}>{followed ? "Unfollow" : "Follow"}</button>

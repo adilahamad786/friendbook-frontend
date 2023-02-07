@@ -8,7 +8,7 @@ import useHttp from "../../hooks/useHttp";
 const SearchResultCart = (props) => {
   const [users, setUsers] = useState([]);
   const { token, setLogedOut } = useContext(AuthContext);
-  const { error, sendRequest: fetchUsers } = useHttp();
+  const { error: fetchUsersError, sendRequest: fetchUsers } = useHttp();
 
   useEffect(() => {
     fetchUsers({
@@ -20,13 +20,13 @@ const SearchResultCart = (props) => {
   }, [fetchUsers, token, setUsers]);
 
   useEffect(() => {
-    if (error) {
-      alert(error.message);
-      if (error.message === "Please authenticate!") {
+    if (fetchUsersError) {
+      alert(fetchUsersError.message);
+      if (fetchUsersError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [fetchUsersError, setLogedOut]);
 
   const searchResult = users.filter(user => {
     return user.username.toLocaleLowerCase().includes(props.searchText.toLowerCase())

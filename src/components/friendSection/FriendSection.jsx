@@ -10,7 +10,7 @@ const FriendSection = () => {
   const [friends, setFriends] = useState([]);
   const { _id : userId } = useSelector(state => state.user);
   const { token, setLogedOut } = useContext(AuthContext);
-  const { error, sendRequest: fetchFriends} = useHttp();
+  const { error: fetchFriendsError, sendRequest: fetchFriends} = useHttp();
   const reload = useSelector(state => state.rightbarUpdate.updateCounter);
 
   useEffect(() => {
@@ -23,13 +23,13 @@ const FriendSection = () => {
   }, [token, fetchFriends, setFriends, userId, reload]);
 
   useEffect(() => {
-    if (error) {
-      alert(error.message);
-      if (error.message === "Please authenticate!") {
+    if (fetchFriendsError) {
+      alert(fetchFriendsError.message);
+      if (fetchFriendsError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [fetchFriendsError, setLogedOut]);
 
   return (
     <Cart title="User Friends">

@@ -30,7 +30,7 @@ const AccountVerification = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email: user?.email }),
+      body: JSON.stringify({ email: user.email }),
     }, (res) => {
       alert(res.message);
       setOtpBtnClicked(true);
@@ -67,11 +67,11 @@ const AccountVerification = () => {
 
   useEffect(() => {
     if (otpError || registerationError) {
-      alert(otpError || registerationError);
-    }
-    if (otpError.message === "Account already exist!") {
-      Cookies.remove("user");
-      navigate("/login");
+      alert(otpError.message || registerationError.message);
+      if (otpError.errorType === "bad_request" || registerationError.errorType === "bad_request") {
+        Cookies.remove("user");
+        navigate("/login");
+      }
     }
   }, [otpError, registerationError, navigate]);
 

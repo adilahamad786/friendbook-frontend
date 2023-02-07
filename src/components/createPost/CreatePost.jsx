@@ -14,7 +14,7 @@ const CreatePostSection = (props) => {
   const { token, setLogedOut } = useContext(AuthContext);
   const [file, setFile] = useState();
   const messageRef = useRef();
-  const { error, sendRequest: sendPost } = useHttp();
+  const { error: sendPostError, sendRequest: sendPost } = useHttp();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -38,13 +38,13 @@ const CreatePostSection = (props) => {
   }
 
   useEffect(() => {
-    if (error) {
-      alert(error);
-      if (error.message === "Please authenticate!") {
+    if (sendPostError) {
+      alert(sendPostError.message);
+      if (sendPostError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [sendPostError, setLogedOut]);
 
   return (
     <section className={classes.container}>

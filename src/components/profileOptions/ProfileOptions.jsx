@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 const ProfileOptions = (props) => {
   const { token, setLogedOut } = useContext(AuthContext);
   const { _id: currentUserId } = useSelector(state => state.user);
-  const { error, sendRequest: logout } = useHttp();
+  const { error: logoutError, sendRequest: logout } = useHttp();
 
   const onLogoutHandler = () => {
     logout({ 
@@ -20,13 +20,13 @@ const ProfileOptions = (props) => {
   }
 
   useEffect(() => {
-    if (error) {
-      alert(error);
-      if (error.message === "Please authenticate!") {
+    if (logoutError) {
+      alert(logoutError.message);
+      if (logoutError.errorType === "unauthorized") {
         setLogedOut();
       }
     }
-  }, [error, setLogedOut]);
+  }, [logoutError, setLogedOut]);
 
   return (
     <div className={classes.profileOptions}>
