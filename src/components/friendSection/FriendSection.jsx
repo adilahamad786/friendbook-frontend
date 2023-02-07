@@ -37,7 +37,7 @@ const FriendSection = () => {
         return <FriendItem key={Math.random()} user={friend} />;
       })}
       {
-        friends.length === 0 && <span className={classes.noFriend}>Friends Not Found!</span>
+        friends.length === 0 && <span className={classes.noFriend}>No friends!</span>
       }
     </Cart>
   );

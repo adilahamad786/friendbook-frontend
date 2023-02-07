@@ -38,7 +38,7 @@ const SuggestionSection = () => {
         return <SuggestionItem key={user._id} user={user} />;
       })}
       {
-        suggestion.length === 0 && <span className={classes.noSuggestion}>Suggestions Not Found!</span>
+        suggestion.length === 0 && <span className={classes.noSuggestion}>No suggestions!</span>
       }
     </Cart>
   );

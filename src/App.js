@@ -15,6 +15,7 @@ import AccountVerification from './pages/accountVerification/AccountVerification
 import ProfileUpdate from './pages/profileUpdate/ProfileUpdate';
 import AuthContext from './context/AuthContext';
 import { useSelector } from 'react-redux';
+import NotFound from './pages/error/NotFound';
 
 function App() {
   const { isLogedIn } = useContext(AuthContext);
@@ -73,6 +74,10 @@ function App() {
     {
       path : '/reset-password',
       element : <ResetPassword />
+    },
+    {
+      path : "*",
+      element : <NotFound />
     }
   ]);
 
