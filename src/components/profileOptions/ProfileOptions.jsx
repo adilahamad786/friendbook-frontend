@@ -32,6 +32,7 @@ const ProfileOptions = (props) => {
     <div className={classes.profileOptions}>
       <Link to={`/profile/${currentUserId}`} onClick={props.onClose} className={classes.profileOptionsLink} ><button className={classes.profileOptionButton}>Profile</button></Link>
       <Link to='/profile/update' onClick={props.onClose} className={classes.profileOptionsLink} ><button className={classes.profileOptionButton}>Update</button></Link>
+      <Link to='/about' className={classes.profileOptionsLink} ><button className={classes.profileOptionButton}>About Us</button></Link>
       <Link to='/login' onClick={onLogoutHandler} className={classes.profileOptionsLink} ><button className={`${classes.profileOptionButton} ${classes.logoutButton}`}>Logout</button></Link>
     </div>
   );

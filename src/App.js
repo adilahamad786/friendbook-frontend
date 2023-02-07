@@ -7,6 +7,8 @@ import RightbarSection from './components/rightbarSection/RightbarSection';
 import Navbar from './components/navbar/Navbar';
 import Profile from './pages/profile/Profile';
 import Home from './pages/home/Home';
+import NotFound from './pages/error/NotFound';
+import About from './pages/about/About';
 import { useContext } from 'react';
 import { ThemeContext } from './context/ThemeContext';
 import ForgotPassword from './pages/forgotPassword/ForgotPassword';
@@ -15,7 +17,6 @@ import AccountVerification from './pages/accountVerification/AccountVerification
 import ProfileUpdate from './pages/profileUpdate/ProfileUpdate';
 import AuthContext from './context/AuthContext';
 import { useSelector } from 'react-redux';
-import NotFound from './pages/error/NotFound';
 
 function App() {
   const { isLogedIn } = useContext(AuthContext);
@@ -74,6 +75,10 @@ function App() {
     {
       path : '/reset-password',
       element : <ResetPassword />
+    },
+    {
+      path : "/about",
+      element : <About />
     },
     {
       path : "*",
