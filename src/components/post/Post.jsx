@@ -86,6 +86,7 @@ const Post = (props) => {
   const closeBackdrop = () => {
     setShowOptions(false);
     setShowUpdatePost(false);
+    setShowComments(false);
   }
 
   return (
@@ -102,7 +103,7 @@ const Post = (props) => {
           { !showOptions && <MoreHoriz onClick={showMenuHandler} /> }
           { showOptions && <Options update={showUpdatePostOption} delete={props.deletePost.bind(null, postId)} onClose={showMenuHandler} /> }
           { showUpdatePost && <div className={classes.postUpdate}><PostUpdate onClose={showUpdatePostOption} update={props.updatePost} postId={postId.toString()} imageUrl={imageUrl}/></div> }
-          { (showOptions || showUpdatePost) && <Backdrop onClose={closeBackdrop} /> }
+          { (showOptions || showUpdatePost || showComments) && <Backdrop onClose={closeBackdrop} /> }
         </div>
       </div>
       <div className={classes.content}>
