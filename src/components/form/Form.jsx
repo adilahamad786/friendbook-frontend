@@ -1,5 +1,6 @@
 import classes from "./Form.module.css";
 import useInput from "../../hooks/useInput";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const OtpForm = (props) => {
     const {
@@ -21,8 +22,8 @@ const OtpForm = (props) => {
         required={true}
       />
       {hasError && <span className={classes.invalidMessage}>{props?.inputErrorMessage}</span>}
-      <button disabled={!isValid && props.btnDisabled} className={classes.sendLink}>
-        {props?.btnClicked ? props?.btnTextOne : props?.btnTextTwo}
+      <button disabled={(!isValid && props.btnDisabled) || props.isFetching} className={classes.button}>
+        {props.isFetching ? <CircularProgress color="inherit" size="1.6rem"/> : (props?.btnClicked ? props?.btnTextOne : props?.btnTextTwo) }
       </button>
     </form>
   );

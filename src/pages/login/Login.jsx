@@ -10,6 +10,8 @@ import AuthContext from "../../context/AuthContext";
 import { userActions } from "../../store/userSlice";
 import getGoogleOAuthUrl from "../../utils/getGoogleOAuthUrl";
 import google from "../../assets/google.png";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const Login = () => {
   const {
@@ -29,7 +31,7 @@ const Login = () => {
 
   const [formIsValid, setFormIsValid] = useState(false);
 
-  const { error: fetchUserError, sendRequest: fetchUser } = useHttp();
+  const { isLoading: isFetching, error: fetchUserError, sendRequest: fetchUser } = useHttp();
   const { sendRequest: fetchReloadUser } = useHttp();
   const { setLogedIn } = useContext(AuthContext);
 
@@ -125,7 +127,9 @@ const Login = () => {
                 Password should contain atleast 6 characters!
               </span>
             )}
-            <button disabled={ !formIsValid } className={classes.loginButton}>Log In</button>
+            <button disabled={ !formIsValid || isFetching } className={classes.loginButton}>
+              {isFetching ? <CircularProgress color="inherit" size="1.6rem"/> : "Log In" }
+            </button>
           </form>
           <a href={getGoogleOAuthUrl()} className={classes.googleBtn}>
             <img src={google} alt="" />

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import useHttp from "../../hooks/useHttp";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ResetPassword = () => {
   const {
@@ -23,7 +24,7 @@ const ResetPassword = () => {
   } = useInput((value) => value.length >= 6 &&  value === password);
 
   const [formIsValid, setFormIsValid] = useState(false);
-  const { error: passwordResetError, sendRequest: sendPasswrodResetRequest } = useHttp();
+  const { isLoading, error: passwordResetError, sendRequest: sendPasswrodResetRequest } = useHttp();
   const navigate = useNavigate();
 
   // Getting user from cookies
@@ -102,9 +103,9 @@ const ResetPassword = () => {
         )}
         <button
           className={classes.updatePasswordButton}
-          disabled={ !formIsValid }
+          disabled={ !formIsValid || isLoading }
         >
-          Update Password
+          {isLoading? <CircularProgress color="inherit" size="1.6rem"/> : "Update Password"}
         </button>
       </form>
     </div>

@@ -9,8 +9,8 @@ import validator from "validator";
 const ForgotPassword = () => {
   const [forgotOtpBtnClicked, setForgotOtpBtnClicked] = useState(false);
   const navigate = useNavigate();
-  const { error: forgotOtpError, sendRequest: sendForgotOtp } = useHttp();
-  const { error: verificationOtpError, sendRequest: verifyOtp } = useHttp();
+  const { isLoading: sendingForgotOtp, error: forgotOtpError, sendRequest: sendForgotOtp } = useHttp();
+  const { isLoading: verifyingOtp, error: verificationOtpError, sendRequest: verifyOtp } = useHttp();
   const [email, setEmail] = useState("")
 
   const sendForgotOtpHandler = (inputValue, event) => {
@@ -83,6 +83,7 @@ const ForgotPassword = () => {
           btnTextOne="Resend OTP"
           btnTextTwo="Send OTP"
           inputErrorMessage="Invalid Email!"
+          isFetching={sendingForgotOtp}
           />
         {
           forgotOtpBtnClicked &&
@@ -95,6 +96,7 @@ const ForgotPassword = () => {
             btnDisabled={true}
             btnTextTwo="Submit"
             inputErrorMessage="Invalid OTP!"
+            isFetching={verifyingOtp}
           />
         }
       </div>

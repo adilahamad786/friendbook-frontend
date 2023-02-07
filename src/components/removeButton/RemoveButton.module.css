@@ -1,4 +1,8 @@
 .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
   background-color: #1775ee;
   border: none;
   border-radius: 1rem;

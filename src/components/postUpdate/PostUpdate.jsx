@@ -55,7 +55,7 @@ const PostUpdate = (props) => {
           />
         </div>
         <input className={classes.textInput} onChange={(e) => {setInputText(e.target.value)}} value={inputText} type="text" placeholder='Write your message...' />
-        <button disabled={!isFormValid}>Update</button>
+        <button disabled={!isFormValid}> Update </button>
       </form>
       <button onClick={props.onClose}>Close</button>
     </div>

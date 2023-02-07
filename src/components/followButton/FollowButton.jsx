@@ -4,11 +4,12 @@ import AuthContext from "../../context/AuthContext";
 import { useContext, useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { rightbarUpdateActions } from '../../store/rightbarUpdateSlice';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Button = (props) => {
   const { token, setLogedOut } = useContext(AuthContext);
   const [followed, setFollowed] = useState("");
-  const {error: sendFollowUnfollowRequestError , sendRequest: sendFollowUnfollowRequest } = useHttp();
+  const {isLoading, error: sendFollowUnfollowRequestError , sendRequest: sendFollowUnfollowRequest } = useHttp();
   const {error: fetchFollowedStatusError, sendRequest: fetchFollowedStatus } = useHttp();
   const dispatch = useDispatch();
   const currentUserId = useSelector(state => state.user._id.toString());
@@ -49,7 +50,9 @@ const Button = (props) => {
   }, [sendFollowUnfollowRequestError, fetchFollowedStatusError, setLogedOut]);
 
   return (
-    <button disabled={hasCurrentUser} onClick={clickHandler} className={`${classes.btn} ${followed ? classes.unfollow : ""}`}>{followed ? "Unfollow" : "Follow"}</button>
+    <button disabled={hasCurrentUser || isLoading} onClick={clickHandler} className={`${classes.btn} ${followed ? classes.unfollow : ""}`}>
+      { isLoading ? <CircularProgress color="inherit" size="1rem"/> : followed ? "Unfollow" : "Follow" }
+    </button>
   );
 }
 

@@ -8,8 +8,8 @@ import Form from "../../components/form/Form";
 const AccountVerification = () => {
   const [otpBtnClicked, setOtpBtnClicked] = useState(false);
   const navigate = useNavigate();
-  const { error: otpError, sendRequest: sendOtp } = useHttp();
-  const { error: registerationError, sendRequest: sendRegisterRequest } = useHttp();
+  const { isLoading: otpIsSending, error: otpError, sendRequest: sendOtp } = useHttp();
+  const { isLoading: sendingRegisterForm, error: registerationError, sendRequest: sendRegisterRequest } = useHttp();
 
   // Getting user from cookies
   const user = Cookies.get("user") && JSON.parse(Cookies.get("user"));
@@ -89,6 +89,7 @@ const AccountVerification = () => {
           btnDisabled={false}
           btnTextOne="Resend OTP"
           btnTextTwo="Send OTP"
+          isFetching={otpIsSending}
           />
         {
           otpBtnClicked &&
@@ -101,6 +102,7 @@ const AccountVerification = () => {
             btnDisabled={true}
             btnTextTwo="Submit"
             inputErrorMessage="Invalid OTP!"
+            isFetching={sendingRegisterForm}
           />
         }
       </div>

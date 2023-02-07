@@ -25,13 +25,16 @@
     outline: none;
 }
 
-.sendLink:disabled {
+.button:disabled {
     color: rgb(87, 85, 85);
     opacity: 0.8;
     cursor: auto;
 }
 
-.sendLink {
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 2.5rem;
     width: 90%;
     border-radius: 0.5rem;

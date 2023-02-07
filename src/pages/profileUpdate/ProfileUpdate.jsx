@@ -12,6 +12,7 @@ import { useContext } from "react";
 import ShowContext from "../../context/ShowContext";
 import AuthContext from "../../context/AuthContext";
 import moveOnTop from "../../utils/moveOnTop";
+import CircularProgress from '@mui/material/CircularProgress';
 
 function ProfileUpdate() {
   // Move top of the page
@@ -36,7 +37,7 @@ function ProfileUpdate() {
   const [profilePicture, setProfilePicture] = useState(null);
   const [coverPicture, setCoverPicture] = useState(null);
 
-  const { error: sendUpdateRequestError, sendUpdateRequest } = useHttp();
+  const { isLoading, error: sendUpdateRequestError, sendRequest: sendUpdateRequest } = useHttp();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -70,7 +71,7 @@ function ProfileUpdate() {
     if (coverPicture)
       formData.append("coverPicture", coverPicture);  
 
-      sendUpdateRequest({
+    sendUpdateRequest({
       url : "/api/user/update",
       method : "PATCH",
       headers : {
@@ -286,7 +287,7 @@ function ProfileUpdate() {
             />
           </div>
           <button className={classes.formUpdateButton} type="submit">
-            Update Profile
+            {isLoading ? <CircularProgress color="inherit" size="1.2rem"/> : "Update Profile"}
           </button>
         </form>
         <Link to='/' className={classes.discartButtonLink}><button className={classes.discartButton} type="submit">

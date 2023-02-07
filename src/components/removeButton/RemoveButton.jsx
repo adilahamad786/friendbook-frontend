@@ -4,11 +4,12 @@ import AuthContext from "../../context/AuthContext";
 import { useContext, useState, useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import { rightbarUpdateActions } from '../../store/rightbarUpdateSlice';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const FriendButton = (props) => {
   const { token, setLogedOut } = useContext(AuthContext);
   const [removed, setRemoved] = useState(false);
-  const {error: sendFollowUnfollowRequestError , sendRequest: sendFollowUnfollowRequest } = useHttp();
+  const {isLoading, error: sendFollowUnfollowRequestError , sendRequest: sendFollowUnfollowRequest } = useHttp();
   const dispatch = useDispatch();
 
   const clickHandler = () => {
@@ -34,7 +35,9 @@ const FriendButton = (props) => {
   }, [sendFollowUnfollowRequestError, setLogedOut]);
 
   return (
-    <button onClick={clickHandler} disabled={removed} className={`${classes.btn} ${removed ? classes.removed : ""}`}>{ removed ? "Removed" : "Remove"}</button>
+    <button onClick={clickHandler} disabled={removed || isLoading} className={`${classes.btn} ${removed ? classes.removed : ""}`}>
+      { isLoading ? <CircularProgress color="inherit" size="1rem"/> : removed ? "Removed" : "Remove"}
+    </button>
   );
 }
 
