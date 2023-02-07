@@ -37,6 +37,9 @@ const SearchResultCart = (props) => {
         {searchResult.map((user) => {
           return <SuggestionItem onClose={props.onClose} key={user._id} user={user} />;
         })}
+        {
+        searchResult.length === 0 && <span className={classes.notFound}>Not found!</span>
+      }
       </Cart>
   );
 };
