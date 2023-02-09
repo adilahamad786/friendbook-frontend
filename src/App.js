@@ -7,6 +7,7 @@ import RightbarSection from './components/rightbarSection/RightbarSection';
 import Navbar from './components/navbar/Navbar';
 import Profile from './pages/profile/Profile';
 import Home from './pages/home/Home';
+import CreateSession from './pages/createSession/CreateSession';
 import NotFound from './pages/error/NotFound';
 import About from './pages/about/About';
 import { useContext } from 'react';
@@ -79,6 +80,10 @@ function App() {
     {
       path : "/about",
       element : <About />
+    },
+    {
+      path : "/session/:token",
+      element : <CreateSession />
     },
     {
       path : "*",
