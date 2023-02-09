@@ -12,7 +12,8 @@ const useHttp = () => {
             const res = await fetch((process.env.REACT_APP_BASE_URL+reqConfig.url).replace('/undefiend', ''), {
                 method : reqConfig.method ? reqConfig.method : "GET",
                 headers : reqConfig.headers ? reqConfig.headers : {},
-                body : reqConfig.body ? reqConfig.body : null
+                body : reqConfig.body ? reqConfig.body : null,
+                credentials: "include"
             });
 
             const data = await res.json();
