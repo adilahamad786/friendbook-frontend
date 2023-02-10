@@ -9,7 +9,7 @@ const useHttp = () => {
         setError(false);
 
         try {
-            const res = await fetch((process.env.REACT_APP_BASE_URL+reqConfig.url).replace('/undefiend', ''), {
+            const res = await fetch((process.env.REACT_APP_BASE_URL+reqConfig.url), {
                 method : reqConfig.method ? reqConfig.method : "GET",
                 headers : reqConfig.headers ? reqConfig.headers : {},
                 body : reqConfig.body ? reqConfig.body : null,
